@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter} from 'react-router-dom';
+
+const CARD_NUMBERS = 12;
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App cardNumbers={CARD_NUMBERS}/>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
