@@ -5,4 +5,5 @@ export const AppRoute: { [key: string]: string} = {
   FILM: '/film/:id',
   REVIEW: '/films/:id/review',
   PLAYER: '/player/:idnpm',
+  TEST: '/test',
 };

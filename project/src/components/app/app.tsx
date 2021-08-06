@@ -8,6 +8,8 @@ import FilmScreen from '../film-screen/film-screen';
 import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+// import TestScreen from '../test/test';
+
 
 type Props = {
   cardNumbers: number,
@@ -36,7 +38,10 @@ export default function App(props: Props): JSX.Element {
       <Route exact path={AppRoute.PLAYER}>
         <PlayerScreen />
       </Route>
-      <Route exact path='*'>
+      {/* <Route path={AppRoute.TEST}>
+        <TestScreen />
+      </Route> */}
+      <Route path='*'>
         <NotFoundScreen />
       </Route>
     </Switch>
