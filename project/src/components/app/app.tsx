@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect}  from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import MainScreen from '../main-screen/main-screen';
@@ -9,6 +9,7 @@ import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 // import TestScreen from '../test/test';
+import { createApi } from '../../services/api';
 
 
 type Props = {
@@ -17,7 +18,10 @@ type Props = {
 
 export default function App(props: Props): JSX.Element {
   const {cardNumbers} = props;
-
+  useEffect(() => {
+    createApi().get('/films').then((response) => console.log(response)
+    )
+  })
   return (
     <Switch>
       <Route exact path={AppRoute.ROOT}>
