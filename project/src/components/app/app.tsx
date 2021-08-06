@@ -10,6 +10,7 @@ import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 // import TestScreen from '../test/test';
 import { createApi } from '../../services/api';
+import { adaptFilmToClient } from '../../utils/adapter';
 
 
 type Props = {
@@ -18,10 +19,12 @@ type Props = {
 
 export default function App(props: Props): JSX.Element {
   const {cardNumbers} = props;
-  useEffect(() => {
-    createApi().get('/films').then((response) => console.log(response)
-    )
-  })
+
+  // useEffect(() => {
+  //   createApi().get('/films').then((response) => console.log(response.data.map((element) => adaptFilmToClient(element))));
+  //   createApi().get('/comments/4').then((response) => console.log(response.data));
+  // });
+
   return (
     <Switch>
       <Route exact path={AppRoute.ROOT}>
