@@ -36,7 +36,7 @@ export default function App(props: Props): JSX.Element {
         <SignInScreen />
       </Route>
       <Route exact path={AppRoute.MY_LIST}>
-        <MyListScreen />
+        <MyListScreen filmsData={filmsData} cardNumbers={cardNumbers}/>
       </Route>
       <Route exact path={AppRoute.FILM}>
         <FilmScreen />

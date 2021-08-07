@@ -1,11 +1,8 @@
 import React from 'react';
 import { IFilmDataAdapted } from '../../common/types';
 
-type Props = {
-  filmData: IFilmDataAdapted,
-}
 
-export default function Card({filmData}: Props): JSX.Element {
+export default function Card({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
 
   return (
     <article className="small-film-card catalog__films-card">
