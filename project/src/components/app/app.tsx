@@ -8,17 +8,19 @@ import FilmScreen from '../film-screen/film-screen';
 import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import { IFilmDataAdapted } from '../../common/types';
 // import TestScreen from '../test/test';
-import { createApi } from '../../services/api';
-import { adaptFilmToClient } from '../../utils/adapter';
+// import { createApi } from '../../services/api';
+// import { adaptFilmToClient } from '../../utils/adapter';
 
 
 type Props = {
   cardNumbers: number,
+  filmsData: IFilmDataAdapted[],
 }
 
 export default function App(props: Props): JSX.Element {
-  const {cardNumbers} = props;
+  const {cardNumbers, filmsData} = props;
 
   // useEffect(() => {
   //   createApi().get('/films').then((response) => console.log(response.data.map((element) => adaptFilmToClient(element))));
@@ -28,7 +30,7 @@ export default function App(props: Props): JSX.Element {
   return (
     <Switch>
       <Route exact path={AppRoute.ROOT}>
-        <MainScreen cardNumbers={cardNumbers} />
+        <MainScreen cardNumbers={cardNumbers} filmsData={filmsData}/>
       </Route>
       <Route exact path={AppRoute.LOGIN}>
         <SignInScreen />

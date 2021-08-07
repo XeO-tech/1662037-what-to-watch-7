@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter} from 'react-router-dom';
+import { filmsData } from './components/mocks/data';
 
 const CARD_NUMBERS = 12;
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App cardNumbers={CARD_NUMBERS}/>
+      <App cardNumbers={CARD_NUMBERS} filmsData={filmsData }/>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),

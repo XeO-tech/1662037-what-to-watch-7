@@ -1,3 +1,5 @@
+import { IFilmDataAdapted } from '../common/types';
+
 interface IFilmInput {
     name: string,
     'poster_image'?: string,
@@ -18,27 +20,7 @@ interface IFilmInput {
     'preview_video_link'?: string
 }
 
-interface IFilmOutput {
-  name: string,
-  posterImage: string,
-  previewImage: string,
-  backgroundImage: string,
-  backgroundColor: string,
-  description: string,
-  rating: number,
-  scoresCount: number,
-  director: string,
-  starring: string[],
-  runTime: number,
-  genre: string,
-  released: number,
-  id: number,
-  isFavorite: boolean,
-  videoLink: string,
-  previewVideoLink: string
-}
-
-export const adaptFilmToClient = (film: IFilmInput): IFilmOutput => {
+export const adaptFilmToClient = (film: IFilmInput): IFilmDataAdapted => {
   const adaptedFilm = Object.assign(
     {},
     film,

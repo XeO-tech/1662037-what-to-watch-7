@@ -1,4 +1,4 @@
-export const films = [
+export const filmsData = [
   {
     'name': 'We need to talk about Kevin',
     'description': 'Kevin\'s mother struggles to love her strange child, despite the increasingly dangerous things he says and does as he grows up. But Kevin is just getting started, and his final act will be beyond anything anyone imagined.',
@@ -116,7 +116,7 @@ export const films = [
   },
 ];
 
-export const comments = [
+export const commentsData = [
   {
     id: 1,
     user: {

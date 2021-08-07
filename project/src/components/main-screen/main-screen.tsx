@@ -1,13 +1,16 @@
 import * as React from 'react';
 import Card from '../card/card';
+import { IFilmDataAdapted } from '../../common/types';
 
 type Props = {
   cardNumbers: number,
+  filmsData: IFilmDataAdapted[],
 }
 
 export default function MainScreen(props: Props): JSX.Element {
 
-  const {cardNumbers} = props;
+  const {cardNumbers, filmsData} = props;
+
   return (
     <div>
       <section className="film-card">
@@ -99,7 +102,7 @@ export default function MainScreen(props: Props): JSX.Element {
             </li>
           </ul>
           <div className="catalog__films-list">
-            {Array(cardNumbers).fill('').map((element, i) => <Card key={i}/>)}
+            {Array(cardNumbers).fill('').map((element, i) => <Card key={i} />)}
           </div>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
