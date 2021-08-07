@@ -1,4 +1,4 @@
-interface IFilm {
+interface IFilmInput {
     name: string,
     'poster_image'?: string,
     'preview_image'?: string,
@@ -18,20 +18,40 @@ interface IFilm {
     'preview_video_link'?: string
 }
 
-export const adaptFilmToClient = (film: IFilm): IFilm => {
+interface IFilmOutput {
+  name: string,
+  posterImage: string,
+  previewImage: string,
+  backgroundImage: string,
+  backgroundColor: string,
+  description: string,
+  rating: number,
+  scoresCount: number,
+  director: string,
+  starring: string[],
+  runTime: number,
+  genre: string,
+  released: number,
+  id: number,
+  isFavorite: boolean,
+  videoLink: string,
+  previewVideoLink: string
+}
+
+export const adaptFilmToClient = (film: IFilmInput): IFilmOutput => {
   const adaptedFilm = Object.assign(
     {},
     film,
     {
-      posterImage: film['poster_image'],
-      previewImage: film['preview_image'],
-      backgroundImage: film['background_image'],
-      backgroundColor: film['background_color'],
-      scoresCount: film['scores_count'],
-      runTime: film['run_time'],
-      isFavorite: film['is_favorite'],
-      videoLink: film['video_link'],
-      previewVideoLink: film['preview_video_link'],
+      posterImage: film['poster_image'] as string,
+      previewImage: film['preview_image'] as string,
+      backgroundImage: film['background_image'] as string,
+      backgroundColor: film['background_color'] as string,
+      scoresCount: film['scores_count'] as number,
+      runTime: film['run_time'] as number,
+      isFavorite: film['is_favorite'] as boolean,
+      videoLink: film['video_link'] as string,
+      previewVideoLink: film['preview_video_link'] as string,
     },
   );
 

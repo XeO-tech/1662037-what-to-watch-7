@@ -148,3 +148,5 @@ export const comments = [
     date: '2021-07-09T19:01:42.859Z',
   },
 ];
+
+export const videoLink = 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4';
