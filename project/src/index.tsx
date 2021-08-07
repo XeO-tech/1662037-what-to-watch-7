@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter} from 'react-router-dom';
 import { filmsData } from './components/mocks/data';
 
-const CARD_NUMBERS = 12;
+const CARD_NUMBERS = 8;
 
 ReactDOM.render(
   <React.StrictMode>

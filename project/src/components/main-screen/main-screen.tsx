@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Card from '../card/card';
+import FilmCardsList from '../film-cards-list/film-cards-list';
 import { IFilmDataAdapted } from '../../common/types';
 
 type Props = {
@@ -101,9 +101,7 @@ export default function MainScreen(props: Props): JSX.Element {
               <a href='foo' className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
-          <div className="catalog__films-list">
-            {Array(cardNumbers).fill('').map((element, i) => <Card key={i} />)}
-          </div>
+          <FilmCardsList cardNumbers={cardNumbers} filmsData={filmsData} />
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
