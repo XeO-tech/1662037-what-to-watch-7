@@ -1,11 +1,16 @@
 import React from 'react';
 import { IFilmDataAdapted } from '../../common/types';
 
+type Props = {
+  filmData: IFilmDataAdapted,
+  onCardHover: (event: React.MouseEvent<HTMLElement>) => void;
+}
 
-export default function Card({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
+export default function Card(props: Props): JSX.Element {
+  const {filmData, onCardHover} = props;
 
   return (
-    <article className="small-film-card catalog__films-card">
+    <article onMouseEnter={onCardHover} className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
         <img src={filmData.previewImage} alt={filmData.name} width={280} height={175} />
       </div>

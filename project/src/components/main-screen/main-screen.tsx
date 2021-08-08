@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import { IFilmDataAdapted } from '../../common/types';
 
@@ -8,8 +9,12 @@ type Props = {
 }
 
 export default function MainScreen(props: Props): JSX.Element {
-
   const {cardNumbers, filmsData} = props;
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+
+  const onCardHover = (filmId: number): void => {
+    setActiveCard(filmId);
+  };
 
   return (
     <div>
@@ -101,7 +106,7 @@ export default function MainScreen(props: Props): JSX.Element {
               <a href='foo' className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
-          <FilmCardsList cardNumbers={cardNumbers} filmsData={filmsData} />
+          <FilmCardsList cardNumbers={cardNumbers} filmsData={filmsData} onCardHover={onCardHover}/>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
