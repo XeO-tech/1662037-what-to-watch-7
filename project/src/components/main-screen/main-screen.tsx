@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import { IFilmDataAdapted } from '../../common/types';
+import { AppRoute } from '../../const';
 
 type Props = {
   cardNumbers: number,
@@ -25,11 +27,11 @@ export default function MainScreen(props: Props): JSX.Element {
         <h1 className="visually-hidden">WTW</h1>
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link" href='foo'>
+            <Link to={AppRoute.ROOT} className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
           <ul className="user-block">
             <li className="user-block__item">
@@ -113,14 +115,14 @@ export default function MainScreen(props: Props): JSX.Element {
         </section>
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light" href='foo'>
+            <Link to={AppRoute.ROOT} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
           <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
+            <p>© 2021 What to watch Ltd.</p>
           </div>
         </footer>
       </div>
