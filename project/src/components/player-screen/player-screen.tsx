@@ -2,6 +2,7 @@ import * as React from 'react';
 import { IFilmDataAdapted } from '../../common/types';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
 
+
 export default function PlayerScreen({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
 
   return (

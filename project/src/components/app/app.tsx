@@ -42,7 +42,7 @@ export default function App(props: Props): JSX.Element {
         <FilmScreen />
       </Route>
       <Route exact path={AppRoute.REVIEW}>
-        <ReviewScreen />
+        <ReviewScreen filmData={filmsData[0]}/>
       </Route>
       <Route exact path={AppRoute.PLAYER}>
         <PlayerScreen filmData={filmsData[0]}/>
