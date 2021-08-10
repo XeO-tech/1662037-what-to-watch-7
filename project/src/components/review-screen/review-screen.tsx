@@ -1,7 +1,24 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { IFilmDataAdapted } from '../../common/types';
 
+type FormData = {
+  rating: string,
+  comment: string,
+};
+
 export default function ReviewScreen({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
+  const initialState : FormData = {
+    rating: '',
+    comment: '',
+  };
+
+  const [formData, setFormData] = useState(initialState);
+
+  const handleFormInputChange = (evt: React.FormEvent<HTMLElement>): void => {
+    const { name, value } = evt.target as HTMLInputElement;
+    setFormData(Object.assign({}, formData, {[name]: value}));
+  };
 
   return (
     <section className="film-card film-card--full">
@@ -44,7 +61,7 @@ export default function ReviewScreen({filmData}: {filmData: IFilmDataAdapted}): 
         </div>
       </div>
       <div className="add-review">
-        <form action="#" className="add-review__form">
+        <form onChange={handleFormInputChange} action="#" className="add-review__form">
           <div className="rating">
             <div className="rating__stars">
               <input className="rating__input" id="star-10" type="radio" name="rating" defaultValue={10} />
@@ -70,7 +87,7 @@ export default function ReviewScreen({filmData}: {filmData: IFilmDataAdapted}): 
             </div>
           </div>
           <div className="add-review__text">
-            <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" defaultValue={''} />
+            <textarea className="add-review__textarea" name="comment" id="review-text" placeholder="Review text" defaultValue={''} />
             <div className="add-review__submit">
               <button className="add-review__btn" type="submit">Post</button>
             </div>

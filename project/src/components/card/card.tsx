@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IFilmDataAdapted } from '../../common/types';
+import { AppRoute } from '../../const';
 
 type Props = {
   filmData: IFilmDataAdapted,
@@ -16,7 +17,7 @@ export default function Card(props: Props): JSX.Element {
         <img src={filmData.previewImage} alt={filmData.name} width={280} height={175} />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/film/${filmData.id}`}>{filmData.name}</Link>
+        <Link className="small-film-card__link" to={AppRoute.FILM.replace(/:id/, String(filmData.id))}>{filmData.name}</Link>
       </h3>
     </article>);
 }
