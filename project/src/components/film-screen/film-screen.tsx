@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
+import { IFilmDataAdapted } from '../../common/types';
 
-export default function FilmScreen(): JSX.Element {
+
+export default function FilmScreen({filmsData}: {filmsData: IFilmDataAdapted[]}): JSX.Element {
   const {id} : {id: string} = useParams();
+
+  const currentFilm = filmsData.find((element) => element.id === Number(id));
+
+  if (currentFilm === undefined) {
+    return (
+      <p>Film data is not found. Please return to previous page.</p>
+    );
+  }
 
   return (
     <div>
@@ -34,10 +44,10 @@ export default function FilmScreen(): JSX.Element {
           </header>
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel{id}</h2>
+              <h2 className="film-card__title">{currentFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{currentFilm.genre}</span>
+                <span className="film-card__year">{currentFilm.released}</span>
               </p>
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
@@ -60,9 +70,9 @@ export default function FilmScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width={218} height={327} />
+              <img src={currentFilm.posterImage} alt={`${currentFilm.name} poster`} width={218} height={327} />
             </div>
-            <Tabs />
+            <Tabs filmData={currentFilm}/>
           </div>
         </div>
       </section>

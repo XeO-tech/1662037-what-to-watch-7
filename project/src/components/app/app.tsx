@@ -39,7 +39,7 @@ export default function App(props: Props): JSX.Element {
         <MyListScreen filmsData={filmsData} cardNumbers={cardNumbers}/>
       </Route>
       <Route exact path={AppRoute.FILM}>
-        <FilmScreen />
+        <FilmScreen filmsData={filmsData}/>
       </Route>
       <Route exact path={AppRoute.REVIEW}>
         <ReviewScreen filmData={filmsData[0]}/>
