@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 
 type Props = {
 }
+
 
 export default function Tabs (props: Props): JSX.Element {
 
@@ -134,22 +135,35 @@ export default function Tabs (props: Props): JSX.Element {
     </div>
   );
 
+  const TabsAliases: {[key: string]: JSX.Element} = {
+    Overview: overviewTab,
+    Details: detailsTab,
+    Reviews: reviewsTab,
+  };
+
+  const [activeTab, setActiveTab] = useState(Object.keys(TabsAliases)[0]);
+
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          <li className="film-nav__item film-nav__item--active">
-            <a href="foo" className="film-nav__link">Overview</a>
-          </li>
-          <li className="film-nav__item">
-            <a href="foo" className="film-nav__link">Details</a>
-          </li>
-          <li className="film-nav__item">
-            <a href="foo" className="film-nav__link">Reviews</a>
-          </li>
+          {Object.keys(TabsAliases).map((tabName) => (
+            <li
+              key={tabName}
+              className={`film-nav__item ${activeTab === tabName ?'film-nav__item--active' : ''}`}
+            >
+              <div
+                style={{cursor: 'pointer'}}
+                className="film-nav__link"
+                onClick={() => setActiveTab(tabName)}
+              >
+                {tabName}
+              </div>
+            </li>
+          ))}
         </ul>
       </nav>
-      {overviewTab}
+      {TabsAliases[activeTab]}
     </div>
   );
 }
