@@ -5,7 +5,7 @@ type Props = {
 
 export default function Tabs (props: Props): JSX.Element {
 
-  const Overview: JSX.Element = (
+  const overviewTab: JSX.Element = (
     <>
       <div className="film-rating">
         <div className="film-rating__score">8,9</div>
@@ -23,7 +23,7 @@ export default function Tabs (props: Props): JSX.Element {
     </>
   );
 
-  const Details: JSX.Element = (
+  const detailsTab: JSX.Element = (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
@@ -65,7 +65,7 @@ export default function Tabs (props: Props): JSX.Element {
     </div>
   );
 
-  const Reviews: JSX.Element = (
+  const reviewsTab: JSX.Element = (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
         <div className="review">
@@ -135,25 +135,22 @@ export default function Tabs (props: Props): JSX.Element {
   );
 
   return (
-    <>
-      <div className="film-card__desc">
-        <nav className="film-nav film-card__nav">
-          <ul className="film-nav__list">
-            <li className="film-nav__item film-nav__item--active">
-              <a href="foo" className="film-nav__link">Overview</a>
-            </li>
-            <li className="film-nav__item">
-              <a href="foo" className="film-nav__link">Details</a>
-            </li>
-            <li className="film-nav__item">
-              <a href="foo" className="film-nav__link">Reviews</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-
-    </>
+    <div className="film-card__desc">
+      <nav className="film-nav film-card__nav">
+        <ul className="film-nav__list">
+          <li className="film-nav__item film-nav__item--active">
+            <a href="foo" className="film-nav__link">Overview</a>
+          </li>
+          <li className="film-nav__item">
+            <a href="foo" className="film-nav__link">Details</a>
+          </li>
+          <li className="film-nav__item">
+            <a href="foo" className="film-nav__link">Reviews</a>
+          </li>
+        </ul>
+      </nav>
+      {overviewTab}
+    </div>
   );
 }
 
