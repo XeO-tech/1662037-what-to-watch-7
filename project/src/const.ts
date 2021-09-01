@@ -4,6 +4,11 @@ export const AppRoute: { [key: string]: string} = {
   MY_LIST: '/mylist',
   FILM: '/films/:id',
   REVIEW: '/films/:id/review',
-  PLAYER: '/player/:idnpm',
+  PLAYER: '/player/:id',
   TEST: '/test',
+};
+
+export const RunTimeFormat = {
+  NUMBERS: 'num',
+  NUMBERS_AND_LETTERS: 'numAndLetters',
 };

@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import { IFilmDataAdapted } from '../../common/types';
+import { defineRatingDescription } from '../../utils/utils';
+import { convertRunTimeMinutesToHours } from '../../utils/utils';
+
 
 export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
 
@@ -8,7 +11,7 @@ export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Ele
       <div className="film-rating">
         <div className="film-rating__score">{filmData.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good?</span>
+          <span className="film-rating__level">{defineRatingDescription(filmData.rating)}</span>
           <span className="film-rating__count">{filmData.scoresCount}</span>
         </p>
       </div>
@@ -30,30 +33,18 @@ export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Ele
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {filmData.starring.map((star) => (
+            {filmData.starring.map((star, ind) => (
               <>
-                {star}, <br />
+                {star}{ind === (filmData.starring.length - 1) ? '' : ','} <br />
               </>
-            )}
-        Bill Murray, <br />
-        Edward Norton, <br />
-        Jude Law, <br />
-        Willem Dafoe, <br />
-        Saoirse Ronan, <br />
-        Tony Revoloru, <br />
-        Tilda Swinton, <br />
-        Tom Wilkinson, <br />
-        Owen Wilkinson, <br />
-        Adrien Brody, <br />
-        Ralph Fiennes, <br />
-        Jeff Goldblum
+            ))}
           </span>
         </p>
       </div>
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">1h 39m</span>
+          <span className="film-card__details-value">{convertRunTimeMinutesToHours(filmData.runTime, 'numAndLetters')}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

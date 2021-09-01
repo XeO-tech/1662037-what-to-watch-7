@@ -24,7 +24,7 @@ export default function PlayerScreen({filmData}: {filmData: IFilmDataAdapted}): 
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">{convertRunTimeMinutesToHours(filmData.runTime)}</div>
+          <div className="player__name">{convertRunTimeMinutesToHours(filmData.runTime, 'num')}</div>
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width={27} height={27}>
               <use xlinkHref="#full-screen" />
