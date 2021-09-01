@@ -48,11 +48,11 @@ export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Ele
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">Comedy</span>
+          <span className="film-card__details-value">{filmData.genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">2014</span>
+          <span className="film-card__details-value">{filmData.released}</span>
         </p>
       </div>
     </div>
