@@ -94,7 +94,7 @@ export default function FilmScreen({filmsData}: {filmsData: IFilmDataAdapted[]})
           <h2 className="catalog__title">More like this</h2>
           {(similarFilms.length === 0) ?
             'No similair films found' :
-            <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} filmsData={similarFilms} onCardHover={() => {}}/>}
+            <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} filmsData={similarFilms} onCardHover={() => void 0}/>}
         </section>
         <footer className="page-footer">
           <div className="logo">
