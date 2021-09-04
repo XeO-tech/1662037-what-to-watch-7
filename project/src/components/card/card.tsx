@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { IFilmDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
 import VideoPreview from '../video-preview/video-preview';
@@ -15,6 +15,7 @@ let timeout: ReturnType<typeof setTimeout>;
 export default function Card(props: Props): JSX.Element {
   const {filmData, onCardHover} = props;
   const [isPlaying, setIsPlaying] = useState(false);
+  const history = useHistory();
 
   const onMouseEnter = (evt: React.MouseEvent<HTMLElement>): void => {
     timeout = setTimeout(() => {
@@ -29,6 +30,7 @@ export default function Card(props: Props): JSX.Element {
 
   return (
     <article
+      style={{cursor: 'pointer'}}
       onMouseEnter={
         (evt) => {
           onCardHover(evt);
@@ -38,6 +40,11 @@ export default function Card(props: Props): JSX.Element {
       onMouseLeave={
         (evt) => {
           onMouseLeave(evt);
+        }
+      }
+      onClick={
+        () => {
+          history.push(AppRoute.FILM.replace(/:id/, String(filmData.id)));
         }
       }
       className="small-film-card catalog__films-card"
