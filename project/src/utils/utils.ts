@@ -1,9 +1,9 @@
 import { RunTimeFormat } from '../const';
 
-// const RunTimeFormatValues = Object.values(RunTimeFormat) as const;
+type RunTimeFormatKeysType = keyof typeof RunTimeFormat;
+type RunTimeFormatValuesType = typeof RunTimeFormat[RunTimeFormatKeysType]
 
-
-export const convertRunTimeMinutesToHours = (runTime: number, format: 'num' | 'numAndLetters'): string => {
+export const convertRunTimeMinutesToHours = (runTime: number, format: RunTimeFormatValuesType): string => {
 
   const hours = Math.floor(runTime/60);
   let minutes : number | string = runTime % 60;

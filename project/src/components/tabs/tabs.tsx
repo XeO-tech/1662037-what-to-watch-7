@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { IFilmDataAdapted } from '../../common/types';
 import { defineRatingDescription } from '../../utils/utils';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
+import { RunTimeFormat } from '../../const';
 
 
 export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
@@ -44,7 +45,7 @@ export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Ele
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{convertRunTimeMinutesToHours(filmData.runTime, 'numAndLetters')}</span>
+          <span className="film-card__details-value">{convertRunTimeMinutesToHours(filmData.runTime, RunTimeFormat.NUMBERS_AND_LETTERS)}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

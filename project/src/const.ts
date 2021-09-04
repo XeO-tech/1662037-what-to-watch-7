@@ -8,7 +8,7 @@ export const AppRoute: { [key: string]: string} = {
   TEST: '/test',
 };
 
-export const RunTimeFormat = {
+export const RunTimeFormat  = {
   NUMBERS: 'num',
   NUMBERS_AND_LETTERS: 'numAndLetters',
-};
+} as const;
