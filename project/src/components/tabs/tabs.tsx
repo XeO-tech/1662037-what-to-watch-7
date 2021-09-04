@@ -35,9 +35,9 @@ export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Ele
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {filmData.starring.map((star, ind) => (
-              <>
+              <span key={star}>
                 {star}{ind === (filmData.starring.length - 1) ? '' : ','} <br />
-              </>
+              </span>
             ))}
           </span>
         </p>
