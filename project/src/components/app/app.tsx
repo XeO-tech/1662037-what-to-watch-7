@@ -31,7 +31,7 @@ export default function App(props: Props): JSX.Element {
   return (
     <Switch>
       <Route exact path={AppRoute.ROOT}>
-        <MainScreen cardNumbers={cardNumbers} filmsData={filmsData}/>
+        <MainScreen />
       </Route>
       <Route exact path={AppRoute.LOGIN}>
         <SignInScreen />

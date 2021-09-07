@@ -1,21 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import GenresList from '../genres-list/genres-list';
-import { IFilmDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
-import { setGenre } from '../../features/genres/genres-slice';
+import GenresList from '../genres-list/genres-list';
 
-type Props = {
-  cardNumbers: number,
-  filmsData: IFilmDataAdapted[],
-}
-
-export default function MainScreen(props: Props): JSX.Element {
-  const {cardNumbers, filmsData} = props;
+export default function MainScreen(): JSX.Element {
   const [activeCard, setActiveCard] = useState<number | null>(null);
-
-
 
   const onCardHover = (filmId: number): void => {
     setActiveCard(filmId);
@@ -77,7 +67,7 @@ export default function MainScreen(props: Props): JSX.Element {
         </div>
       </section>
       <div className="page-content">
-        <GenresList />
+        <GenresList onCardHover={onCardHover}/>
         <footer className="page-footer">
           <div className="logo">
             <Link to={AppRoute.ROOT} className="logo__link logo__link--light">
