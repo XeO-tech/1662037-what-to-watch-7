@@ -21,7 +21,7 @@ export default function MainScreen(props: Props): JSX.Element {
 
   const onCardHover = (filmId: number): void => {
     setActiveCard(filmId);
-    dispatch(setGenre('test'));
+    dispatch(setGenre('All genres'));
   };
 
   return (

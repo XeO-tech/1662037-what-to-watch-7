@@ -1,7 +1,6 @@
 import { RunTimeFormat } from '../const';
 
-type RunTimeFormatKeysType = keyof typeof RunTimeFormat;
-type RunTimeFormatValuesType = typeof RunTimeFormat[RunTimeFormatKeysType]
+type RunTimeFormatValuesType = typeof RunTimeFormat[keyof typeof RunTimeFormat]
 
 export const convertRunTimeMinutesToHours = (runTime: number, format: RunTimeFormatValuesType): string => {
 
