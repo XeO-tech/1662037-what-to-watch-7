@@ -5,7 +5,7 @@ import FilmCardsList from '../film-cards-list/film-cards-list';
 import { IFilmDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setGenre } from '../../features/genres/genre-slice';
+import { setGenre } from '../../features/genres/genres-slice';
 
 type Props = {
   cardNumbers: number,

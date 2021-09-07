@@ -4,12 +4,14 @@ It does the same job plus automatically turn on redux devtool and adds thunk mid
 import { configureStore } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import genreReducer from '../features/genres/genre-slice';
+import genreReducer from '../features/genres/genres-slice';
+import moviesReducer from '../features/movies/movies-slice';
 
 //Configure store will automatically combine reducers from object in reducer parameter
 export const store = configureStore({
   reducer: {
     genre: genreReducer,
+    movies: moviesReducer,
   },
 });
 
