@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import { IFilmDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { setGenre } from '../../features/genres/genre-slice';
 
 type Props = {
   cardNumbers: number,
@@ -14,8 +16,12 @@ export default function MainScreen(props: Props): JSX.Element {
   const {cardNumbers, filmsData} = props;
   const [activeCard, setActiveCard] = useState<number | null>(null);
 
+  const genre = useAppSelector((state) => state.genre.currentGenre);
+  const dispatch = useAppDispatch();
+
   const onCardHover = (filmId: number): void => {
     setActiveCard(filmId);
+    dispatch(setGenre('test'));
   };
 
   return (
