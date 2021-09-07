@@ -1,15 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Genre } from '../../const';
+import { GenreValuesType } from '../../common/types';
 
 interface GenreState {
   currentGenre: string,
 }
 
 const initialState: GenreState = {
-  currentGenre: 'allGenres',
+  currentGenre: Genre.ALL,
 };
-
-type GenreValuesType = typeof Genre[keyof typeof Genre];
 
 const genreSlice = createSlice({
   name: 'genre',

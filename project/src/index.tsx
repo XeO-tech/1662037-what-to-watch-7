@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter} from 'react-router-dom';
-import { filmsData } from './components/mocks/data';
+import { filmsData } from './mocks/data';
 import { store } from './app/store';
 import { setMovies } from './features/movies/movies-slice';
 

@@ -1,3 +1,5 @@
+import { Genre } from '../const';
+
 export interface IFilmDataAdapted {
   name: string,
   posterImage: string,
@@ -17,3 +19,5 @@ export interface IFilmDataAdapted {
   videoLink: string,
   previewVideoLink: string
 }
+
+export type GenreValuesType = typeof Genre[keyof typeof Genre];
