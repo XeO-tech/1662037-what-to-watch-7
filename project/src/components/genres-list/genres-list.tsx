@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setGenre } from '../../features/genres/genres-slice';
 import FilmCardsList from '../film-cards-list/film-cards-list';
+import ShowMoreButton from '../show-more-button/show-more-button';
 import { Genre } from '../../const';
 import { GenreValuesType } from '../../common/types';
 
@@ -9,21 +10,33 @@ const CARD_NUMBERS = 8;
 
 export default function GenresList({onCardHover}: {onCardHover:(arg0: number) => void}): JSX.Element {
 
+
   const currentGenre = useAppSelector((state) => state.genre.currentGenre);
 
-  const filmsData = useAppSelector((state) => {
+  const moviesData = useAppSelector((state) => {
     if (state.genre.currentGenre === Genre.ALL) {
       return state.movies.moviesList;
     }
     return state.movies.moviesList.filter((movie) => movie.genre === state.genre.currentGenre);
   });
 
+  const initialShowedMoviesState = (moviesData.length < CARD_NUMBERS) ? moviesData.length : CARD_NUMBERS;
+
+  const [showedMovies, setShowedMovies] = useState(initialShowedMoviesState);
+
   const dispatch = useAppDispatch();
 
   const onGenreClick = (e: React.MouseEvent<HTMLElement>): void => {
     const targetElement = e.target as HTMLElement;
+    setShowedMovies(CARD_NUMBERS);
     dispatch(setGenre(targetElement.textContent as GenreValuesType));
   };
+
+  const onShowMoreClick = (): void => {
+    (moviesData.length - showedMovies > CARD_NUMBERS) ? setShowedMovies(showedMovies + CARD_NUMBERS) : setShowedMovies(moviesData.length);
+  };
+
+  const isButtonVisible = showedMovies !== moviesData.length && moviesData.length !== 0;
 
   return (
     <section className="catalog">
@@ -41,10 +54,8 @@ export default function GenresList({onCardHover}: {onCardHover:(arg0: number) =>
           </li>
         ))}
       </ul>
-      <FilmCardsList cardNumbers={CARD_NUMBERS} filmsData={filmsData} onCardHover={onCardHover}/>
-      <div className="catalog__more">
-        <button className="catalog__button" type="button">Show more</button>
-      </div>
+      <FilmCardsList cardNumbers={showedMovies} filmsData={moviesData} onCardHover={onCardHover}/>
+      {isButtonVisible && <ShowMoreButton onShowMoreClick={onShowMoreClick} />}
     </section>
   );
 }

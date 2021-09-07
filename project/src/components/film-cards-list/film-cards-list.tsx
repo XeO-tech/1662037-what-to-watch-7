@@ -17,7 +17,7 @@ export default function FilmCardsList(props: Props): JSX.Element {
 
   return (
     <div className="catalog__films-list">
-      {filmsData.slice(0, cardNumbers - 1).map((film) => <Card key={film.id} filmData={film} onCardHover={() => onCardHover(film.id)}/>)}
+      {filmsData.slice(0, cardNumbers).map((film) => <Card key={film.id} filmData={film} onCardHover={() => onCardHover(film.id)}/>)}
     </div>
   );
 }
