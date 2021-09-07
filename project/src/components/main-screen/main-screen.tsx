@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import FilmCardsList from '../film-cards-list/film-cards-list';
+import GenresList from '../genres-list/genres-list';
 import { IFilmDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setGenre } from '../../features/genres/genres-slice';
 
 type Props = {
@@ -16,12 +15,10 @@ export default function MainScreen(props: Props): JSX.Element {
   const {cardNumbers, filmsData} = props;
   const [activeCard, setActiveCard] = useState<number | null>(null);
 
-  const genre = useAppSelector((state) => state.genre.currentGenre);
-  const dispatch = useAppDispatch();
+
 
   const onCardHover = (filmId: number): void => {
     setActiveCard(filmId);
-    dispatch(setGenre('All genres'));
   };
 
   return (
@@ -80,45 +77,7 @@ export default function MainScreen(props: Props): JSX.Element {
         </div>
       </section>
       <div className="page-content">
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href='foo' className="catalog__genres-link" >All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Kids &amp; Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href='foo' className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-          <FilmCardsList cardNumbers={cardNumbers} filmsData={filmsData} onCardHover={onCardHover}/>
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
-        </section>
+        <GenresList />
         <footer className="page-footer">
           <div className="logo">
             <Link to={AppRoute.ROOT} className="logo__link logo__link--light">
