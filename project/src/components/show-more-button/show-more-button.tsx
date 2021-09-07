@@ -1,11 +1,6 @@
 import * as React from 'react';
 
-interface Props {
-  onShowMoreClick: () => void,
-}
-
-export default function ShowMoreButton(props: Props): JSX.Element {
-  const {onShowMoreClick} = props;
+export default function ShowMoreButton({onShowMoreClick}: {onShowMoreClick: () => void}): JSX.Element {
 
   return (
     <div className="catalog__more">
