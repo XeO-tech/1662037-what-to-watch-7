@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
 import { RunTimeFormat } from '../../const';
 
 
-export default function PlayerScreen({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
+export default function PlayerScreen({filmData}: {filmData: IMovieDataAdapted}): JSX.Element {
 
   return (
     <div className="player">

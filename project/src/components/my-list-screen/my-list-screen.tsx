@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
 import FilmCardsList from '../film-cards-list/film-cards-list';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 
 type Props = {
   cardNumbers: number,
-  filmsData: IFilmDataAdapted[],
+  filmsData: IMovieDataAdapted[],
 }
 
 export default function MyListScreen({filmsData, cardNumbers}: Props): JSX.Element {

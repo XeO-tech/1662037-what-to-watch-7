@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 import { defineRatingDescription } from '../../utils/utils';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
 import { RunTimeFormat } from '../../const';
 
 
-export default function Tabs ({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
+export default function Tabs ({filmData}: {filmData: IMovieDataAdapted}): JSX.Element {
 
   const overviewTab: JSX.Element = (
     <>

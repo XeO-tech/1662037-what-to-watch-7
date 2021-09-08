@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 
 interface moviesState {
-  moviesList: IFilmDataAdapted[],
+  moviesList: IMovieDataAdapted[],
 }
 
 const initialState: moviesState = {
@@ -13,7 +13,7 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    setMovies(state, action: PayloadAction<IFilmDataAdapted[]>) {
+    setMovies(state, action: PayloadAction<IMovieDataAdapted[]>) {
       state.moviesList = action.payload;
     },
   },

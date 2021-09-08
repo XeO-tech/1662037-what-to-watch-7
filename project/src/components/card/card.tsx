@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
 import VideoPreview from '../video-preview/video-preview';
 
 const VIDEO_PREVIEW_DELAY = 1000;
 
 type Props = {
-  filmData: IFilmDataAdapted,
+  filmData: IMovieDataAdapted,
   onCardHover: (event: React.MouseEvent<HTMLElement>) => void;
 }
 let timeout: ReturnType<typeof setTimeout>;

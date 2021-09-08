@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 
 const SIMILAR_FILMS_NUMBER = 4;
 
-export default function FilmScreen({filmsData}: {filmsData: IFilmDataAdapted[]}): JSX.Element {
+export default function FilmScreen({filmsData}: {filmsData: IMovieDataAdapted[]}): JSX.Element {
   const {id} : {id: string} = useParams();
 
   const currentFilm = filmsData.find((element) => element.id === Number(id));
 
-  let similarFilms: IFilmDataAdapted[] = [];
+  let similarFilms: IMovieDataAdapted[] = [];
 
   if (currentFilm !== undefined) {
     similarFilms = filmsData.filter((film) => {

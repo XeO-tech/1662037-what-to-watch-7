@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 
 type FormData = {
   rating: string,
   comment: string,
 };
 
-export default function ReviewScreen({filmData}: {filmData: IFilmDataAdapted}): JSX.Element {
+export default function ReviewScreen({filmData}: {filmData: IMovieDataAdapted}): JSX.Element {
   const initialState : FormData = {
     rating: '',
     comment: '',

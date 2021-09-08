@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Card from '../card/card';
-import { IFilmDataAdapted } from '../../common/types';
+import { IMovieDataAdapted } from '../../common/types';
 
 type Props = {
   cardNumbers: number,
-  filmsData: IFilmDataAdapted[],
+  filmsData: IMovieDataAdapted[],
   onCardHover: (arg0: number) => void;
 }
 

@@ -9,11 +9,11 @@ import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { useAppSelector } from '../../app/hooks';
+import { useFetchMoviesQuery } from '../../features/api/api-slice';
 
 // import TestScreen from '../test/test';
 // import { createApi } from '../../services/api';
 // import { adaptFilmToClient } from '../../utils/adapter';
-
 
 type Props = {
   cardNumbers: number,
@@ -22,6 +22,15 @@ type Props = {
 export default function App(props: Props): JSX.Element {
   const {cardNumbers} = props;
   const filmsData = useAppSelector((state) => state.movies.moviesList);
+
+  const {
+    data: moviesData = [],
+    isFetching,
+    isSuccess,
+    isError,
+    error,
+  } = useFetchMoviesQuery(null);
+
 
   // useEffect(() => {
   //   createApi().get('/films').then((response) => console.log(response.data.map((element) => adaptFilmToClient(element))));

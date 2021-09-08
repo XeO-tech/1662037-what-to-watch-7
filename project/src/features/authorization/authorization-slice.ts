@@ -15,11 +15,14 @@ const authorizationSlice = createSlice({
   name: 'authorization',
   initialState,
   reducers: {
-    setAuthorization(state, action: PayloadAction<AuthorizationValuesType>) {
+    requestAuthorization(state, action: PayloadAction<AuthorizationValuesType>) {
       state.authorizationStatus = action.payload;
+    },
+    logout(state) {
+      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
     },
   },
 });
 
-export const { setAuthorization } = authorizationSlice.actions;
+export const { requestAuthorization: setAuthorization, logout } = authorizationSlice.actions;
 export default authorizationSlice.reducer;
