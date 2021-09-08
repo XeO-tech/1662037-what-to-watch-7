@@ -6,12 +6,14 @@ import { ThunkAction } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import genreReducer from '../features/genres/genres-slice';
 import moviesReducer from '../features/movies/movies-slice';
+import authorizationReducer from '../features/authorization/authorization-slice';
 
 //Configure store will automatically combine reducers from object in reducer parameter
 export const store = configureStore({
   reducer: {
     genre: genreReducer,
     movies: moviesReducer,
+    authorization: authorizationReducer,
   },
 });
 
