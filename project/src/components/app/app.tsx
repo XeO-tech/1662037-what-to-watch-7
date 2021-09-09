@@ -13,7 +13,7 @@ import { useFetchMoviesQuery } from '../../features/api/api-slice';
 
 // import TestScreen from '../test/test';
 // import { createApi } from '../../services/api';
-// import { adaptFilmToClient } from '../../utils/adapter';
+// import { adaptMovieToClient } from '../../utils/adapter';
 
 type Props = {
   cardNumbers: number,

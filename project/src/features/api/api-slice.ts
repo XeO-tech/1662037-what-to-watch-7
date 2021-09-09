@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IMovieDataRaw } from '../../common/types';
+import { IMovieDataRaw, IMovieDataAdapted } from '../../common/types';
+import { adaptMovieToClient } from '../../utils/adapter';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -7,6 +8,7 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     fetchMovies: builder.query<IMovieDataRaw[], void>({
       query: () => '/films',
+      transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieToClient(movieData)),
     }),
   }),
 });

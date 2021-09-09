@@ -1,7 +1,7 @@
 import { IMovieDataAdapted, IMovieDataRaw} from '../common/types';
 
 
-export const adaptFilmToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
+export const adaptMovieToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
   const adaptedFilm = Object.assign(
     {},
     film,
