@@ -13,8 +13,9 @@ import { CARD_NUMBERS } from '../../const';
 export default function GenresList({onCardHover}: {onCardHover:(arg0: number) => void}): JSX.Element {
 
   const { data: moviesData = []} = useFetchMoviesQueryState();
-
   const currentGenre = useAppSelector((state) => state.genre.currentGenre);
+
+  const dispatch = useAppDispatch();
 
   const selectMoviesDataByGenre = (data: IMovieDataAdapted[]) => {
     if (currentGenre === Genre.ALL) {
@@ -29,9 +30,7 @@ export default function GenresList({onCardHover}: {onCardHover:(arg0: number) =>
 
   const [showedMoviesNumber, setShowedMoviesNumber] = useState(initialShowedMoviesNumber);
 
-  const isButtonVisible = showedMoviesNumber !== filteredMoviesData.length && filteredMoviesData.length !== 0;
-
-  const dispatch = useAppDispatch();
+  const isButtonVisible = showedMoviesNumber < filteredMoviesData.length;
 
   const onGenreClick = (e: React.MouseEvent<HTMLElement>): void => {
     const targetElement = e.target as HTMLElement;
