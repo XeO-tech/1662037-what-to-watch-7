@@ -6,7 +6,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({baseUrl: 'https://7.react.pages.academy/wtw'}),
   endpoints: (builder) => ({
-    fetchMovies: builder.query<IMovieDataRaw[], void>({
+    fetchMovies: builder.query<IMovieDataAdapted[], void>({
       query: () => '/films',
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieToClient(movieData)),
     }),

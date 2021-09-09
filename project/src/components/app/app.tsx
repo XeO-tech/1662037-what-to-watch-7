@@ -8,34 +8,26 @@ import FilmScreen from '../film-screen/film-screen';
 import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { useAppSelector } from '../../app/hooks';
+import Spinner from '../spinner/spinner';
 import { useFetchMoviesQuery } from '../../features/api/api-slice';
 
-// import TestScreen from '../test/test';
-// import { createApi } from '../../services/api';
-// import { adaptMovieToClient } from '../../utils/adapter';
 
-type Props = {
-  cardNumbers: number,
-}
-
-export default function App(props: Props): JSX.Element {
-  const {cardNumbers} = props;
-  const filmsData = useAppSelector((state) => state.movies.moviesList);
+export default function App(): JSX.Element {
 
   const {
     data: moviesData = [],
     isFetching,
-    isSuccess,
     isError,
-    error,
   } = useFetchMoviesQuery();
 
 
-  // useEffect(() => {
-  //   createApi().get('/films').then((response) => console.log(response.data.map((element) => adaptFilmToClient(element))));
-  //   createApi().get('/comments/4').then((response) => console.log(response.data));
-  // });
+  if (isFetching) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <p>Could not load data from server. Try again later</p>;
+  }
 
   return (
     <Switch>
@@ -46,16 +38,16 @@ export default function App(props: Props): JSX.Element {
         <SignInScreen />
       </Route>
       <Route exact path={AppRoute.MY_LIST}>
-        <MyListScreen filmsData={filmsData} cardNumbers={cardNumbers}/>
+        <MyListScreen filmsData={moviesData} />
       </Route>
       <Route exact path={AppRoute.FILM}>
-        <FilmScreen filmsData={filmsData}/>
+        <FilmScreen filmsData={moviesData}/>
       </Route>
       <Route exact path={AppRoute.REVIEW}>
-        <ReviewScreen filmData={filmsData[0]}/>
+        <ReviewScreen filmData={moviesData[0]}/>
       </Route>
       <Route exact path={AppRoute.PLAYER}>
-        <PlayerScreen filmData={filmsData[0]}/>
+        <PlayerScreen filmData={moviesData[0]}/>
       </Route>
       {/* <Route path={AppRoute.TEST}>
         <TestScreen />

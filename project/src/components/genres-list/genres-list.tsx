@@ -5,8 +5,8 @@ import FilmCardsList from '../film-cards-list/film-cards-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
 import { Genre } from '../../const';
 import { GenreValuesType } from '../../common/types';
+import { CARD_NUMBERS } from '../../const';
 
-const CARD_NUMBERS = 8;
 
 export default function GenresList({onCardHover}: {onCardHover:(arg0: number) => void}): JSX.Element {
 

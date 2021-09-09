@@ -1,3 +1,5 @@
+export const CARD_NUMBERS = 8;
+
 export const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
