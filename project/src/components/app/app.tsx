@@ -29,7 +29,7 @@ export default function App(props: Props): JSX.Element {
     isSuccess,
     isError,
     error,
-  } = useFetchMoviesQuery(null);
+  } = useFetchMoviesQuery();
 
 
   // useEffect(() => {
