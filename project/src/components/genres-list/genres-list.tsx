@@ -5,25 +5,31 @@ import FilmCardsList from '../film-cards-list/film-cards-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
 import { Genre } from '../../const';
 import { GenreValuesType } from '../../common/types';
+import { useFetchMoviesQueryState } from '../../features/api/api-slice';
+import { IMovieDataAdapted } from '../../common/types';
 import { CARD_NUMBERS } from '../../const';
 
 
 export default function GenresList({onCardHover}: {onCardHover:(arg0: number) => void}): JSX.Element {
 
+  const { data: moviesData = []} = useFetchMoviesQueryState();
+
   const currentGenre = useAppSelector((state) => state.genre.currentGenre);
 
-  const moviesData = useAppSelector((state) => {
-    if (state.genre.currentGenre === Genre.ALL) {
-      return state.movies.moviesList;
+  const selectMoviesDataByGenre = (data: IMovieDataAdapted[]) => {
+    if (currentGenre === Genre.ALL) {
+      return data;
     }
-    return state.movies.moviesList.filter((movie) => movie.genre === state.genre.currentGenre);
-  });
+    return data.filter((movie) => movie.genre === currentGenre);
+  };
 
-  const initialShowedMoviesNumber = (moviesData.length < CARD_NUMBERS) ? moviesData.length : CARD_NUMBERS;
+  const filteredMoviesData = selectMoviesDataByGenre(moviesData);
+
+  const initialShowedMoviesNumber = (filteredMoviesData.length < CARD_NUMBERS) ? filteredMoviesData.length : CARD_NUMBERS;
 
   const [showedMoviesNumber, setShowedMoviesNumber] = useState(initialShowedMoviesNumber);
 
-  const isButtonVisible = showedMoviesNumber !== moviesData.length && moviesData.length !== 0;
+  const isButtonVisible = showedMoviesNumber !== filteredMoviesData.length && filteredMoviesData.length !== 0;
 
   const dispatch = useAppDispatch();
 
@@ -34,7 +40,7 @@ export default function GenresList({onCardHover}: {onCardHover:(arg0: number) =>
   };
 
   const onShowMoreClick = (): void => {
-    (moviesData.length - showedMoviesNumber > CARD_NUMBERS) ? setShowedMoviesNumber(showedMoviesNumber + CARD_NUMBERS) : setShowedMoviesNumber(moviesData.length);
+    (filteredMoviesData.length - showedMoviesNumber > CARD_NUMBERS) ? setShowedMoviesNumber(showedMoviesNumber + CARD_NUMBERS) : setShowedMoviesNumber(filteredMoviesData.length);
   };
 
   return (
@@ -53,7 +59,7 @@ export default function GenresList({onCardHover}: {onCardHover:(arg0: number) =>
           </li>
         ))}
       </ul>
-      <FilmCardsList cardNumbers={showedMoviesNumber} filmsData={moviesData} onCardHover={onCardHover}/>
+      <FilmCardsList cardNumbers={showedMoviesNumber} filmsData={filteredMoviesData} onCardHover={onCardHover}/>
       {isButtonVisible && <ShowMoreButton onShowMoreClick={onShowMoreClick} />}
     </section>
   );

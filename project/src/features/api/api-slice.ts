@@ -13,4 +13,6 @@ export const apiSlice = createApi({
   }),
 });
 
+export const useFetchMoviesQueryState = apiSlice.endpoints.fetchMovies.useQueryState;
 export const { useFetchMoviesQuery } = apiSlice;
+
