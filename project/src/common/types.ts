@@ -1,5 +1,3 @@
-import { Genre } from '../const';
-
 export interface IMovieDataAdapted {
   name: string,
   posterImage: string,
@@ -40,4 +38,3 @@ export interface IMovieDataRaw {
   'preview_video_link'?: string
 }
 
-export type GenreValuesType = typeof Genre[keyof typeof Genre];

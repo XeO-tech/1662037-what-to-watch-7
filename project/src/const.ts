@@ -1,4 +1,6 @@
-export const CARD_NUMBERS = 8;
+export const CARDS_NUMBER = 8;
+
+export const INITIAL_GENRE = 'All genres';
 
 export const AppRoute = {
   ROOT: '/',

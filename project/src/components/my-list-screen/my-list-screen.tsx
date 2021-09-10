@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import { IMovieDataAdapted } from '../../common/types';
-import { CARD_NUMBERS } from '../../const';
+import { CARDS_NUMBER } from '../../const';
 
 type Props = {
   filmsData: IMovieDataAdapted[],
@@ -40,7 +40,7 @@ export default function MyListScreen({filmsData}: Props): JSX.Element {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <div className="catalog__films-list">
-          <FilmCardsList filmsData={filmsData} cardNumbers={CARD_NUMBERS} onCardHover={onCardHover}/>
+          <FilmCardsList filmsData={filmsData} cardNumbers={CARDS_NUMBER} onCardHover={onCardHover}/>
         </div>
       </section>
       <footer className="page-footer">

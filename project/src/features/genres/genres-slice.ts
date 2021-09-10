@@ -1,20 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Genre } from '../../const';
-import { GenreValuesType } from '../../common/types';
+import { INITIAL_GENRE } from '../../const';
 
 interface GenreState {
   currentGenre: string,
 }
 
 const initialState: GenreState = {
-  currentGenre: Genre.ALL,
+  currentGenre: INITIAL_GENRE,
 };
 
 const genreSlice = createSlice({
   name: 'genre',
   initialState,
   reducers: {
-    setGenre(state, action: PayloadAction<GenreValuesType>) {
+    setGenre(state, action: PayloadAction<string>) {
       // it's okay to do this because immer library in redux toolkit makes it immutable under the hood
       state.currentGenre = action.payload;
     },

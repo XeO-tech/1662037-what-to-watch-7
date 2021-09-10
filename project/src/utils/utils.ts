@@ -1,4 +1,5 @@
-import { RunTimeFormat } from '../const';
+import { RunTimeFormat, INITIAL_GENRE } from '../const';
+import { IMovieDataAdapted } from '../common/types';
 
 type RunTimeFormatValuesType = typeof RunTimeFormat[keyof typeof RunTimeFormat]
 
@@ -31,3 +32,9 @@ export const defineRatingDescription = (rating: number): string => {
       return 'Awesome';
   }
 };
+
+export const prepareGenresList = (moviesData: IMovieDataAdapted[]): string[] => {
+  const uniqueGenres = Array.from(new Set(moviesData.map((movie) => movie.genre)));
+  return [INITIAL_GENRE, ...uniqueGenres].slice(0,11);
+};
+
