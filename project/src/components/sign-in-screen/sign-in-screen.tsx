@@ -1,6 +1,15 @@
-import * as React from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+interface ILoginFormData {
+  email: string,
+  password: string,
+}
 
 export default function SignInScreen(): JSX.Element {
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit = (data: ILoginFormData) => console.log(data);
 
   return (
     <div className="user-page">
@@ -15,14 +24,41 @@ export default function SignInScreen(): JSX.Element {
         <h1 className="page-title user-page__title">Sign in</h1>
       </header>
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
+        <form onSubmit={handleSubmit(onSubmit)} className="sign-in__form">
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
+              <input
+                className="sign-in__input"
+                style={errors.email ? {border: '1px red solid'} : {}}
+                placeholder="Email address"
+                {...register('email', {
+                  required: '- Email is required.',
+                  pattern:  {
+                    value: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i,
+                    message: '- Not a valid email adress',
+                  },
+                })}
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+              <input
+                className="sign-in__input"
+                style={errors.password ? {border: '1px red solid'} : {}}
+                type="password"
+                placeholder="Password"
+                id="user-password"
+                {...register('password', {
+                  required: '- Password is required',
+                  pattern:  {
+                    value: /^(?!\s*$).+/i,
+                    message: '- Password can\'t consist of spaces',
+                  },
+                })
+                }
+              />
+              {errors.email && <p style={{color: 'red'}}>{errors.email.message}</p>}
+              {errors.password && <p style={{color: 'red'}}>{errors.password.message}</p>}
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>
