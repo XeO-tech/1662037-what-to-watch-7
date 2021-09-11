@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AuthorizationStatus } from '../../const';
+import { AuthStatus } from '../../const';
 
 interface AuthorizationState {
   authorizationStatus: string,
 }
 
-type AuthorizationValuesType = typeof AuthorizationStatus[keyof typeof AuthorizationStatus]
+type AuthorizationValuesType = typeof AuthStatus[keyof typeof AuthStatus]
 
 const initialState: AuthorizationState = {
-  authorizationStatus: AuthorizationStatus.UNKNOWN,
+  authorizationStatus: AuthStatus.UNKNOWN,
 };
 
 const authorizationSlice = createSlice({
@@ -19,7 +19,7 @@ const authorizationSlice = createSlice({
       state.authorizationStatus = action.payload;
     },
     logout(state) {
-      state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      state.authorizationStatus = AuthStatus.NO_AUTH;
     },
   },
 });

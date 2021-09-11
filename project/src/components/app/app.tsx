@@ -10,6 +10,8 @@ import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
 import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
+import { setAuthStatus } from '../../features/authorization/authorization-slice';
+import { AuthStatus } from '../../const';
 
 
 export default function App(): JSX.Element {
@@ -17,22 +19,24 @@ export default function App(): JSX.Element {
   const {
     data: moviesData = [],
     isFetching: isMovieDataFetching,
-    isError,
+    isError: isMoviesDataFetchError,
   } = useFetchMoviesQuery();
 
   const {
-    data: authData = {},
     isFetching: isAuthDataFetching,
-    error,
+    isError: isAuthDataFetchError,
   } = useFetchAuthDataQuery();
-  console.log(error);
 
+  if (isAuthDataFetchError) {
+    localStorage.removeItem('token');
+    setAuthStatus(AuthStatus.NO_AUTH);
+  }
 
   if (isMovieDataFetching || isAuthDataFetching) {
     return <Spinner />;
   }
 
-  if (isError) {
+  if (isMoviesDataFetchError) {
     return <p>Could not load data from server. Try again later</p>;
   }
 

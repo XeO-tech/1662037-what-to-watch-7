@@ -30,7 +30,7 @@ export const Genre = {
   THRILLERS: 'Thrillers',
 } as const;
 
-export const AuthorizationStatus = {
+export const AuthStatus = {
   AUTH: 'AUTH',
   NO_AUTH: 'NO_AUTH',
   UNKNOWN: 'UNKNOWN',
