@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted } from '../../common/types';
 import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
-import { setAuthStatus } from '../auth/auth-slice';
+import { setAuthStatus, setUserData } from '../auth/auth-slice';
 import { AuthStatus } from '../../const';
 
 export const apiSlice = createApi({
@@ -22,6 +22,7 @@ export const apiSlice = createApi({
       query: () => '/login',
       transformResponse: (response: IAuthdataRaw) => {
         setAuthStatus(AuthStatus.AUTH);
+        setUserData({userName: response.name, avatarUrl: response['avatar_url'] as string});
         localStorage.setItem('token', response.token);
         return adaptAuthDataToClient(response);
       },
