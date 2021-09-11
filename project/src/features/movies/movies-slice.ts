@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IMovieDataAdapted } from '../../common/types';
 
-interface moviesState {
+interface IMoviesState {
   moviesList: IMovieDataAdapted[],
 }
 
-const initialState: moviesState = {
+const initialState: IMoviesState = {
   moviesList: [],
 };
 

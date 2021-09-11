@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted } from '../../common/types';
 import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
-import { setAuthStatus } from '../authorization/authorization-slice';
+import { setAuthStatus } from '../auth/auth-slice';
 import { AuthStatus } from '../../const';
 
 export const apiSlice = createApi({

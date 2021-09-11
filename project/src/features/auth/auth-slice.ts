@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthStatus } from '../../const';
 
-interface AuthorizationState {
-  authorizationStatus: string,
-}
+interface IAuthState {[key: string]: string}
 
-type AuthorizationValuesType = typeof AuthStatus[keyof typeof AuthStatus]
+type AuthValuesType = typeof AuthStatus[keyof typeof AuthStatus]
 
-const initialState: AuthorizationState = {
+const initialState: IAuthState = {
   authorizationStatus: AuthStatus.UNKNOWN,
+  userName: '',
+  avatarUrl: '',
 };
 
 const authorizationSlice = createSlice({
   name: 'authorization',
   initialState,
   reducers: {
-    setAuthStatus(state, action: PayloadAction<AuthorizationValuesType>) {
+    setAuthStatus(state, action: PayloadAction<AuthValuesType>) {
       state.authorizationStatus = action.payload;
     },
     logout(state) {

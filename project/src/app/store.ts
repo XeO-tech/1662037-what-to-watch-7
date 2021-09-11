@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import genreReducer from '../features/genres/genres-slice';
 import moviesReducer from '../features/movies/movies-slice';
-import authorizationReducer from '../features/authorization/authorization-slice';
+import authorizationReducer from '../features/auth/auth-slice';
 import { apiSlice } from '../features/api/api-slice';
 
 export const store = configureStore({

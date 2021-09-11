@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { INITIAL_GENRE } from '../../const';
 
-interface GenreState {
+interface IGenreState {
   currentGenre: string,
 }
 
-const initialState: GenreState = {
+const initialState: IGenreState = {
   currentGenre: INITIAL_GENRE,
 };
 
