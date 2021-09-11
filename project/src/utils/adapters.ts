@@ -1,7 +1,6 @@
-import { IMovieDataAdapted, IMovieDataRaw} from '../common/types';
+import { IMovieDataAdapted, IMovieDataRaw, IAuthDataAdapted, IAuthdataRaw} from '../common/types';
 
-
-export const adaptMovieToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
+export const adaptMovieDataToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
   const adaptedFilm = Object.assign(
     {},
     film,
@@ -17,7 +16,6 @@ export const adaptMovieToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
       previewVideoLink: film['preview_video_link'] as string,
     },
   );
-
   delete adaptedFilm['poster_image'];
   delete adaptedFilm['preview_image'];
   delete adaptedFilm['background_image'];
@@ -29,4 +27,14 @@ export const adaptMovieToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
   delete adaptedFilm['preview_video_link'];
 
   return adaptedFilm;
+};
+
+export const adaptAuthDataToClient = (authData: IAuthdataRaw): IAuthDataAdapted => {
+  const adaptedAuthData = Object.assign(
+    {},
+    authData,
+    {avatarUrl: authData['avatar_url'] as string},
+  );
+  delete adaptedAuthData['avatar_url'];
+  return adaptedAuthData;
 };

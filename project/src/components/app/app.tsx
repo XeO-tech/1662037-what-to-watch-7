@@ -9,19 +9,26 @@ import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
-import { useFetchMoviesQuery } from '../../features/api/api-slice';
+import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
 
 
 export default function App(): JSX.Element {
 
   const {
     data: moviesData = [],
-    isFetching,
+    isFetching: isMovieDataFetching,
     isError,
   } = useFetchMoviesQuery();
 
+  const {
+    data: authData = {},
+    isFetching: isAuthDataFetching,
+    error,
+  } = useFetchAuthDataQuery();
+  console.log(error);
 
-  if (isFetching) {
+
+  if (isMovieDataFetching || isAuthDataFetching) {
     return <Spinner />;
   }
 
@@ -49,9 +56,6 @@ export default function App(): JSX.Element {
       <Route exact path={AppRoute.PLAYER}>
         <PlayerScreen filmData={moviesData[0]}/>
       </Route>
-      {/* <Route path={AppRoute.TEST}>
-        <TestScreen />
-      </Route> */}
       <Route path='*'>
         <NotFoundScreen />
       </Route>

@@ -38,3 +38,18 @@ export interface IMovieDataRaw {
   'preview_video_link'?: string
 }
 
+export interface IAuthdataRaw {
+  id: number,
+  email: string,
+  name: string,
+  'avatar_url'?: string,
+  token: string,
+}
+
+export interface IAuthDataAdapted {
+  id: number,
+  email: string,
+  name: string,
+  avatarUrl: string,
+  token: string,
+}
