@@ -11,7 +11,7 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
 import { useAppDispatch } from '../../app/hooks';
 import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
-import { setAuthStatus, setUserData } from '../../features/auth/auth-slice';
+import { setAuthStatus, setUserData, clearUserData } from '../../features/auth/auth-slice';
 import { AuthStatus } from '../../const';
 
 
@@ -41,11 +41,7 @@ export default function App(): JSX.Element {
 
   if (isAuthDataFetchError) {
     dispatch(setAuthStatus(AuthStatus.NO_AUTH));
-    dispatch(setUserData({
-      userName:'',
-      avatarUrl:'',
-      token: '',
-    }));
+    dispatch(clearUserData());
   }
 
   if (isAuthDataFetched ) {

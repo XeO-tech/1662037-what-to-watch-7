@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useFetchLogoutMutation } from '../../features/api/api-slice';
-import { setUserData, setAuthStatus } from '../../features/auth/auth-slice';
+import { setAuthStatus, clearUserData } from '../../features/auth/auth-slice';
 import { AppRoute, AuthStatus } from '../../const';
 
 
@@ -18,11 +18,7 @@ export default function Header(): JSX.Element {
       .unwrap()
       .then(() => {
         dispatch(setAuthStatus(AuthStatus.NO_AUTH));
-        dispatch(setUserData({
-          userName:'',
-          avatarUrl:'',
-          token: '',
-        }));
+        dispatch(clearUserData());
       })
       .catch(() => {});
   };
