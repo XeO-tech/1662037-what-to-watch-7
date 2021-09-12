@@ -9,7 +9,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://7.react.pages.academy/wtw',
     prepareHeaders: (headers, { getState} ) => {
-      const token = (getState() as RootState).auth.token;
+      const token = localStorage.getItem('token') ??(getState() as RootState).auth.token;
       if (token) {
         headers.set('x-token', token);
       }

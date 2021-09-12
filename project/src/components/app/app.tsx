@@ -42,6 +42,7 @@ export default function App(): JSX.Element {
   if (isAuthDataFetchError) {
     dispatch(setAuthStatus(AuthStatus.NO_AUTH));
     dispatch(clearUserData());
+    localStorage.removeItem('token');
   }
 
   if (isAuthDataFetched ) {

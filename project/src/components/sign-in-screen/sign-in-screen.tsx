@@ -30,6 +30,7 @@ export default function SignInScreen(): JSX.Element {
           avatarUrl: response.avatarUrl as string,
           token: response.token,
         }));
+        localStorage.setItem('token', response.token);
       })
       .catch((rejected) => console.log(rejected));
     history.push(AppRoute.ROOT);
