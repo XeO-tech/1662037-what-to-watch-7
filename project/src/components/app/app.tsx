@@ -23,7 +23,9 @@ export default function App(): JSX.Element {
   } = useFetchMoviesQuery();
 
   const {
+    data: authData = {name: '', avatarUrl:'', token:''},
     isFetching: isAuthDataFetching,
+    isSuccess: isAuthDataFetched,
     isError: isAuthDataFetchError,
   } = useFetchAuthDataQuery();
 
@@ -40,6 +42,12 @@ export default function App(): JSX.Element {
   if (isAuthDataFetchError) {
     localStorage.removeItem('token');
     dispatch(setAuthStatus(AuthStatus.NO_AUTH));
+  }
+
+  if (isAuthDataFetched ) {
+    dispatch(setAuthStatus(AuthStatus.AUTH));
+    dispatch(setUserData({userName: authData.name, avatarUrl: authData.avatarUrl}));
+    localStorage.setItem('token', authData.token);
   }
 
   return (
