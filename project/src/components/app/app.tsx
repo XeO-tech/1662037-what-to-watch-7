@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import MainScreen from '../main-screen/main-screen';
@@ -10,7 +10,7 @@ import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
 import { useAppDispatch } from '../../app/hooks';
-import { useFetchMoviesQuery, useFetchAuthDataQuery, useFetchLoginMutation } from '../../features/api/api-slice';
+import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
 import { setAuthStatus, setUserData } from '../../features/auth/auth-slice';
 import { AuthStatus } from '../../const';
 

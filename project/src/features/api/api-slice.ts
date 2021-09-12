@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData } from '../../common/types';
 import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
-import { setAuthStatus, setUserData } from '../auth/auth-slice';
-import { AuthStatus } from '../../const';
+
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -20,11 +19,7 @@ export const apiSlice = createApi({
     }),
     fetchAuthData: builder.query<IAuthDataAdapted, void>({
       query: () => '/login',
-      transformResponse: (response: IAuthdataRaw) => {
-        // setAuthStatus(AuthStatus.AUTH);
-        // setUserData({userName: response.name, avatarUrl: response['avatar_url'] as string});
-        return adaptAuthDataToClient(response);
-      },
+      transformResponse: (response: IAuthdataRaw) => adaptAuthDataToClient(response),
     }),
     fetchLogin: builder.mutation<IAuthDataAdapted, ILoginFormData>({
       query: (body) => ({
@@ -32,17 +27,17 @@ export const apiSlice = createApi({
         method: 'POST',
         body,
       }),
-      transformResponse: (response: IAuthdataRaw) => {
-        // setAuthStatus(AuthStatus.AUTH);
-        // setUserData({userName: response.name, avatarUrl: response['avatar_url'] as string});
-        // localStorage.setItem('token', response.token);
-        return adaptAuthDataToClient(response);
-      },
+      transformResponse: (response: IAuthdataRaw) => adaptAuthDataToClient(response),
     }),
-
+    fetchLogout: builder.mutation<void, void>({
+      query: () => ({
+        url: '/logout',
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
 export const useFetchMoviesQueryState = apiSlice.endpoints.fetchMovies.useQueryState;
-export const { useFetchMoviesQuery, useFetchAuthDataQuery, useFetchLoginMutation } = apiSlice;
+export const { useFetchMoviesQuery, useFetchAuthDataQuery, useFetchLoginMutation, useFetchLogoutMutation } = apiSlice;
 

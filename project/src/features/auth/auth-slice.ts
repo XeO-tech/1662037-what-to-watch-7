@@ -7,13 +7,13 @@ interface IUserData {
 }
 
 interface IAuthState extends IUserData {
-  authStatus: string,
+  status: string,
 }
 
 type AuthValuesType = typeof AuthStatus[keyof typeof AuthStatus]
 
 const initialState: IAuthState = {
-  authStatus: AuthStatus.UNKNOWN,
+  status: AuthStatus.UNKNOWN,
   userName: '',
   avatarUrl: '',
 };
@@ -23,17 +23,14 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthStatus(state, action: PayloadAction<AuthValuesType>) {
-      state.authStatus = action.payload;
+      state.status = action.payload;
     },
     setUserData(state, action: PayloadAction<IUserData>) {
       state.userName = action.payload.userName;
       state.avatarUrl = action.payload.avatarUrl;
     },
-    logout(state) {
-      state.authStatus = AuthStatus.NO_AUTH;
-    },
   },
 });
 
-export const { setAuthStatus, setUserData, logout } = authSlice.actions;
+export const { setAuthStatus, setUserData } = authSlice.actions;
 export default authSlice.reducer;
