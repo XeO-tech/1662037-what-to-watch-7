@@ -40,14 +40,21 @@ export default function App(): JSX.Element {
   }
 
   if (isAuthDataFetchError) {
-    localStorage.removeItem('token');
     dispatch(setAuthStatus(AuthStatus.NO_AUTH));
+    dispatch(setUserData({
+      userName:'',
+      avatarUrl:'',
+      token: '',
+    }));
   }
 
   if (isAuthDataFetched ) {
     dispatch(setAuthStatus(AuthStatus.AUTH));
-    dispatch(setUserData({userName: authData.name, avatarUrl: authData.avatarUrl}));
-    localStorage.setItem('token', authData.token);
+    dispatch(setUserData({
+      userName: authData.name,
+      avatarUrl: authData.avatarUrl,
+      token: authData.token,
+    }));
   }
 
   return (

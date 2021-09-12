@@ -1,14 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData } from '../../common/types';
 import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
+import { RootState } from '../../app/store';
 
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://7.react.pages.academy/wtw',
-    prepareHeaders: (headers) => {
-      headers.set('x-token', localStorage.getItem('token') ?? '');
+    prepareHeaders: (headers, { getState} ) => {
+      const token =(getState() as RootState).auth.token;
+      console.log(token);
+
+      if (token) {
+        headers.set('x-token', token);
+      }
       return headers;
     },
   }),

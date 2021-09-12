@@ -25,8 +25,11 @@ export default function SignInScreen(): JSX.Element {
       .unwrap()
       .then((response) => {
         dispatch(setAuthStatus(AuthStatus.AUTH));
-        dispatch(setUserData({userName: response.name, avatarUrl: response.avatarUrl as string}));
-        localStorage.setItem('token', response.token);
+        dispatch(setUserData({
+          userName: response.name,
+          avatarUrl: response.avatarUrl as string,
+          token: response.token,
+        }));
       })
       .catch((rejected) => console.log(rejected));
     history.push(AppRoute.ROOT);

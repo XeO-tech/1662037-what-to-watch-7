@@ -4,6 +4,7 @@ import { AuthStatus } from '../../const';
 interface IUserData {
   userName: string,
   avatarUrl: string,
+  token: string,
 }
 
 interface IAuthState extends IUserData {
@@ -16,6 +17,7 @@ const initialState: IAuthState = {
   status: AuthStatus.UNKNOWN,
   userName: '',
   avatarUrl: '',
+  token: '',
 };
 
 const authSlice = createSlice({
@@ -28,6 +30,7 @@ const authSlice = createSlice({
     setUserData(state, action: PayloadAction<IUserData>) {
       state.userName = action.payload.userName;
       state.avatarUrl = action.payload.avatarUrl;
+      state.token = action.payload.token;
     },
   },
 });

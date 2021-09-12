@@ -17,9 +17,12 @@ export default function Header(): JSX.Element {
     fetchLogut()
       .unwrap()
       .then(() => {
-        localStorage.removeItem('token');
         dispatch(setAuthStatus(AuthStatus.NO_AUTH));
-        dispatch(setUserData({userName:'', avatarUrl:''}));
+        dispatch(setUserData({
+          userName:'',
+          avatarUrl:'',
+          token: '',
+        }));
       })
       .catch(() => {});
   };
