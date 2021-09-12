@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import MainScreen from '../main-screen/main-screen';
@@ -9,8 +9,9 @@ import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
-import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
-import { setAuthStatus } from '../../features/auth/auth-slice';
+import { useAppDispatch } from '../../app/hooks';
+import { useFetchMoviesQuery, useFetchAuthDataQuery, useFetchLoginMutation } from '../../features/api/api-slice';
+import { setAuthStatus, setUserData } from '../../features/auth/auth-slice';
 import { AuthStatus } from '../../const';
 
 
@@ -26,10 +27,7 @@ export default function App(): JSX.Element {
     isError: isAuthDataFetchError,
   } = useFetchAuthDataQuery();
 
-  if (isAuthDataFetchError) {
-    localStorage.removeItem('token');
-    setAuthStatus(AuthStatus.NO_AUTH);
-  }
+  const dispatch = useAppDispatch();
 
   if (isMovieDataFetching || isAuthDataFetching) {
     return <Spinner />;
@@ -37,6 +35,11 @@ export default function App(): JSX.Element {
 
   if (isMoviesDataFetchError) {
     return <p>Could not load data from server. Try again later</p>;
+  }
+
+  if (isAuthDataFetchError) {
+    localStorage.removeItem('token');
+    dispatch(setAuthStatus(AuthStatus.NO_AUTH));
   }
 
   return (

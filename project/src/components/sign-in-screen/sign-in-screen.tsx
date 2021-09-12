@@ -1,5 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { useAppDispatch } from '../../app/hooks';
+import {  useFetchLoginMutation } from '../../features/api/api-slice';
+import { setAuthStatus, setUserData } from '../../features/auth/auth-slice';
+import { AuthStatus, AppRoute } from '../../const';
+
 
 interface ILoginFormData {
   email: string,
@@ -9,7 +15,22 @@ interface ILoginFormData {
 export default function SignInScreen(): JSX.Element {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = (data: ILoginFormData) => console.log(data);
+
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const [login] = useFetchLoginMutation();
+
+  const onSubmit = (data: ILoginFormData) => {
+    login({email: data.email, password: data.password})
+      .unwrap()
+      .then((response) => {
+        dispatch(setAuthStatus(AuthStatus.AUTH));
+        dispatch(setUserData({userName: response.name, avatarUrl: response.avatarUrl as string}));
+        localStorage.setItem('token', response.token);
+      })
+      .catch((rejected) => console.log(rejected));
+    history.push(AppRoute.ROOT);
+  };
 
   return (
     <div className="user-page">

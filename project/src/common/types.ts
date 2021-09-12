@@ -53,3 +53,8 @@ export interface IAuthDataAdapted {
   avatarUrl: string,
   token: string,
 }
+
+export interface ILoginFormData {
+  email: string,
+  password: string,
+}

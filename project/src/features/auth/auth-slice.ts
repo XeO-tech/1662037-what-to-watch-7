@@ -18,8 +18,8 @@ const initialState: IAuthState = {
   avatarUrl: '',
 };
 
-const authorizationSlice = createSlice({
-  name: 'authorization',
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
     setAuthStatus(state, action: PayloadAction<AuthValuesType>) {
@@ -35,5 +35,5 @@ const authorizationSlice = createSlice({
   },
 });
 
-export const { setAuthStatus, setUserData, logout } = authorizationSlice.actions;
-export default authorizationSlice.reducer;
+export const { setAuthStatus, setUserData, logout } = authSlice.actions;
+export default authSlice.reducer;
