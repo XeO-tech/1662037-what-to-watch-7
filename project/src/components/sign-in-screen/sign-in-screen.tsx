@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {  useFetchLoginMutation } from '../../features/api/api-slice';
 import { setAuthStatus, setUserData } from '../../features/auth/auth-slice';
 import { AuthStatus, AppRoute } from '../../const';
@@ -16,8 +16,14 @@ export default function SignInScreen(): JSX.Element {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const dispatch = useAppDispatch();
   const history = useHistory();
+  const authStatus = useAppSelector((state) => state.auth.status);
+
+  if (authStatus === AuthStatus.AUTH) {
+    history.push(AppRoute.ROOT);
+  }
+
+  const dispatch = useAppDispatch();
   const [login] = useFetchLoginMutation();
 
   const onSubmit = (data: ILoginFormData) => {
@@ -32,7 +38,7 @@ export default function SignInScreen(): JSX.Element {
         }));
         localStorage.setItem('token', response.token);
       })
-      .catch((rejected) => console.log(rejected));
+      .catch((rejected) => {});
     history.push(AppRoute.ROOT);
   };
 

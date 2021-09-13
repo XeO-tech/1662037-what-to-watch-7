@@ -9,6 +9,7 @@ import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
+import PrivateRoute from '../private-route/private-route';
 import { useAppDispatch } from '../../app/hooks';
 import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
 import { setAuthStatus, setUserData, clearUserData } from '../../features/auth/auth-slice';
@@ -62,9 +63,11 @@ export default function App(): JSX.Element {
       <Route exact path={AppRoute.LOGIN}>
         <SignInScreen />
       </Route>
-      <Route exact path={AppRoute.MY_LIST}>
-        <MyListScreen filmsData={moviesData} />
-      </Route>
+      <PrivateRoute
+        exact
+        path={AppRoute.MY_LIST}
+        render={() => <MyListScreen filmsData={moviesData} />}
+      />
       <Route exact path={AppRoute.FILM}>
         <FilmScreen filmsData={moviesData}/>
       </Route>
