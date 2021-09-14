@@ -1,5 +1,7 @@
 export const CARDS_NUMBER = 8;
 
+export const SIMILAR_FILMS_NUMBER = 4;
+
 export const INITIAL_GENRE = 'All genres';
 
 export const AppRoute = {

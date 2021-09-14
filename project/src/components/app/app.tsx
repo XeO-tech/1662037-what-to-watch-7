@@ -4,7 +4,7 @@ import { AppRoute } from '../../const';
 import MainScreen from '../main-screen/main-screen';
 import SignInScreen from '../sign-in-screen/sign-in-screen';
 import MyListScreen from '../my-list-screen/my-list-screen';
-import FilmScreen from '../film-screen/film-screen';
+import FilmScreen from '../movie-screen/movie-screen';
 import ReviewScreen from '../review-screen/review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';

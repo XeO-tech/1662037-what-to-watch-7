@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
 import { IMovieDataAdapted } from '../../common/types';
 import FilmCardsList from '../film-cards-list/film-cards-list';
+import { SIMILAR_FILMS_NUMBER } from '../../const';
 
-const SIMILAR_FILMS_NUMBER = 4;
 
 export default function FilmScreen({filmsData}: {filmsData: IMovieDataAdapted[]}): JSX.Element {
   const {id} : {id: string} = useParams();
