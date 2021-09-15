@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthStatus } from '../../const';
+import { apiSlice } from '../api/api-slice';
 
 interface IUserData {
   userName: string,
@@ -37,6 +38,47 @@ const authSlice = createSlice({
       state.avatarUrl = '';
       state.token = '';
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      apiSlice.endpoints.fetchAuthData.matchFulfilled,
+      (state, {payload}) => {
+        state.token = payload.token;
+        state.userName = payload.name;
+        state.avatarUrl = payload.avatarUrl;
+        state.status = AuthStatus.AUTH;
+      },
+    );
+    builder.addMatcher(
+      apiSlice.endpoints.fetchAuthData.matchRejected,
+      (state) => {
+        state.token = '';
+        state.userName = '';
+        state.avatarUrl = '';
+        state.status = AuthStatus.NO_AUTH;
+        localStorage.removeItem('token');
+      },
+    );
+    builder.addMatcher(
+      apiSlice.endpoints.fetchLogin.matchFulfilled,
+      (state, {payload}) => {
+        state.token = payload.token;
+        state.userName = payload.name;
+        state.avatarUrl = payload.avatarUrl;
+        state.status = AuthStatus.AUTH;
+        localStorage.setItem('token', payload.token);
+      },
+    );
+    builder.addMatcher(
+      apiSlice.endpoints.fetchLogout.matchFulfilled,
+      (state) => {
+        state.token = '';
+        state.userName = '';
+        state.avatarUrl = '';
+        state.status = AuthStatus.NO_AUTH;
+        localStorage.removeItem('token');
+      },
+    );
   },
 });
 

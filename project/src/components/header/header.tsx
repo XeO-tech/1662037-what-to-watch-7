@@ -1,26 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 import { useFetchLogoutMutation } from '../../features/api/api-slice';
-import { setAuthStatus, clearUserData } from '../../features/auth/auth-slice';
 import { AppRoute, AuthStatus } from '../../const';
 
 
 export default function Header(): JSX.Element {
-  const dispatch = useAppDispatch();
   const avatarUrl = useAppSelector((state) => state.auth.avatarUrl);
   const userName = useAppSelector((state) => state.auth.userName);
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
 
   const [fetchLogut] = useFetchLogoutMutation();
   const onSignOutClick = (): void => {
-    fetchLogut()
-      .unwrap()
-      .then(() => {
-        dispatch(setAuthStatus(AuthStatus.NO_AUTH));
-        dispatch(clearUserData());
-      })
-      .catch(() => {});
+    fetchLogut();
   };
 
   const authorizedUserLink = (

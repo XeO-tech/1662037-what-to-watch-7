@@ -1,9 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 import {  useFetchLoginMutation } from '../../features/api/api-slice';
-import { setAuthStatus, setUserData } from '../../features/auth/auth-slice';
 import { AuthStatus, AppRoute } from '../../const';
 
 
@@ -23,22 +22,10 @@ export default function SignInScreen(): JSX.Element {
     history.push(AppRoute.ROOT);
   }
 
-  const dispatch = useAppDispatch();
   const [login] = useFetchLoginMutation();
 
   const onSubmit = (data: ILoginFormData) => {
-    login({email: data.email, password: data.password})
-      .unwrap()
-      .then((response) => {
-        dispatch(setAuthStatus(AuthStatus.AUTH));
-        dispatch(setUserData({
-          userName: response.name,
-          avatarUrl: response.avatarUrl as string,
-          token: response.token,
-        }));
-        localStorage.setItem('token', response.token);
-      })
-      .catch((rejected) => {});
+    login({email: data.email, password: data.password});
     history.push(AppRoute.ROOT);
   };
 

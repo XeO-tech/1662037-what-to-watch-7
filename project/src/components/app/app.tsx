@@ -10,10 +10,7 @@ import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
 import PrivateRoute from '../private-route/private-route';
-import { useAppDispatch } from '../../app/hooks';
 import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
-import { setAuthStatus, setUserData, clearUserData } from '../../features/auth/auth-slice';
-import { AuthStatus } from '../../const';
 
 
 export default function App(): JSX.Element {
@@ -24,13 +21,8 @@ export default function App(): JSX.Element {
   } = useFetchMoviesQuery();
 
   const {
-    data: authData = {name: '', avatarUrl:'', token:''},
     isFetching: isAuthDataFetching,
-    isSuccess: isAuthDataFetched,
-    isError: isAuthDataFetchError,
   } = useFetchAuthDataQuery();
-
-  const dispatch = useAppDispatch();
 
   if (isMovieDataFetching || isAuthDataFetching) {
     return <Spinner />;
@@ -40,20 +32,6 @@ export default function App(): JSX.Element {
     return <p>Could not load data from server. Try again later</p>;
   }
 
-  if (isAuthDataFetchError) {
-    dispatch(setAuthStatus(AuthStatus.NO_AUTH));
-    dispatch(clearUserData());
-    localStorage.removeItem('token');
-  }
-
-  if (isAuthDataFetched ) {
-    dispatch(setAuthStatus(AuthStatus.AUTH));
-    dispatch(setUserData({
-      userName: authData.name,
-      avatarUrl: authData.avatarUrl,
-      token: authData.token,
-    }));
-  }
 
   return (
     <Switch>
