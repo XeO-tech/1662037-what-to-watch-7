@@ -21,25 +21,31 @@ export const apiSlice = createApi({
       query: () => '/films',
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
+
     fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
       query: () => '/promo',
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
+
     fetchMovie: builder.query<IMovieDataAdapted, string>({
       query: (id) => ({ url: `films/${id}` }),
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
+
     fetchSimilarMovies: builder.query<IMovieDataAdapted[], string>({
       query: (id) => ({ url: `films/${id}/similar` }),
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
+
     fetchMovieComments: builder.query<ICommentData[], string>({
       query: (id) => ({ url: `comments/${id}` }),
     }),
+
     fetchAuthData: builder.query<IAuthDataAdapted, void>({
       query: () => '/login',
       transformResponse: (response: IAuthdataRaw) => adaptAuthDataToClient(response),
     }),
+
     fetchLogin: builder.mutation<IAuthDataAdapted, ILoginFormData>({
       query: (body) => ({
         url: '/login',
@@ -48,6 +54,7 @@ export const apiSlice = createApi({
       }),
       transformResponse: (response: IAuthdataRaw) => adaptAuthDataToClient(response),
     }),
+
     fetchLogout: builder.mutation<void, void>({
       query: () => ({
         url: '/logout',

@@ -15,6 +15,7 @@ export default function Tabs (props: Props): JSX.Element {
 
   const {
     data: commentsData = [],
+    isSuccess,
     isError,
   } = useFetchMovieCommentsQuery(id);
 
@@ -74,7 +75,12 @@ export default function Tabs (props: Props): JSX.Element {
   const reviewsTab = (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {commentsData.map((comment) => (
+
+        {isError && <p>Couldn&apos;t load comments. Please, try refreshing the page.</p>}
+
+        {(isSuccess && commentsData.length === 0) && <p>No comments yet.</p>}
+
+        {isSuccess && commentsData.map((comment) => (
           <div key={comment.id} className="review">
             <blockquote className="review__quote">
               <p className="review__text">{comment.comment}</p>
@@ -86,6 +92,7 @@ export default function Tabs (props: Props): JSX.Element {
             <div className="review__rating">{comment.rating}</div>
           </div>
         ))}
+
       </div>
     </div>
   );
