@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import Header from '../header/header';
@@ -16,13 +16,13 @@ export default function MovieScreen(): JSX.Element {
     data: movieData,
     isFetching: isMovieDataFetching,
     isError: isMovieDataFetchError,
+    error: movieDataFetchError = {},
   } = useFetchMovieQuery(id);
 
   const {
     data: similarMoviesData = [],
     isSuccess: isSimilarMovieDataFetchSuccess,
   } = useFetchSimilarMoviesQuery(id);
-
 
   const filteredSimilarMoviesData = similarMoviesData.filter((similarMovieData) => similarMovieData.id !== Number(id));
 
@@ -31,6 +31,9 @@ export default function MovieScreen(): JSX.Element {
   }
 
   if (isMovieDataFetchError || !movieData) {
+    if ('status' in movieDataFetchError) {
+      movieDataFetchError.status === 404 && <Redirect to={'/movie-not-found'} />;
+    }
     return <p>Could not load data from server. Try again later</p>;
   }
 
