@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { AuthStatus } from '../../const';
 import { apiSlice } from '../api/api-slice';
 
@@ -41,26 +41,9 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
-      apiSlice.endpoints.fetchAuthData.matchFulfilled,
-      (state, {payload}) => {
-        state.token = payload.token;
-        state.userName = payload.name;
-        state.avatarUrl = payload.avatarUrl;
-        state.status = AuthStatus.AUTH;
-      },
-    );
-    builder.addMatcher(
-      apiSlice.endpoints.fetchAuthData.matchRejected,
-      (state) => {
-        state.token = '';
-        state.userName = '';
-        state.avatarUrl = '';
-        state.status = AuthStatus.NO_AUTH;
-        localStorage.removeItem('token');
-      },
-    );
-    builder.addMatcher(
-      apiSlice.endpoints.fetchLogin.matchFulfilled,
+      isAnyOf(
+        apiSlice.endpoints.fetchAuthData.matchFulfilled,
+        apiSlice.endpoints.fetchLogin.matchFulfilled),
       (state, {payload}) => {
         state.token = payload.token;
         state.userName = payload.name;
@@ -70,7 +53,9 @@ const authSlice = createSlice({
       },
     );
     builder.addMatcher(
-      apiSlice.endpoints.fetchLogout.matchFulfilled,
+      isAnyOf(
+        apiSlice.endpoints.fetchAuthData.matchRejected,
+        apiSlice.endpoints.fetchLogout.matchFulfilled),
       (state) => {
         state.token = '';
         state.userName = '';
