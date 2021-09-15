@@ -1,66 +1,53 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
-import { IMovieDataAdapted } from '../../common/types';
 import FilmCardsList from '../film-cards-list/film-cards-list';
+import Header from '../header/header';
+import Spinner from '../spinner/spinner';
+import { useFetchMovieQuery, useFetchSimilarMoviesQuery } from '../../features/api/api-slice';
 import { SIMILAR_FILMS_NUMBER } from '../../const';
 
 
-export default function FilmScreen({filmsData}: {filmsData: IMovieDataAdapted[]}): JSX.Element {
+export default function MovieScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
 
-  const currentFilm = filmsData.find((element) => element.id === Number(id));
+  const {
+    data: movieData,
+    isFetching: isMovieDataFetching,
+    isError: isMovieDataFetchError,
+  } = useFetchMovieQuery(id);
 
-  let similarFilms: IMovieDataAdapted[] = [];
+  const {
+    data: similarMoviesData = [],
+    isSuccess: isSimilarMovieDataFetchSuccess,
+  } = useFetchSimilarMoviesQuery(id);
 
-  if (currentFilm !== undefined) {
-    similarFilms = filmsData.filter((film) => {
-      if (film.id === currentFilm.id) {
-        return false;
-      }
-      return film.genre === currentFilm.genre;
-    });
+  const filteredSimilarMoviesData = similarMoviesData.filter((similarMovieData) => similarMovieData.id !== Number(id));
+
+  if (isMovieDataFetching) {
+    return <Spinner />;
   }
 
-  if (currentFilm === undefined) {
-    return (
-      <p>Film data is not found. Please return to previous page.</p>
-    );
+  if (isMovieDataFetchError || !movieData) {
+    return <p>Could not load data from server. Try again later</p>;
   }
+
 
   return (
     <div>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={movieData.backgroundImage} alt={movieData.name} />
           </div>
           <h1 className="visually-hidden">WTW</h1>
-          <header className="page-header film-card__head">
-            <div className="logo">
-              <a href="main.html" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width={63} height={63} />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href='foo'>Sign out</a>
-              </li>
-            </ul>
-          </header>
+          <Header />
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentFilm.name}</h2>
+              <h2 className="film-card__title">{movieData.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentFilm.genre}</span>
-                <span className="film-card__year">{currentFilm.released}</span>
+                <span className="film-card__genre">{movieData.genre}</span>
+                <span className="film-card__year">{movieData.released}</span>
               </p>
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
@@ -83,18 +70,18 @@ export default function FilmScreen({filmsData}: {filmsData: IMovieDataAdapted[]}
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={currentFilm.posterImage} alt={`${currentFilm.name} poster`} width={218} height={327} />
+              <img src={movieData.posterImage} alt={`${movieData.name} poster`} width={218} height={327} />
             </div>
-            <Tabs filmData={currentFilm}/>
+            <Tabs filmData={movieData}/>
           </div>
         </div>
       </section>
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          {(similarFilms.length === 0) ?
-            'No similair films found' :
-            <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} filmsData={similarFilms} onCardHover={() => void 0}/>}
+          {isSimilarMovieDataFetchSuccess && (filteredSimilarMoviesData.length === 0) ?
+            'No similair movies found' :
+            <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} filmsData={filteredSimilarMoviesData} onCardHover={() => void 0}/>}
         </section>
         <footer className="page-footer">
           <div className="logo">

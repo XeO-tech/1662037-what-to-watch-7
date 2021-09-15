@@ -11,6 +11,7 @@ export default function Header(): JSX.Element {
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
 
   const [fetchLogut] = useFetchLogoutMutation();
+
   const onSignOutClick = (): void => {
     fetchLogut();
   };

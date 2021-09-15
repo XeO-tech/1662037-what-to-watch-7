@@ -12,7 +12,6 @@ type Props = {
 export default function PrivateRoute(props: Props): JSX.Element {
   const {render, exact, path } = props;
   const authStatus = useAppSelector((state) => state.auth.status);
-  console.log(authStatus);
 
   return (
     <Route

@@ -21,6 +21,14 @@ export const apiSlice = createApi({
       query: () => '/films',
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
+    fetchMovie: builder.query<IMovieDataAdapted, string>({
+      query: (id) => ({ url: `films/${id}` }),
+      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+    }),
+    fetchSimilarMovies: builder.query<IMovieDataAdapted[], string>({
+      query: (id) => ({ url: `films/${id}/similar` }),
+      transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
+    }),
     fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
       query: () => '/promo',
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
@@ -49,6 +57,8 @@ export const apiSlice = createApi({
 export const useFetchMoviesQueryState = apiSlice.endpoints.fetchMovies.useQueryState;
 export const {
   useFetchMoviesQuery,
+  useFetchMovieQuery,
+  useFetchSimilarMoviesQuery,
   useFetchPromoMovieQuery,
   useFetchAuthDataQuery,
   useFetchLoginMutation,
