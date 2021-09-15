@@ -23,6 +23,7 @@ export default function MovieScreen(): JSX.Element {
     isSuccess: isSimilarMovieDataFetchSuccess,
   } = useFetchSimilarMoviesQuery(id);
 
+
   const filteredSimilarMoviesData = similarMoviesData.filter((similarMovieData) => similarMovieData.id !== Number(id));
 
   if (isMovieDataFetching) {
@@ -73,7 +74,7 @@ export default function MovieScreen(): JSX.Element {
             <div className="film-card__poster film-card__poster--big">
               <img src={movieData.posterImage} alt={`${movieData.name} poster`} width={218} height={327} />
             </div>
-            <Tabs filmData={movieData}/>
+            <Tabs movieData={movieData} id={id}/>
           </div>
         </div>
       </section>

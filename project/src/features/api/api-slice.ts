@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData } from '../../common/types';
+import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData, ICommentData } from '../../common/types';
 import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
 import { RootState } from '../../app/store';
 
@@ -21,6 +21,10 @@ export const apiSlice = createApi({
       query: () => '/films',
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
+    fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
+      query: () => '/promo',
+      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+    }),
     fetchMovie: builder.query<IMovieDataAdapted, string>({
       query: (id) => ({ url: `films/${id}` }),
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
@@ -29,9 +33,8 @@ export const apiSlice = createApi({
       query: (id) => ({ url: `films/${id}/similar` }),
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
-    fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
-      query: () => '/promo',
-      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+    fetchMovieComments: builder.query<ICommentData[], string>({
+      query: (id) => ({ url: `comments/${id}` }),
     }),
     fetchAuthData: builder.query<IAuthDataAdapted, void>({
       query: () => '/login',
@@ -59,6 +62,7 @@ export const {
   useFetchMoviesQuery,
   useFetchMovieQuery,
   useFetchSimilarMoviesQuery,
+  useFetchMovieCommentsQuery,
   useFetchPromoMovieQuery,
   useFetchAuthDataQuery,
   useFetchLoginMutation,
