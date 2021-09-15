@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GenresList from '../genres-list/genres-list';
 import Header from '../header/header';
+import Footer from '../footer/footer';
 import Spinner from '../spinner/spinner';
 import { useFetchPromoMovieQuery } from '../../features/api/api-slice';
 import { AppRoute } from '../../const';
@@ -67,18 +68,7 @@ export default function MainScreen(): JSX.Element {
       </section>
       <div className="page-content">
         <GenresList onCardHover={onCardHover}/>
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to={AppRoute.ROOT} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-          <div className="copyright">
-            <p>© 2021 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </div>
   );

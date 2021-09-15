@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import FilmCardsList from '../film-cards-list/film-cards-list';
+import Footer from '../footer/footer';
 import { IMovieDataAdapted } from '../../common/types';
 import { CARDS_NUMBER } from '../../const';
 
@@ -43,18 +44,7 @@ export default function MyListScreen({filmsData}: Props): JSX.Element {
           <FilmCardsList filmsData={filmsData} cardNumbers={CARDS_NUMBER} onCardHover={onCardHover}/>
         </div>
       </section>
-      <footer className="page-footer">
-        <div className="logo">
-          <a href="main.html" className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
