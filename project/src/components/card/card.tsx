@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { IMovieDataAdapted } from '../../common/types';
 import { AppRoute } from '../../const';
@@ -16,6 +16,11 @@ export default function Card(props: Props): JSX.Element {
   const {filmData, onCardHover} = props;
   const [isPlaying, setIsPlaying] = useState(false);
   const history = useHistory();
+
+  useEffect(() =>
+    () => {
+      clearTimeout(timeout);
+    });
 
   const onMouseEnter = (evt: React.MouseEvent<HTMLElement>): void => {
     timeout = setTimeout(() => {

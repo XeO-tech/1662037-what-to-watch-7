@@ -6,11 +6,13 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import Spinner from '../spinner/spinner';
 import { useFetchMovieQuery, useFetchSimilarMoviesQuery } from '../../features/api/api-slice';
-import { SIMILAR_FILMS_NUMBER } from '../../const';
+import { useAppSelector } from '../../app/hooks';
+import { SIMILAR_FILMS_NUMBER, AuthStatus } from '../../const';
 
 
 export default function MovieScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
+  const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
 
   const {
     data: movieData,
@@ -61,12 +63,15 @@ export default function MovieScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
+
+                {isAuthentificated &&
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width={19} height={20}>
                     <use xlinkHref="#add" />
                   </svg>
                   <span>My list</span>
-                </button>
+                </button>}
+
                 <a href="add-review.html" className="btn film-card__button">Add review</a>
               </div>
             </div>
@@ -85,7 +90,7 @@ export default function MovieScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           {isSimilarMovieDataFetchSuccess && (filteredSimilarMoviesData.length === 0) ?
-            'No similair movies found' :
+            'No similar movies found' :
             <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} filmsData={filteredSimilarMoviesData} onCardHover={() => void 0}/>}
         </section>
         <Footer />
