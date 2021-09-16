@@ -49,9 +49,11 @@ export default function App(): JSX.Element {
       <Route exact path={AppRoute.FILM}>
         <MovieScreen />
       </Route>
-      <Route exact path={AppRoute.REVIEW}>
-        <ReviewScreen filmData={moviesData[0]}/>
-      </Route>
+      <PrivateRoute
+        exact
+        path={AppRoute.REVIEW}
+        render={() => <ReviewScreen />}
+      />
       <Route exact path={AppRoute.PLAYER}>
         <PlayerScreen filmData={moviesData[0]}/>
       </Route>
