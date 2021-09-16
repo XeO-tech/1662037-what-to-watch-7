@@ -21,7 +21,7 @@ export default function ReviewScreen(): JSX.Element {
     isError,
   } = useFetchMovieQuery(id);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors: formErrors, isValid: isFormValid } } = useForm({mode: 'onChange'});
 
   if (isFetching) {
     return <Spinner />;
@@ -184,12 +184,12 @@ export default function ReviewScreen(): JSX.Element {
               defaultValue={''}
             />
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+              <button className="add-review__btn" type="submit" disabled={!isFormValid}>Post</button>
             </div>
           </div>
         </form>
-        {errors.rating && <p style={{color: 'red'}}>{errors.rating.message}</p>}
-        {errors.comment && <p style={{color: 'red'}}>{errors.comment.message}</p>}
+        {formErrors.rating && <p style={{color: 'red'}}>{formErrors.rating.message}</p>}
+        {formErrors.comment && <p style={{color: 'red'}}>{formErrors.comment.message}</p>}
       </div>
     </section>
   );
