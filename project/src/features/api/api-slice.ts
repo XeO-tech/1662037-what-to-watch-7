@@ -1,8 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData, ICommentData } from '../../common/types';
+import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData, ICommentData, ICommentFormData } from '../../common/types';
 import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
 import { RootState } from '../../app/store';
 
+interface ICommentPostQueryInput {
+  id: string,
+  body: ICommentFormData,
+}
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -61,6 +65,14 @@ export const apiSlice = createApi({
         method: 'DELETE',
       }),
     }),
+
+    postComment: builder.mutation<ICommentData, ICommentPostQueryInput>({
+      query: ({id, body}) => ({
+        url: `/comments/${id}`,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -74,5 +86,6 @@ export const {
   useFetchAuthDataQuery,
   useFetchLoginMutation,
   useFetchLogoutMutation,
+  usePostCommentMutation,
 } = apiSlice;
 

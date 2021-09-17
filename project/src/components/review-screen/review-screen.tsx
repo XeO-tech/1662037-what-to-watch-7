@@ -1,25 +1,26 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useFetchMovieQuery } from '../../features/api/api-slice';
+import { useFetchMovieQuery, usePostCommentMutation } from '../../features/api/api-slice';
 import Header from '../header/header';
 import Spinner from '../spinner/spinner';
-import { ICommentData } from '../../common/types';
+import { ICommentFormData } from '../../common/types';
+import { AppRoute } from '../../const';
 
-
-interface IFormData {
-  rating: string,
-  comment: string,
-}
 
 export default function ReviewScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
+  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
+  const submitButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
+  const history = useHistory();
 
   const {
     data: movieDate,
     isFetching,
     isError,
   } = useFetchMovieQuery(id);
+
+  const [postComment] = usePostCommentMutation();
 
   const { register, handleSubmit, formState: { errors: formErrors, isValid: isFormValid } } = useForm({mode: 'onChange'});
 
@@ -31,8 +32,23 @@ export default function ReviewScreen(): JSX.Element {
     return <p>Couldn&apos;t load data from server</p>;
   }
 
-  const onSubmit = (data: ICommentData) => {
-    console.log(data);
+  const getFormElements = () => [...Array.from(formRef.current.querySelectorAll('input')), formRef.current.querySelector('textarea') as HTMLTextAreaElement, submitButtonRef.current];
+
+  const disableFormElements = () => getFormElements().forEach((element) => element.disabled = true);
+
+  const enableFormElements = () => getFormElements().forEach((element) => element.disabled = false);
+
+  const onSubmit = (data: ICommentFormData) => {
+    disableFormElements();
+    postComment({id, body: data})
+      .unwrap()
+      .then(() => {
+        enableFormElements();
+        history.push(AppRoute.FILM.replace(/:id/, id));
+      })
+      .catch(() => {
+        enableFormElements();
+      });
   };
 
   return (
@@ -48,7 +64,11 @@ export default function ReviewScreen(): JSX.Element {
         </div>
       </div>
       <div className="add-review">
-        <form onSubmit={handleSubmit(onSubmit)} className="add-review__form">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          ref={formRef}
+          className="add-review__form"
+        >
           <div className="rating">
             <div className="rating__stars">
               <input
@@ -184,7 +204,13 @@ export default function ReviewScreen(): JSX.Element {
               defaultValue={''}
             />
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit" disabled={!isFormValid}>Post</button>
+              <button
+                className="add-review__btn"
+                type="submit"
+                disabled={!isFormValid}
+                ref={submitButtonRef}
+              >Post
+              </button>
             </div>
           </div>
         </form>

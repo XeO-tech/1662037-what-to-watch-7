@@ -69,3 +69,8 @@ export interface ICommentData {
   comment: string,
   date: string,
 }
+
+export interface ICommentFormData {
+  rating: string,
+  comment: string,
+}
