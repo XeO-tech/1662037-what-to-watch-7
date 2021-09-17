@@ -38,3 +38,5 @@ export const prepareGenresList = (moviesData: IMovieDataAdapted[]): string[] => 
   return [INITIAL_GENRE, ...uniqueGenres].slice(0,11);
 };
 
+export const getMovieFavoritesStatusForUrl = (isFavorite: boolean): number => isFavorite ? 0 : 1;
+

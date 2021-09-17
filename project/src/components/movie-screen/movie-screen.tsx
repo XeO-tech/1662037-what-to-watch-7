@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Redirect, Link } from 'react-router-dom';
 import Tabs from '../tabs/tabs';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import Spinner from '../spinner/spinner';
-import { useFetchMovieQuery, useFetchSimilarMoviesQuery } from '../../features/api/api-slice';
+import { useFetchMovieQuery, useFetchSimilarMoviesQuery, usePostToFavoritesMutation } from '../../features/api/api-slice';
 import { useAppSelector } from '../../app/hooks';
-import { SIMILAR_FILMS_NUMBER, AuthStatus } from '../../const';
+import { getMovieFavoritesStatusForUrl } from '../../utils/utils';
+import { SIMILAR_FILMS_NUMBER, AuthStatus, AppRoute } from '../../const';
 
 
 export default function MovieScreen(): JSX.Element {
@@ -26,6 +27,8 @@ export default function MovieScreen(): JSX.Element {
     isSuccess: isSimilarMovieDataFetchSuccess,
   } = useFetchSimilarMoviesQuery(id);
 
+  const [postToFavorites] = usePostToFavoritesMutation();
+
   const filteredSimilarMoviesData = similarMoviesData.filter((similarMovieData) => similarMovieData.id !== Number(id));
 
   if (isMovieDataFetching) {
@@ -39,6 +42,9 @@ export default function MovieScreen(): JSX.Element {
     return <p>Could not load data from server. Try again later</p>;
   }
 
+  const onAddToMyListButtonClick = () => {
+    postToFavorites({id, status: getMovieFavoritesStatusForUrl(movieData.isFavorite)});
+  };
 
   return (
     <div>
@@ -65,14 +71,14 @@ export default function MovieScreen(): JSX.Element {
                 </button>
 
                 {isAuthentificated &&
-                <button className="btn btn--list film-card__button" type="button">
+                <button onClick={onAddToMyListButtonClick} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use xlinkHref="#add" />
+                    <use href={movieData.isFavorite ? 'in-list': '#add'} />
                   </svg>
                   <span>My list</span>
                 </button>}
 
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <Link to={AppRoute.REVIEW.replace(/:id/, id)} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>

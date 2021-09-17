@@ -8,6 +8,11 @@ interface ICommentPostQueryInput {
   body: ICommentFormData,
 }
 
+interface IFavoritesPostqueryInput {
+  id: string,
+  status: number,
+}
+
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -73,6 +78,14 @@ export const apiSlice = createApi({
         body,
       }),
     }),
+
+    postToFavorites: builder.mutation<IMovieDataAdapted, IFavoritesPostqueryInput>({
+      query: ({id, status}) => ({
+        url: `/favorite/${id}/${status}`,
+        method: 'POST',
+      }),
+      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+    }),
   }),
 });
 
@@ -87,5 +100,6 @@ export const {
   useFetchLoginMutation,
   useFetchLogoutMutation,
   usePostCommentMutation,
+  usePostToFavoritesMutation,
 } = apiSlice;
 
