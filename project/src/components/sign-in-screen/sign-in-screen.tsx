@@ -1,4 +1,6 @@
 import React from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
@@ -26,12 +28,17 @@ export default function SignInScreen(): JSX.Element {
   const [login] = useFetchLoginMutation();
 
   const onSubmit = (data: ILoginFormData) => {
-    login({email: data.email, password: data.password});
-    history.push(AppRoute.ROOT);
+    login({email: data.email, password: data.password})
+      .unwrap()
+      .then(() => history.push(AppRoute.ROOT))
+      .catch(() => toast.error('Login failed. Try again later.', {
+        position: toast.POSITION.TOP_LEFT,
+      }));
   };
 
   return (
     <div className="user-page">
+      <ToastContainer />
       <header className="page-header user-page__head">
         <div className="logo">
           <a href="main.html" className="logo__link">

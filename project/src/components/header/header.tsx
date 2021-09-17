@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAppSelector } from '../../app/hooks';
 import { useFetchLogoutMutation } from '../../features/api/api-slice';
 import { AppRoute, AuthStatus } from '../../const';
@@ -13,11 +15,16 @@ export default function Header(): JSX.Element {
   const [fetchLogut] = useFetchLogoutMutation();
 
   const onSignOutClick = (): void => {
-    fetchLogut();
+    fetchLogut()
+      .unwrap()
+      .catch(() => toast.error('Logout failed. Try again later.', {
+        position: toast.POSITION.TOP_LEFT,
+      }));
   };
 
   const authorizedUserLink = (
     <>
+      <ToastContainer />
       <li className="user-block__item">
         <div className="user-block__avatar">
           <Link
