@@ -1,21 +1,26 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import GenresList from '../genres-list/genres-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import Spinner from '../spinner/spinner';
-import { useFetchPromoMovieQuery } from '../../features/api/api-slice';
-import { AppRoute } from '../../const';
+import { useFetchPromoMovieQuery, usePostToFavoritesMutation } from '../../features/api/api-slice';
+import { useAppSelector } from '../../app/hooks';
+import { getMovieFavoritesStatusForUrl } from '../../utils/utils';
+import { AuthStatus } from '../../const';
+
 
 export default function MainScreen(): JSX.Element {
   const [activeCard, setActiveCard] = useState<number | null>(null);
+  const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
 
   const {
     data: promoMovieData,
     isFetching,
     isError,
   } = useFetchPromoMovieQuery();
+
+  const [postToFavorites] = usePostToFavoritesMutation();
 
   if (isFetching) {
     return <Spinner />;
@@ -27,6 +32,10 @@ export default function MainScreen(): JSX.Element {
 
   const onCardHover = (filmId: number): void => {
     setActiveCard(filmId);
+  };
+
+  const onAddToMyListButtonClick = () => {
+    postToFavorites({id: String(promoMovieData.id), status: getMovieFavoritesStatusForUrl(promoMovieData.isFavorite)});
   };
 
   return (
@@ -55,12 +64,13 @@ export default function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use xlinkHref="#add" />
-                  </svg>
-                  <span>My list</span>
-                </button>
+                {isAuthentificated &&
+                  <button onClick={onAddToMyListButtonClick} className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width={19} height={20}>
+                      <use href={promoMovieData.isFavorite ? '#in-list': '#add'} />
+                    </svg>
+                    <span>My list</span>
+                  </button>}
               </div>
             </div>
           </div>
