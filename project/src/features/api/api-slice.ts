@@ -25,7 +25,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['MovieData', 'AllMoviesData', 'PromoMovie'],
+  tagTypes: ['MovieData', 'AllMoviesData', 'PromoMovie', 'Comments'],
   endpoints: (builder) => ({
 
     fetchMovies: builder.query<IMovieDataAdapted[], void>({
@@ -36,6 +36,7 @@ export const apiSlice = createApi({
 
     fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
       query: () => '/promo',
+      providesTags: ['PromoMovie'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
 
@@ -52,6 +53,7 @@ export const apiSlice = createApi({
 
     fetchMovieComments: builder.query<ICommentData[], string>({
       query: (id) => ({ url: `comments/${id}` }),
+      providesTags: ['Comments'],
     }),
 
     fetchAuthData: builder.query<IAuthDataAdapted, void>({
@@ -81,6 +83,7 @@ export const apiSlice = createApi({
         method: 'POST',
         body,
       }),
+      invalidatesTags: ['Comments'],
     }),
 
     postToFavorites: builder.mutation<IMovieDataAdapted, IFavoritesPostqueryInput>({
@@ -88,7 +91,7 @@ export const apiSlice = createApi({
         url: `/favorite/${id}/${status}`,
         method: 'POST',
       }),
-      invalidatesTags: ['MovieData'],
+      invalidatesTags: ['MovieData', 'PromoMovie'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
   }),
