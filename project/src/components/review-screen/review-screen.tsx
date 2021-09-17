@@ -10,8 +10,8 @@ import { AppRoute } from '../../const';
 
 export default function ReviewScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
-  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
-  const submitButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
+  const formRef = useRef<HTMLFormElement>(null);
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
   const history = useHistory();
 
   const {
@@ -32,7 +32,12 @@ export default function ReviewScreen(): JSX.Element {
     return <p>Couldn&apos;t load data from server</p>;
   }
 
-  const getFormElements = () => [...Array.from(formRef.current.querySelectorAll('input')), formRef.current.querySelector('textarea') as HTMLTextAreaElement, submitButtonRef.current];
+  const getFormElements = () => {
+    if (formRef.current !== null && submitButtonRef.current !== null) {
+      return [...Array.from(formRef.current.querySelectorAll('input')), formRef.current.querySelector('textarea') as HTMLTextAreaElement, submitButtonRef.current];
+    }
+    return [];
+  };
 
   const disableFormElements = () => getFormElements().forEach((element) => element.disabled = true);
 
