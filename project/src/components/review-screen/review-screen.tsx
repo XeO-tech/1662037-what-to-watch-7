@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useFetchMovieQuery, usePostCommentMutation } from '../../features/api/api-slice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from '../header/header';
 import Spinner from '../spinner/spinner';
 import { ICommentFormData } from '../../common/types';
@@ -53,11 +55,15 @@ export default function ReviewScreen(): JSX.Element {
       })
       .catch(() => {
         enableFormElements();
+        toast.error('Posting comment failed. Try again later.', {
+          position: toast.POSITION.TOP_LEFT,
+        });
       });
   };
 
   return (
     <section className="film-card film-card--full">
+      <ToastContainer />
       <div className="film-card__header">
         <div className="film-card__bg">
           <img src={movieDate.backgroundImage} alt={movieDate.name} />
