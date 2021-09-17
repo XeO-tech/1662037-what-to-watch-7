@@ -25,9 +25,12 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['MovieData', 'AllMoviesData', 'PromoMovie'],
   endpoints: (builder) => ({
+
     fetchMovies: builder.query<IMovieDataAdapted[], void>({
       query: () => '/films',
+      providesTags: ['AllMoviesData'],
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
@@ -38,6 +41,7 @@ export const apiSlice = createApi({
 
     fetchMovie: builder.query<IMovieDataAdapted, string>({
       query: (id) => ({ url: `films/${id}` }),
+      providesTags: ['MovieData'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
 
@@ -84,6 +88,7 @@ export const apiSlice = createApi({
         url: `/favorite/${id}/${status}`,
         method: 'POST',
       }),
+      invalidatesTags: ['MovieData'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
   }),

@@ -73,11 +73,10 @@ export default function MovieScreen(): JSX.Element {
                 {isAuthentificated &&
                 <button onClick={onAddToMyListButtonClick} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use href={movieData.isFavorite ? 'in-list': '#add'} />
+                    <use href={movieData.isFavorite ? '#in-list': '#add'} />
                   </svg>
                   <span>My list</span>
                 </button>}
-
                 <Link to={AppRoute.REVIEW.replace(/:id/, id)} className="btn film-card__button">Add review</Link>
               </div>
             </div>
