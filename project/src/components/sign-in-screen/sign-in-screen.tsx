@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
+import Header from '../header/header';
 import {  useFetchLoginMutation } from '../../features/api/api-slice';
 import { AuthStatus, AppRoute } from '../../const';
 import Footer from '../footer/footer';
@@ -24,7 +25,7 @@ export default function SignInScreen(): JSX.Element {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const history = useHistory<historyLocationStateType>();
   const authStatus = useAppSelector((state) => state.auth.status);
-  const redirectUrl = history.location.state ? history.location.state.from: AppRoute.ROOT;
+  const redirectUrl = history.location.state ? history.location.state.from : AppRoute.ROOT;
 
   const [login] = useFetchLoginMutation();
 
@@ -46,16 +47,7 @@ export default function SignInScreen(): JSX.Element {
   return (
     <div className="user-page">
       <ToastContainer />
-      <header className="page-header user-page__head">
-        <div className="logo">
-          <a href="main.html" className="logo__link">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-        <h1 className="page-title user-page__title">Sign in</h1>
-      </header>
+      <Header />
       <div className="sign-in user-page__content">
         <form onSubmit={handleSubmit(onSubmit)} className="sign-in__form">
           <div className="sign-in__fields">

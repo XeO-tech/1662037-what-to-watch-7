@@ -13,6 +13,7 @@ export default function Header(): JSX.Element {
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
   const location = useLocation();
   const isMyListPage = location.pathname === AppRoute.MY_LIST;
+  const isLoginPage = location.pathname === AppRoute.LOGIN;
   const { pathname } = useLocation();
 
 
@@ -50,16 +51,17 @@ export default function Header(): JSX.Element {
 
   const unAuthorizedUserLink = (
     <li className="user-block__item">
+      {!isLoginPage &&
       <Link
         to={{pathname: AppRoute.LOGIN, state: {from: pathname}}}
         className="user-block__link"
       >Sign in
-      </Link>
+      </Link>}
     </li>
   );
 
   return (
-    <header className={`page-header ${isMyListPage ? 'user-page__head' : 'film-card__head'}`}>
+    <header className={`page-header ${isMyListPage || isLoginPage ? 'user-page__head' : 'film-card__head'}`}>
       <ToastContainer />
       <div className="logo">
         <Link to={AppRoute.ROOT} className="logo__link">
@@ -68,7 +70,7 @@ export default function Header(): JSX.Element {
           <span className="logo__letter logo__letter--3">W</span>
         </Link>
       </div>
-      {isMyListPage && <h1 className="page-title user-page__title">My list</h1>}
+      {(isMyListPage || isLoginPage) && <h1 className="page-title user-page__title">{isMyListPage ? 'My list' : 'Sign in'}</h1>}
       <ul className="user-block">
         {isAuthentificated ? authorizedUserLink : unAuthorizedUserLink}
       </ul>
