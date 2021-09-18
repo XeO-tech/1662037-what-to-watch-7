@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from 'react-hook-form';
@@ -21,11 +22,11 @@ export default function SignInScreen(): JSX.Element {
   const history = useHistory();
   const authStatus = useAppSelector((state) => state.auth.status);
 
-  if (authStatus === AuthStatus.AUTH) {
-    history.push(AppRoute.ROOT);
-  }
-
   const [login] = useFetchLoginMutation();
+
+  if (authStatus === AuthStatus.AUTH) {
+    return <Redirect to={AppRoute.ROOT} />;
+  }
 
   const onSubmit = (data: ILoginFormData) => {
     login({email: data.email, password: data.password})

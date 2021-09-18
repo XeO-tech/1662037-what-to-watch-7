@@ -1,12 +1,9 @@
-import React, {useState} from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setGenre } from '../../features/genres/genres-slice';
+import React, { useState } from 'react';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
-import { INITIAL_GENRE } from '../../const';
 import { prepareGenresList } from '../../utils/utils';
 import { IMovieDataAdapted } from '../../common/types';
-import { CARDS_NUMBER } from '../../const';
+import { CARDS_NUMBER, INITIAL_GENRE } from '../../const';
 
 type Props = {
   onCardHover:(arg0: number) => void,
@@ -15,10 +12,8 @@ type Props = {
 
 export default function GenresList(props: Props): JSX.Element {
   const {onCardHover, moviesData} = props;
-  const currentGenre = useAppSelector((state) => state.genre.currentGenre);
+  const [currentGenre, setCurrentGenre] = useState(INITIAL_GENRE);
   const genresList = prepareGenresList(moviesData);
-
-  const dispatch = useAppDispatch();
 
   const selectMoviesDataByGenre = (data: IMovieDataAdapted[]) => {
     if (currentGenre === INITIAL_GENRE) {
@@ -38,7 +33,7 @@ export default function GenresList(props: Props): JSX.Element {
   const onGenreClick = (e: React.MouseEvent<HTMLElement>): void => {
     const targetElement = e.target as HTMLElement;
     setShowedMoviesNumber(CARDS_NUMBER);
-    dispatch(setGenre(targetElement.textContent as string));
+    setCurrentGenre(targetElement.textContent as string);
   };
 
   const onShowMoreClick = (): void => {
