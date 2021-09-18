@@ -36,7 +36,6 @@ export const apiSlice = createApi({
 
     fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
       query: () => '/promo',
-      providesTags: ['PromoMovie'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
 
@@ -91,7 +90,7 @@ export const apiSlice = createApi({
         url: `/favorite/${id}/${status}`,
         method: 'POST',
       }),
-      invalidatesTags: ['MovieData', 'PromoMovie'],
+      invalidatesTags: ['MovieData'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
   }),
