@@ -10,28 +10,17 @@ import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import Spinner from '../spinner/spinner';
 import PrivateRoute from '../private-route/private-route';
-import { useFetchMoviesQuery, useFetchAuthDataQuery } from '../../features/api/api-slice';
+import { useFetchAuthDataQuery } from '../../features/api/api-slice';
 
 
 export default function App(): JSX.Element {
   const {
-    data: moviesData = [],
-    isFetching: isMovieDataFetching,
-    isError: isMoviesDataFetchError,
-  } = useFetchMoviesQuery();
-
-  const {
     isFetching: isAuthDataFetching,
   } = useFetchAuthDataQuery();
 
-  if (isMovieDataFetching || isAuthDataFetching) {
+  if (isAuthDataFetching) {
     return <Spinner />;
   }
-
-  if (isMoviesDataFetchError) {
-    return <p>Could not load data from server. Try again later</p>;
-  }
-
 
   return (
     <Switch>
@@ -41,11 +30,11 @@ export default function App(): JSX.Element {
       <Route exact path={AppRoute.LOGIN}>
         <SignInScreen />
       </Route>
-      <PrivateRoute
+      {/* <PrivateRoute
         exact
         path={AppRoute.MY_LIST}
         render={() => <MyListScreen filmsData={moviesData} />}
-      />
+      /> */}
       <Route exact path={AppRoute.FILM}>
         <MovieScreen />
       </Route>
@@ -54,9 +43,9 @@ export default function App(): JSX.Element {
         path={AppRoute.REVIEW}
         render={() => <ReviewScreen />}
       />
-      <Route exact path={AppRoute.PLAYER}>
+      {/* <Route exact path={AppRoute.PLAYER}>
         <PlayerScreen filmData={moviesData[0]}/>
-      </Route>
+      </Route> */}
       <Route path='*'>
         <NotFoundScreen />
       </Route>

@@ -6,7 +6,7 @@ import GenresList from '../genres-list/genres-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import Spinner from '../spinner/spinner';
-import { useFetchPromoMovieQuery, usePostToFavoritesMutation } from '../../features/api/api-slice';
+import { useFetchMoviesQuery, useFetchPromoMovieQuery, usePostToFavoritesMutation } from '../../features/api/api-slice';
 import { useAppSelector } from '../../app/hooks';
 import { getMovieFavoritesStatusForUrl } from '../../utils/utils';
 import { AuthStatus, AppRoute } from '../../const';
@@ -19,9 +19,15 @@ export default function MainScreen(): JSX.Element {
 
   const {
     data: promoMovieData,
-    isFetching,
-    isError,
+    isFetching: isPromoMovieDataFetching,
+    isError: isPromoMovieDataFetchError,
   } = useFetchPromoMovieQuery();
+
+  const {
+    data: moviesData = [],
+    isFetching: isMovieDataFetching,
+    isError: isMoviesDataFetchError,
+  } = useFetchMoviesQuery();
 
   const [postToFavorites] = usePostToFavoritesMutation();
 
@@ -31,11 +37,11 @@ export default function MainScreen(): JSX.Element {
     }
   }, [promoMovieData]);
 
-  if (isFetching) {
+  if (isPromoMovieDataFetching || isMovieDataFetching) {
     return <Spinner />;
   }
 
-  if (isError || !promoMovieData) {
+  if (isPromoMovieDataFetchError || isMoviesDataFetchError || !promoMovieData || !moviesData) {
     return <p>Could not load data from server. Try again later</p>;
   }
 
@@ -94,7 +100,7 @@ export default function MainScreen(): JSX.Element {
         </div>
       </section>
       <div className="page-content">
-        <GenresList onCardHover={onCardHover}/>
+        <GenresList onCardHover={onCardHover} moviesData={moviesData}/>
         <Footer />
       </div>
     </div>

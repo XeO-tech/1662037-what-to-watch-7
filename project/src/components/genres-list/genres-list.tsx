@@ -4,15 +4,17 @@ import { setGenre } from '../../features/genres/genres-slice';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
 import { INITIAL_GENRE } from '../../const';
-import { useFetchMoviesQueryState } from '../../features/api/api-slice';
 import { prepareGenresList } from '../../utils/utils';
 import { IMovieDataAdapted } from '../../common/types';
 import { CARDS_NUMBER } from '../../const';
 
+type Props = {
+  onCardHover:(arg0: number) => void,
+  moviesData: IMovieDataAdapted[],
+}
 
-export default function GenresList({onCardHover}: {onCardHover:(arg0: number) => void}): JSX.Element {
-
-  const { data: moviesData = []} = useFetchMoviesQueryState();
+export default function GenresList(props: Props): JSX.Element {
+  const {onCardHover, moviesData} = props;
   const currentGenre = useAppSelector((state) => state.genre.currentGenre);
   const genresList = prepareGenresList(moviesData);
 
