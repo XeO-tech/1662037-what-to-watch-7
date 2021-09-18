@@ -25,7 +25,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Comments'],
+  tagTypes: ['Comments', 'Favorites'],
   endpoints: (builder) => ({
 
     fetchMovies: builder.query<IMovieDataAdapted[], void>({
@@ -47,6 +47,12 @@ export const apiSlice = createApi({
 
     fetchSimilarMovies: builder.query<IMovieDataAdapted[], string>({
       query: (id) => ({ url: `films/${id}/similar` }),
+      transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
+    }),
+
+    fetchFavoritesMovies: builder.query<IMovieDataAdapted[], void>({
+      query: () => '/favorite',
+      providesTags: ['Favorites'],
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
@@ -90,6 +96,7 @@ export const apiSlice = createApi({
         url: `/favorite/${id}/${status}`,
         method: 'POST',
       }),
+      invalidatesTags: ['Favorites'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
   }),
@@ -100,6 +107,7 @@ export const {
   useFetchMoviesQuery,
   useFetchMovieQuery,
   useFetchSimilarMoviesQuery,
+  useFetchFavoritesMoviesQuery,
   useFetchMovieCommentsQuery,
   useFetchPromoMovieQuery,
   useFetchAuthDataQuery,

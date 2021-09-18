@@ -112,7 +112,7 @@ export default function MovieScreen(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
           {isSimilarMovieDataFetchSuccess && (filteredSimilarMoviesData.length === 0) ?
             'No similar movies found' :
-            <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} filmsData={filteredSimilarMoviesData} onCardHover={() => void 0}/>}
+            <FilmCardsList cardNumbers={SIMILAR_FILMS_NUMBER} moviesData={filteredSimilarMoviesData} onCardHover={() => void 0}/>}
         </section>
         <Footer />
       </div>

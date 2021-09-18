@@ -30,11 +30,11 @@ export default function App(): JSX.Element {
       <Route exact path={AppRoute.LOGIN}>
         <SignInScreen />
       </Route>
-      {/* <PrivateRoute
+      <PrivateRoute
         exact
         path={AppRoute.MY_LIST}
-        render={() => <MyListScreen filmsData={moviesData} />}
-      /> */}
+        render={() => <MyListScreen />}
+      />
       <Route exact path={AppRoute.FILM}>
         <MovieScreen />
       </Route>

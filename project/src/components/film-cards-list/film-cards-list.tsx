@@ -4,20 +4,20 @@ import { IMovieDataAdapted } from '../../common/types';
 
 type Props = {
   cardNumbers: number,
-  filmsData: IMovieDataAdapted[],
+  moviesData: IMovieDataAdapted[],
   onCardHover: (arg0: number) => void;
 }
 
 export default function FilmCardsList(props: Props): JSX.Element {
-  const {cardNumbers, filmsData, onCardHover} = props;
+  const {cardNumbers, moviesData, onCardHover} = props;
 
-  if (filmsData.length === 0) {
+  if (moviesData.length === 0) {
     return <p>No movies found<br /></p>;
   }
 
   return (
     <div className="catalog__films-list">
-      {filmsData.slice(0, cardNumbers).map((film) => <Card key={film.id} movieData={film} onCardHover={() => onCardHover(film.id)}/>)}
+      {moviesData.slice(0, cardNumbers).map((film) => <Card key={film.id} movieData={film} onCardHover={() => onCardHover(film.id)}/>)}
     </div>
   );
 }

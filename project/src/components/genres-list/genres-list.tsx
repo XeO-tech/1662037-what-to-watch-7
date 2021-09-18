@@ -56,7 +56,7 @@ export default function GenresList(props: Props): JSX.Element {
           </li>
         ))}
       </ul>
-      <FilmCardsList cardNumbers={showedMoviesNumber} filmsData={filteredMoviesData} onCardHover={onCardHover}/>
+      <FilmCardsList cardNumbers={showedMoviesNumber} moviesData={filteredMoviesData} onCardHover={onCardHover}/>
       {isShowMoreButtonVisible && <ShowMoreButton onShowMoreClick={onShowMoreClick} />}
     </section>
   );
