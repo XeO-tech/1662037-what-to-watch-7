@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Tabs from '../tabs/tabs';
 import FilmCardsList from '../film-cards-list/film-cards-list';
 import Header from '../header/header';
@@ -14,6 +16,7 @@ import { SIMILAR_FILMS_NUMBER, AuthStatus, AppRoute } from '../../const';
 export default function MovieScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
+  const [isPromoFavorite, setIsPromoFavorite] = useState<boolean>(false);
 
   const {
     data: movieData,
@@ -26,6 +29,12 @@ export default function MovieScreen(): JSX.Element {
     data: similarMoviesData = [],
     isSuccess: isSimilarMovieDataFetchSuccess,
   } = useFetchSimilarMoviesQuery(id);
+
+  useEffect(() => {
+    if (movieData) {
+      setIsPromoFavorite(movieData.isFavorite);
+    }
+  }, [movieData]);
 
   const [postToFavorites] = usePostToFavoritesMutation();
 
@@ -43,11 +52,18 @@ export default function MovieScreen(): JSX.Element {
   }
 
   const onAddToMyListButtonClick = () => {
-    postToFavorites({id, status: getMovieFavoritesStatusForUrl(movieData.isFavorite)});
+    postToFavorites({id, status: getMovieFavoritesStatusForUrl(isPromoFavorite)})
+      .unwrap()
+      .then(() => setIsPromoFavorite(!isPromoFavorite))
+      .catch(() => toast.error('Couldn\'t add movie to favorite list. Try again later.', {
+        position: toast.POSITION.TOP_LEFT,
+      }));
   };
+
 
   return (
     <div>
+      <ToastContainer />
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
