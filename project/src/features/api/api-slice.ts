@@ -25,23 +25,23 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['MovieData', 'AllMoviesData', 'PromoMovie', 'Comments'],
+  tagTypes: ['Comments'],
   endpoints: (builder) => ({
 
     fetchMovies: builder.query<IMovieDataAdapted[], void>({
       query: () => '/films',
-      providesTags: ['AllMoviesData'],
       transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
     fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
       query: () => '/promo',
+      keepUnusedDataFor: 0,
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
 
     fetchMovie: builder.query<IMovieDataAdapted, string>({
       query: (id) => ({ url: `films/${id}` }),
-      providesTags: ['MovieData'],
+      keepUnusedDataFor: 0,
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
 
