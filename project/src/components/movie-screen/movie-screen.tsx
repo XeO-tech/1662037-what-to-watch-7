@@ -16,7 +16,7 @@ import { SIMILAR_FILMS_NUMBER, AuthStatus, AppRoute } from '../../const';
 export default function MovieScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
-  const [isPromoFavorite, setIsPromoFavorite] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   const {
     data: movieData,
@@ -32,7 +32,7 @@ export default function MovieScreen(): JSX.Element {
 
   useEffect(() => {
     if (movieData) {
-      setIsPromoFavorite(movieData.isFavorite);
+      setIsFavorite(movieData.isFavorite);
     }
   }, [movieData]);
 
@@ -52,9 +52,9 @@ export default function MovieScreen(): JSX.Element {
   }
 
   const onAddToMyListButtonClick = () => {
-    postToFavorites({id, status: getMovieFavoritesStatusForUrl(isPromoFavorite)})
+    postToFavorites({id, status: getMovieFavoritesStatusForUrl(isFavorite)})
       .unwrap()
-      .then(() => setIsPromoFavorite(!isPromoFavorite))
+      .then(() => setIsFavorite(!isFavorite))
       .catch(() => toast.error('Couldn\'t add movie to favorite list. Try again later.', {
         position: toast.POSITION.TOP_LEFT,
       }));
@@ -89,7 +89,7 @@ export default function MovieScreen(): JSX.Element {
                 {isAuthentificated &&
                 <button onClick={onAddToMyListButtonClick} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use href={movieData.isFavorite ? '#in-list': '#add'} />
+                    <use href={isFavorite ? '#in-list': '#add'} />
                   </svg>
                   <span>My list</span>
                 </button>}

@@ -90,7 +90,6 @@ export const apiSlice = createApi({
         url: `/favorite/${id}/${status}`,
         method: 'POST',
       }),
-      invalidatesTags: ['MovieData'],
       transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
     }),
   }),
