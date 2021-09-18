@@ -13,6 +13,8 @@ export default function Header(): JSX.Element {
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
   const location = useLocation();
   const isMyListPage = location.pathname === AppRoute.MY_LIST;
+  const { pathname } = useLocation();
+
 
   const [fetchLogut] = useFetchLogoutMutation();
 
@@ -49,7 +51,7 @@ export default function Header(): JSX.Element {
   const unAuthorizedUserLink = (
     <li className="user-block__item">
       <Link
-        to={AppRoute.LOGIN}
+        to={{pathname: AppRoute.LOGIN, state: {from: pathname}}}
         className="user-block__link"
       >Sign in
       </Link>

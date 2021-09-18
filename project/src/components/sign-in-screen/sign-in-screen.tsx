@@ -15,23 +15,29 @@ interface ILoginFormData {
   password: string,
 }
 
+interface historyLocationStateType {
+  from: string,
+}
+
 export default function SignInScreen(): JSX.Element {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
-
-  const history = useHistory();
+  const history = useHistory<historyLocationStateType>();
   const authStatus = useAppSelector((state) => state.auth.status);
+  const redirectUrl = history.location.state ? history.location.state.from: AppRoute.ROOT;
 
   const [login] = useFetchLoginMutation();
 
   if (authStatus === AuthStatus.AUTH) {
-    return <Redirect to={AppRoute.ROOT} />;
+    return <Redirect to={redirectUrl} />;
   }
 
   const onSubmit = (data: ILoginFormData) => {
     login({email: data.email, password: data.password})
       .unwrap()
-      .then(() => history.push(AppRoute.ROOT))
+      .then(() => {
+        history.push(redirectUrl);
+      })
       .catch(() => toast.error('Login failed. Try again later.', {
         position: toast.POSITION.TOP_LEFT,
       }));
