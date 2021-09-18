@@ -36,9 +36,6 @@ export default function SignInScreen(): JSX.Element {
   const onSubmit = (data: ILoginFormData) => {
     login({email: data.email, password: data.password})
       .unwrap()
-      .then(() => {
-        history.push(redirectUrl);
-      })
       .catch(() => toast.error('Login failed. Try again later.', {
         position: toast.POSITION.TOP_LEFT,
       }));
