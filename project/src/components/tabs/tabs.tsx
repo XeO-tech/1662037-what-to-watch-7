@@ -19,6 +19,7 @@ export default function Tabs (props: Props): JSX.Element {
 
   const {
     data: commentsData = [],
+    isFetching: isCommentsFetching,
     isSuccess: isCommentsFetchSuccess,
     isError: isCommentsFetchError,
   } = useFetchMovieCommentsQuery(id);
@@ -61,7 +62,7 @@ export default function Tabs (props: Props): JSX.Element {
           <DetailsTab movieData={movieData}/>
         </Route>
         <Route exact path={`${path}/reviews`}>
-          <ReviewsTab commentsData={commentsData} isCommentsFetchSuccess={isCommentsFetchSuccess} isCommentsFetchError={isCommentsFetchError} />
+          <ReviewsTab commentsData={commentsData} isCommentsFetching ={isCommentsFetching} isCommentsFetchSuccess={isCommentsFetchSuccess} isCommentsFetchError={isCommentsFetchError} />
         </Route>
         <Route exact path={`${path}`}>
           <OverviewTab movieData={movieData} />

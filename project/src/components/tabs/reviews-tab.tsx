@@ -1,15 +1,21 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import Spinner from '../spinner/spinner';
 import { ICommentData } from '../../common/types';
 
 type Props = {
   commentsData: ICommentData[],
+  isCommentsFetching: boolean
   isCommentsFetchSuccess: boolean,
   isCommentsFetchError: boolean,
 }
 
 export default function ReviewsTab(props: Props): JSX.Element {
-  const {commentsData, isCommentsFetchSuccess, isCommentsFetchError} = props;
+  const {commentsData, isCommentsFetching, isCommentsFetchSuccess, isCommentsFetchError} = props;
+
+  if (isCommentsFetching) {
+    return <Spinner />;
+  }
 
   return (
     <div className="film-card__reviews film-card__row">
