@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route, Switch, Redirect, useParams, useRouteMatch, Link, useLocation } from 'react-router-dom';
+import { Route, Switch, Redirect, useParams, useRouteMatch, Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { IMovieDataAdapted } from '../../common/types';
 import { defineRatingDescription, convertRunTimeMinutesToHours } from '../../utils/utils';
 import { useFetchMovieCommentsQuery } from '../../features/api/api-slice';
