@@ -1,10 +1,9 @@
 import React from 'react';
-import { Route, Switch, Redirect, useParams, useRouteMatch, Link } from 'react-router-dom';
+import { Route, Switch, Redirect, useParams, useRouteMatch, useLocation, Link } from 'react-router-dom';
 import OverviewTab from './overview-tab';
 import DetailsTab from './details-tab';
 import ReviewsTab from './reviews-tab';
 import { IMovieDataAdapted } from '../../common/types';
-import { AppRoute } from '../../const';
 
 type Props = {
   movieData: IMovieDataAdapted,
@@ -12,14 +11,13 @@ type Props = {
 
 export default function Tabs (props: Props): JSX.Element {
   const {movieData} = props;
-  const {path} = useRouteMatch();
-  const {tabName, id}: {tabName : string, id: string} = useParams();
+  const {path, url} = useRouteMatch();
+  const {tabName}: {tabName : string} = useParams();
+  const location = useLocation();
+  const currentTab = location.pathname.slice(location.pathname.lastIndexOf('/')+1)
+  console.log(currentTab);
 
   const TabAlias = ['Overview', 'Details', 'Reviews'];
-
-  if (tabName !== undefined && TabAlias.map((alias) => alias.toLowerCase()).every((element) => element !== tabName)) {
-    return <Redirect to={'/page-not-found'} />;
-  }
 
   return (
     <div className="film-card__desc">
@@ -37,7 +35,7 @@ export default function Tabs (props: Props): JSX.Element {
                   className={`film-nav__item ${isTabActive && 'film-nav__item--active'}`}
                 >
                   <Link
-                    to={AppRoute.FILM.replace(/:id\/:tabName/, `${id}${tabLink}`)}
+                    to={`${url}${tabLink}`}
                     className="film-nav__link"
                   >
                     {tabAlias}
@@ -48,17 +46,22 @@ export default function Tabs (props: Props): JSX.Element {
           }
         </ul>
       </nav>
-      <Switch>
-        <Route exact path={`${path}/details`}>
-          <DetailsTab movieData={movieData}/>
-        </Route>
-        <Route exact path={`${path}/reviews`}>
-          <ReviewsTab  />
-        </Route>
-        <Route exact path={`${path}`}>
-          <OverviewTab movieData={movieData} />
-        </Route>
-      </Switch>
+      <Route path={`${path}/:tabName?`}>
+        <Switch>
+          <Route exact path={`${path}/details`}>
+            <DetailsTab movieData={movieData}/>
+          </Route>
+          <Route exact path={`${path}/reviews`}>
+            <ReviewsTab  />
+          </Route>
+          <Route exact path={`${path}`}>
+            <OverviewTab movieData={movieData} />
+          </Route>
+          <Route path='*'>
+            <Redirect to={'/page-not-found'} />
+          </Route>
+        </Switch>
+      </Route>
     </div>
   );
 }
