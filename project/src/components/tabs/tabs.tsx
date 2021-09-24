@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Route, Switch, useParams, useRouteMatch, Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, Redirect, useParams, useRouteMatch, Link, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { IMovieDataAdapted } from '../../common/types';
-import { defineRatingDescription } from '../../utils/utils';
-import { convertRunTimeMinutesToHours } from '../../utils/utils';
+import { defineRatingDescription, convertRunTimeMinutesToHours } from '../../utils/utils';
 import { useFetchMovieCommentsQuery } from '../../features/api/api-slice';
-import { RunTimeFormat } from '../../const';
+import { RunTimeFormat, AppRoute } from '../../const';
 
 type Props = {
   movieData: IMovieDataAdapted,
@@ -110,7 +109,9 @@ export default function Tabs (props: Props): JSX.Element {
     Reviews: reviewsTab,
   };
 
-  const [activeTab, setActiveTab] = useState(Object.keys(TabsAliases)[0]);
+  if (tabName !== undefined && Object.keys(TabsAliases).map((alias) => alias.toLowerCase()).every((element) => element !== tabName)) {
+    return <Redirect to={'/page-not-found'} />;
+  }
 
   return (
     <div className="film-card__desc">
@@ -118,17 +119,17 @@ export default function Tabs (props: Props): JSX.Element {
         <ul className="film-nav__list">
           {
             Object.keys(TabsAliases).map((tabAlias) => {
-              const isActive = (tabName === undefined && tabAlias === 'Overview') || tabName === tabAlias.toLowerCase();
+              const isTabActive = (tabName === undefined && tabAlias === 'Overview') || tabName === tabAlias.toLowerCase();
 
               const tabLink = (tabAlias === 'Overview') ? '' : `/${tabAlias.toLowerCase()}`;
 
               return (
                 <li
                   key={tabAlias}
-                  className={`film-nav__item ${isActive && 'film-nav__item--active'}`}
+                  className={`film-nav__item ${isTabActive && 'film-nav__item--active'}`}
                 >
                   <Link
-                    to={`/films/${id}${tabLink}`}
+                    to={AppRoute.FILM.replace(/:id\/:tabName/, `${id}${tabLink}`)}
                     className="film-nav__link"
                   >
                     {tabAlias}
