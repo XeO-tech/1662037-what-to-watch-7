@@ -1,17 +1,18 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import Spinner from '../spinner/spinner';
-import { ICommentData } from '../../common/types';
+import { useFetchMovieCommentsQuery } from '../../features/api/api-slice';
 
-type Props = {
-  commentsData: ICommentData[],
-  isCommentsFetching: boolean
-  isCommentsFetchSuccess: boolean,
-  isCommentsFetchError: boolean,
-}
+export default function ReviewsTab(): JSX.Element {
+  const {id}: {id: string} = useParams();
 
-export default function ReviewsTab(props: Props): JSX.Element {
-  const {commentsData, isCommentsFetching, isCommentsFetchSuccess, isCommentsFetchError} = props;
+  const {
+    data: commentsData = [],
+    isFetching: isCommentsFetching,
+    isSuccess: isCommentsFetchSuccess,
+    isError: isCommentsFetchError,
+  } = useFetchMovieCommentsQuery(id);
 
   if (isCommentsFetching) {
     return <Spinner />;

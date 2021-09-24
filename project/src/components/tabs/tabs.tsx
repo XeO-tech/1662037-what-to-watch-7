@@ -4,25 +4,16 @@ import OverviewTab from './overview-tab';
 import DetailsTab from './details-tab';
 import ReviewsTab from './reviews-tab';
 import { IMovieDataAdapted } from '../../common/types';
-import { useFetchMovieCommentsQuery } from '../../features/api/api-slice';
 import { AppRoute } from '../../const';
 
 type Props = {
   movieData: IMovieDataAdapted,
-  id: string,
 }
 
 export default function Tabs (props: Props): JSX.Element {
-  const {movieData, id } = props;
+  const {movieData} = props;
   const {path} = useRouteMatch();
-  const {tabName}: {tabName : string} = useParams();
-
-  const {
-    data: commentsData = [],
-    isFetching: isCommentsFetching,
-    isSuccess: isCommentsFetchSuccess,
-    isError: isCommentsFetchError,
-  } = useFetchMovieCommentsQuery(id);
+  const {tabName, id}: {tabName : string, id: string} = useParams();
 
   const TabAlias = ['Overview', 'Details', 'Reviews'];
 
@@ -62,7 +53,7 @@ export default function Tabs (props: Props): JSX.Element {
           <DetailsTab movieData={movieData}/>
         </Route>
         <Route exact path={`${path}/reviews`}>
-          <ReviewsTab commentsData={commentsData} isCommentsFetching ={isCommentsFetching} isCommentsFetchSuccess={isCommentsFetchSuccess} isCommentsFetchError={isCommentsFetchError} />
+          <ReviewsTab  />
         </Route>
         <Route exact path={`${path}`}>
           <OverviewTab movieData={movieData} />

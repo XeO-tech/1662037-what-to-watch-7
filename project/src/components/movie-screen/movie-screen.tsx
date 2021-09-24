@@ -105,7 +105,7 @@ export default function MovieScreen(): JSX.Element {
             <div className="film-card__poster film-card__poster--big">
               <img src={movieData.posterImage} alt={`${movieData.name} poster`} width={218} height={327} />
             </div>
-            <Tabs movieData={movieData} id={id}/>
+            <Tabs movieData={movieData} />
           </div>
         </div>
       </section>
