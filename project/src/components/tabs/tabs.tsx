@@ -12,12 +12,8 @@ type Props = {
 }
 export default function Tabs (props: Props): JSX.Element {
   const {movieData, id } = props;
-  const {path, url} = useRouteMatch();
+  const {path} = useRouteMatch();
   const {tabName}: {tabName : string} = useParams();
-  const params = useParams();
-  const location = useLocation();
-
-  console.log('url: ', url, 'path: ', path, 'tabName:', tabName);
 
   const {
     data: commentsData = [],

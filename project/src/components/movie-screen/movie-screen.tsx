@@ -46,7 +46,9 @@ export default function MovieScreen(): JSX.Element {
 
   if (isMovieDataFetchError || !movieData) {
     if ('status' in movieDataFetchError) {
-      movieDataFetchError.status === 404 && <Redirect to={'/movie-not-found'} />;
+      if (movieDataFetchError.status === 404) {
+        return <Redirect to={'/movie-not-found'} />;
+      }
     }
     return <p>Could not load data from server. Try again later</p>;
   }
