@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { Route, Switch, useParams, useRouteMatch, Link, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { IMovieDataAdapted } from '../../common/types';
 import { defineRatingDescription } from '../../utils/utils';
@@ -12,6 +13,12 @@ type Props = {
 }
 export default function Tabs (props: Props): JSX.Element {
   const {movieData, id } = props;
+  const {path, url} = useRouteMatch();
+  const {tabName}: {tabName : string} = useParams();
+  const params = useParams();
+  const location = useLocation();
+
+  console.log('url: ', url, 'path: ', path, 'tabName:', tabName);
 
   const {
     data: commentsData = [],
@@ -109,23 +116,34 @@ export default function Tabs (props: Props): JSX.Element {
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          {Object.keys(TabsAliases).map((tabName) => (
-            <li
-              key={tabName}
-              className={`film-nav__item ${activeTab === tabName ?'film-nav__item--active' : ''}`}
-            >
-              <div
-                style={{cursor: 'pointer'}}
-                className="film-nav__link"
-                onClick={() => setActiveTab(tabName)}
-              >
-                {tabName}
-              </div>
-            </li>
-          ))}
+          {
+            Object.keys(TabsAliases).map((tabAlias) => {
+              const isActive = (tabName === undefined && tabAlias === 'Overview') || tabName === tabAlias.toLowerCase();
+
+              const tabLink = (tabAlias === 'Overview') ? '' : `/${tabAlias.toLowerCase()}`;
+
+              return (
+                <li
+                  key={tabAlias}
+                  className={`film-nav__item ${isActive && 'film-nav__item--active'}`}
+                >
+                  <Link
+                    to={`/films/${id}${tabLink}`}
+                    className="film-nav__link"
+                  >
+                    {tabAlias}
+                  </Link>
+                </li>
+              );
+            })
+          }
         </ul>
       </nav>
-      {TabsAliases[activeTab]}
+      <Switch>
+        <Route exact path={`${path}/details`}>{detailsTab}</Route>
+        <Route exact path={`${path}/reviews`}>{reviewsTab}</Route>
+        <Route exact path={`${path}`}>{overviewTab}</Route>
+      </Switch>
     </div>
   );
 }

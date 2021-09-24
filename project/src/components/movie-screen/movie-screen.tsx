@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect, Link } from 'react-router-dom';
+import { Route, Switch, useParams, Redirect, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tabs from '../tabs/tabs';
