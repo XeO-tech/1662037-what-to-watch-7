@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, useParams, useRouteMatch, Link, useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { IMovieDataAdapted } from '../../common/types';
 import { defineRatingDescription, convertRunTimeMinutesToHours } from '../../utils/utils';
 import { useFetchMovieCommentsQuery } from '../../features/api/api-slice';
@@ -99,13 +100,13 @@ export default function Tabs (props: Props): JSX.Element {
     </div>
   );
 
-  const TabsAliases: {[key: string]: JSX.Element} = {
+  const TabAlias: {[key: string]: JSX.Element} = {
     Overview: overviewTab,
     Details: detailsTab,
     Reviews: reviewsTab,
   };
 
-  if (tabName !== undefined && Object.keys(TabsAliases).map((alias) => alias.toLowerCase()).every((element) => element !== tabName)) {
+  if (tabName !== undefined && Object.keys(TabAlias).map((alias) => alias.toLowerCase()).every((element) => element !== tabName)) {
     return <Redirect to={'/page-not-found'} />;
   }
 
@@ -114,7 +115,7 @@ export default function Tabs (props: Props): JSX.Element {
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
           {
-            Object.keys(TabsAliases).map((tabAlias) => {
+            Object.keys(TabAlias).map((tabAlias) => {
               const isTabActive = (tabName === undefined && tabAlias === 'Overview') || tabName === tabAlias.toLowerCase();
 
               const tabLink = (tabAlias === 'Overview') ? '' : `/${tabAlias.toLowerCase()}`;

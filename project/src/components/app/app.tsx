@@ -35,14 +35,14 @@ export default function App(): JSX.Element {
         path={AppRoute.MY_LIST}
         render={() => <MyListScreen />}
       />
-      <Route exact path={AppRoute.FILM}>
-        <MovieScreen />
-      </Route>
       <PrivateRoute
         exact
         path={AppRoute.REVIEW}
         render={() => <ReviewScreen />}
       />
+      <Route exact path={AppRoute.FILM}>
+        <MovieScreen />
+      </Route>
       {/* <Route exact path={AppRoute.PLAYER}>
         <PlayerScreen filmData={moviesData[0]}/>
       </Route> */}

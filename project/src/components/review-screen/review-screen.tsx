@@ -51,7 +51,7 @@ export default function ReviewScreen(): JSX.Element {
       .unwrap()
       .then(() => {
         enableFormElements();
-        history.push(AppRoute.FILM.replace(/:id\/:tabName/, id));
+        history.push(AppRoute.FILM.replace(/:id\/:tabName/, `${id}/reviews`));
       })
       .catch(() => {
         enableFormElements();
