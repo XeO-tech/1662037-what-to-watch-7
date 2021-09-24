@@ -14,7 +14,7 @@ import { AuthStatus, AppRoute } from '../../const';
 
 export default function MainScreen(): JSX.Element {
   const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [isPromoFavorite, setIsPromoFavorite] = useState<boolean>(false);
+  const [isPromoFavorite, setIsPromoFavorite] = useState(false);
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
 
   const {

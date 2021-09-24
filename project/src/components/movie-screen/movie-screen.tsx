@@ -16,7 +16,7 @@ import { SIMILAR_FILMS_NUMBER, AuthStatus, AppRoute } from '../../const';
 export default function MovieScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
   const isAuthentificated = useAppSelector((state) => state.auth.status) === AuthStatus.AUTH;
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const {
     data: movieData,
