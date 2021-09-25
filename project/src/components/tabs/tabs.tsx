@@ -12,33 +12,41 @@ type Props = {
 export default function Tabs (props: Props): JSX.Element {
   const {movieData} = props;
   const {path, url} = useRouteMatch();
-  const {tabName}: {tabName : string} = useParams();
-  const location = useLocation();
-  const currentTab = location.pathname.slice(location.pathname.lastIndexOf('/')+1)
-  console.log(currentTab);
+  const {id}: {id: string} = useParams();
+  const {pathname} = useLocation();
 
-  const TabAlias = ['Overview', 'Details', 'Reviews'];
+  const Tab = {
+    OVERVIEW: 'overview',
+    DETAILS: 'details',
+    REVIEWS: 'reviews',
+  };
+
+  const defineCurrentTab = () => {
+    const pathEnd = pathname.slice(pathname.lastIndexOf('/') + 1);
+    return (pathEnd === id) ? Tab.OVERVIEW : pathEnd;
+  };
+
+  const currentTab = defineCurrentTab();
 
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
           {
-            TabAlias.map((tabAlias) => {
-              const isTabActive = (tabName === undefined && tabAlias === 'Overview') || tabName === tabAlias.toLowerCase();
-
-              const tabLink = (tabAlias === 'Overview') ? '' : `/${tabAlias.toLowerCase()}`;
+            Object.values(Tab).map((tabName) => {
+              const tabLink = (tabName === Tab.OVERVIEW) ? '' : `/${tabName}`;
+              const tabNameCapitalized = tabName.slice(0,1).toUpperCase() + tabName.slice(1);
 
               return (
                 <li
-                  key={tabAlias}
-                  className={`film-nav__item ${isTabActive && 'film-nav__item--active'}`}
+                  key={tabName}
+                  className={`film-nav__item ${tabName === currentTab && 'film-nav__item--active'}`}
                 >
                   <Link
                     to={`${url}${tabLink}`}
                     className="film-nav__link"
                   >
-                    {tabAlias}
+                    {tabNameCapitalized}
                   </Link>
                 </li>
               );
@@ -48,10 +56,10 @@ export default function Tabs (props: Props): JSX.Element {
       </nav>
       <Route path={`${path}/:tabName?`}>
         <Switch>
-          <Route exact path={`${path}/details`}>
+          <Route exact path={`${path}/${Tab.DETAILS}`}>
             <DetailsTab movieData={movieData}/>
           </Route>
-          <Route exact path={`${path}/reviews`}>
+          <Route exact path={`${path}/${Tab.REVIEWS}`}>
             <ReviewsTab  />
           </Route>
           <Route exact path={`${path}`}>
