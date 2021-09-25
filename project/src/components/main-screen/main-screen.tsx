@@ -70,7 +70,7 @@ export default function MainScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <Link to={AppRoute.FILM.replace(/:id\/:tabName/, String(promoMovieData.id))}>
+              <Link to={AppRoute.FILM.replace(/:id/, String(promoMovieData.id))}>
                 <img src={promoMovieData.backgroundImage} alt={`${promoMovieData.name} poster`} width={218} height={327} />
               </Link>
             </div>

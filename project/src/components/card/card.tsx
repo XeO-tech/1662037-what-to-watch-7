@@ -49,7 +49,7 @@ export default function Card(props: Props): JSX.Element {
       }
       onClick={
         () => {
-          history.push(AppRoute.FILM.replace(/:id\/:tabName/, String(movieData.id)));
+          history.push(AppRoute.FILM.replace(/:id/, String(movieData.id)));
         }
       }
       className="small-film-card catalog__films-card"
@@ -60,7 +60,7 @@ export default function Card(props: Props): JSX.Element {
           <img src={movieData.previewImage} alt={movieData.name} width={280} height={175} />}
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={AppRoute.FILM.replace(/:id\/:tabName/, String(movieData.id))}>{movieData.name}</Link>
+        <Link className="small-film-card__link" to={AppRoute.FILM.replace(/:id/, String(movieData.id))}>{movieData.name}</Link>
       </h3>
     </article>);
 }
