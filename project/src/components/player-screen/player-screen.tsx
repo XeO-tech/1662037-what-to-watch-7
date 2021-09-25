@@ -1,22 +1,48 @@
-import * as React from 'react';
-import { IMovieDataAdapted } from '../../common/types';
+import React from 'react';
+import { Redirect, useParams, useHistory } from 'react-router-dom';
+import Spinner from '../spinner/spinner';
+import { useFetchMovieQuery } from '../../features/api/api-slice';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
 import { RunTimeFormat } from '../../const';
 
 
-export default function PlayerScreen({filmData}: {filmData: IMovieDataAdapted}): JSX.Element {
+export default function PlayerScreen(): JSX.Element {
+  const {id} : {id: string} = useParams();
+  const history = useHistory();
+
+  const {
+    data: movieData,
+    isFetching: isMovieDataFetching,
+    isError: isMovieDataFetchError,
+    error: movieDataFetchError = {},
+  } = useFetchMovieQuery(id);
+
+  if (isMovieDataFetching) {
+    return <Spinner />;
+  }
+
+  if (isMovieDataFetchError || !movieData) {
+    if ('status' in movieDataFetchError) {
+      if (movieDataFetchError.status === 404) {
+        return <Redirect to={'/movie-not-found'} />;
+      }
+    }
+    return <p>Could not load data from server. Try again later</p>;
+  }
+
+  const onExitButtonClick = () => history.go(-1);
 
   return (
     <div className="player">
-      <video src="#" className="player__video" poster={filmData.previewImage} />
-      <button type="button" className="player__exit">Exit</button>
+      <video autoPlay controls preload="metadata" src={movieData.videoLink} className="player__video" poster={movieData.posterImage} />
+      <button onClick={onExitButtonClick} type="button" className="player__exit">Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value={30} max={100} />
+            <progress className="player__progress" value={0} max={100} />
             <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
           </div>
-          <div className="player__time-value">{filmData.runTime}</div>
+          <div className="player__time-value">{movieData.runTime}</div>
         </div>
         <div className="player__controls-row">
           <button type="button" className="player__play">
@@ -25,7 +51,7 @@ export default function PlayerScreen({filmData}: {filmData: IMovieDataAdapted}):
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">{convertRunTimeMinutesToHours(filmData.runTime, RunTimeFormat.NUMBERS)}</div>
+          <div className="player__name">{convertRunTimeMinutesToHours(movieData.runTime, RunTimeFormat.NUMBERS)}</div>
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width={27} height={27}>
               <use xlinkHref="#full-screen" />

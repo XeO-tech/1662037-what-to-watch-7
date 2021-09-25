@@ -43,9 +43,9 @@ export default function App(): JSX.Element {
       <Route path={AppRoute.FILM}>
         <MovieScreen />
       </Route>
-      {/* <Route exact path={AppRoute.PLAYER}>
-        <PlayerScreen filmData={moviesData[0]}/>
-      </Route> */}
+      <Route exact path={AppRoute.PLAYER}>
+        <PlayerScreen />
+      </Route>
       <Route path='*'>
         <NotFoundScreen />
       </Route>
