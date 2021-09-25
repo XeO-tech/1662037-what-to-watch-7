@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
+import ReactPlayer from 'react-player';
+import screenfull from 'screenfull';
 import Spinner from '../spinner/spinner';
 import { useFetchMovieQuery } from '../../features/api/api-slice';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
 import { RunTimeFormat } from '../../const';
+import { BaseReactPlayerProps } from 'react-player/base';
 
 
-export default function PlayerScreen(): JSX.Element {
+export default function PlayerScreen2(): JSX.Element {
   const {id} : {id: string} = useParams();
   const history = useHistory();
+  const playerRef = useRef<ReactPlayer>(null);
+  const playerContainerRef = useRef<HTMLDivElement>(null);
 
   const {
     data: movieData,
@@ -16,6 +21,14 @@ export default function PlayerScreen(): JSX.Element {
     isError: isMovieDataFetchError,
     error: movieDataFetchError = {},
   } = useFetchMovieQuery(id);
+
+  const initialState = {
+    isPlaying: false,
+    played: 0,
+    playedSeconds: 0,
+  };
+
+  const [state, setState] = useState(initialState);
 
   if (isMovieDataFetching) {
     return <Spinner />;
@@ -32,27 +45,49 @@ export default function PlayerScreen(): JSX.Element {
 
   const onExitButtonClick = () => history.go(-1);
 
+  const onPlayPauseClick = () => {
+    setState({...state, isPlaying: !state.isPlaying});
+  };
+
+  const onFullScreenClick = () => {
+    if (screenfull.isEnabled) {
+      screenfull.toggle(playerContainerRef.current as HTMLDivElement);
+    }
+  };
+
+  const handleProgress: BaseReactPlayerProps['onProgress'] = ({played,playedSeconds}) => {
+    setState({...state, played, playedSeconds});
+  };
+
   return (
-    <div className="player">
-      <video autoPlay controls preload="metadata" src={movieData.videoLink} className="player__video" poster={movieData.posterImage} />
+    <div ref={playerContainerRef} className="player" style={{background: 'black'}}>
+      <ReactPlayer
+        ref={playerRef}
+        url={movieData.videoLink}
+        muted
+        height={'100%'}
+        width={'100%'}
+        playing={state.isPlaying}
+        onProgress={handleProgress}
+      />
       <button onClick={onExitButtonClick} type="button" className="player__exit">Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value={0} max={100} />
-            <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
+            <progress className="player__progress" value={state.played * 100} max={100} />
+            <div className="player__toggler" style={{left: `${state.played * 100}%`}}>Toggler</div>
           </div>
-          <div className="player__time-value">{movieData.runTime}</div>
+          <div className="player__time-value">{state.playedSeconds.toFixed(0)}</div>
         </div>
         <div className="player__controls-row">
-          <button type="button" className="player__play">
+          <button onClick={onPlayPauseClick} type="button" className="player__play">
             <svg viewBox="0 0 19 19" width={19} height={19}>
-              <use xlinkHref="#play-s" />
+              <use xlinkHref={state.isPlaying ? '#pause' : '#play-s'} />
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">{convertRunTimeMinutesToHours(movieData.runTime, RunTimeFormat.NUMBERS)}</div>
-          <button type="button" className="player__full-screen">
+          <div className="player__name">{movieData.name}</div>
+          <button onClick={onFullScreenClick} type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width={27} height={27}>
               <use xlinkHref="#full-screen" />
             </svg>

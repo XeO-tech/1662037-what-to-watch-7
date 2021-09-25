@@ -17,6 +17,7 @@ export const AppRoute = {
 export const RunTimeFormat  = {
   NUMBERS: 'num',
   NUMBERS_AND_LETTERS: 'numAndLetters',
+  TIME_ELAPSED: 'timeElapsed',
 } as const;
 
 export const Genre = {
