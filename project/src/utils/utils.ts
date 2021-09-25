@@ -14,7 +14,7 @@ export const convertRunTimeMinutesToHours = (runTime: number): string => {
 export const defineRemainingTime = (runTime: number, elapsedTime: number): string => {
   const remainingSeconds = runTime * 60 - elapsedTime;
   let hours: number | string = Math.floor(remainingSeconds/3600);
-  let minutes: number | string = Math.floor(remainingSeconds/60);
+  let minutes: number | string = Math.floor(remainingSeconds/60) % 60;
   let seconds: number | string = remainingSeconds % 60;
 
   switch (true) {
