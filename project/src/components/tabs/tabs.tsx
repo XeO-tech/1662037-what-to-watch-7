@@ -54,22 +54,20 @@ export default function Tabs (props: Props): JSX.Element {
           }
         </ul>
       </nav>
-      <Route path={`${path}/:tabName?`}>
-        <Switch>
-          <Route exact path={`${path}/${Tab.DETAILS}`}>
-            <DetailsTab movieData={movieData}/>
-          </Route>
-          <Route exact path={`${path}/${Tab.REVIEWS}`}>
-            <ReviewsTab  />
-          </Route>
-          <Route exact path={`${path}`}>
-            <OverviewTab movieData={movieData} />
-          </Route>
-          <Route path='*'>
-            <Redirect to={'/page-not-found'} />
-          </Route>
-        </Switch>
-      </Route>
+      <Switch>
+        <Route exact path={`${path}/${Tab.DETAILS}`}>
+          <DetailsTab movieData={movieData}/>
+        </Route>
+        <Route exact path={`${path}/${Tab.REVIEWS}`}>
+          <ReviewsTab  />
+        </Route>
+        <Route exact path={`${path}`}>
+          <OverviewTab movieData={movieData} />
+        </Route>
+        <Route path='*'>
+          <Redirect to={'/page-not-found'} />
+        </Route>
+      </Switch>
     </div>
   );
 }
