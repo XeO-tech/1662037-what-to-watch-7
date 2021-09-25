@@ -4,8 +4,7 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import Spinner from '../spinner/spinner';
 import { useFetchMovieQuery } from '../../features/api/api-slice';
-import { convertRunTimeMinutesToHours } from '../../utils/utils';
-import { RunTimeFormat } from '../../const';
+import { defineRemainingTime } from '../../utils/utils';
 import { BaseReactPlayerProps } from 'react-player/base';
 
 
@@ -77,7 +76,7 @@ export default function PlayerScreen2(): JSX.Element {
             <progress className="player__progress" value={state.played * 100} max={100} />
             <div className="player__toggler" style={{left: `${state.played * 100}%`}}>Toggler</div>
           </div>
-          <div className="player__time-value">{state.playedSeconds.toFixed(0)}</div>
+          <div className="player__time-value">{defineRemainingTime(movieData.runTime, Math.floor(state.playedSeconds))}</div>
         </div>
         <div className="player__controls-row">
           <button onClick={onPlayPauseClick} type="button" className="player__play">

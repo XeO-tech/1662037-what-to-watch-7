@@ -1,7 +1,6 @@
 import React from 'react';
 import { IMovieDataAdapted } from '../../common/types';
 import { convertRunTimeMinutesToHours } from '../../utils/utils';
-import { RunTimeFormat } from '../../const';
 
 
 export default function DetailsTab({movieData}: {movieData: IMovieDataAdapted}): JSX.Element {
@@ -27,7 +26,7 @@ export default function DetailsTab({movieData}: {movieData: IMovieDataAdapted}):
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{convertRunTimeMinutesToHours(movieData.runTime, RunTimeFormat.NUMBERS_AND_LETTERS)}</span>
+          <span className="film-card__details-value">{convertRunTimeMinutesToHours(movieData.runTime)}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

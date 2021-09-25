@@ -1,24 +1,40 @@
-import { RunTimeFormat, INITIAL_GENRE } from '../const';
+import { INITIAL_GENRE } from '../const';
 import { IMovieDataAdapted } from '../common/types';
 
-type RunTimeFormatValuesType = typeof RunTimeFormat[keyof typeof RunTimeFormat]
-
-export const convertRunTimeMinutesToHours = (runTime: number, format: RunTimeFormatValuesType): string => {
+export const convertRunTimeMinutesToHours = (runTime: number): string => {
   const hours = Math.floor(runTime/60);
   let minutes : number | string = runTime % 60;
 
   if (minutes < 10) {
     minutes = `0${minutes}`;
   }
+  return `${hours}h ${minutes}m`;
+};
 
-  switch (format) {
-    case RunTimeFormat.NUMBERS:
-      return `${hours}:${minutes}`;
-    case RunTimeFormat.NUMBERS_AND_LETTERS:
-      return `${hours}h ${minutes}m`;
-    default:
-      return '0';
+export const defineRemainingTime = (runTime: number, elapsedTime: number): string => {
+  const remainingSeconds = runTime * 60 - elapsedTime;
+  let hours: number | string = Math.floor(remainingSeconds/3600);
+  let minutes: number | string = Math.floor(remainingSeconds/60);
+  let seconds: number | string = remainingSeconds % 60;
+
+  switch (true) {
+    case (hours === 0):
+      hours = '';
+      break;
+    case (hours < 10):
+      hours = `0${hours}:`;
+      break;
   }
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${hours}${minutes}:${seconds}`;
 };
 
 export const defineRatingDescription = (rating: number): string => {
