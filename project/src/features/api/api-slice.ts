@@ -27,7 +27,7 @@ interface IFavoritesPostqueryInput {
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://7.react.pages.academy/wtw',
+    baseUrl: 'http://7.react.pages.academy/wtw',
     prepareHeaders: (headers, { getState }) => {
       const token =
         localStorage.getItem('token') ?? (getState() as RootState).auth.token;

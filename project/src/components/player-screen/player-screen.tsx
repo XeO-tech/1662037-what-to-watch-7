@@ -30,6 +30,12 @@ export default function PlayerScreen(): JSX.Element {
 
   const [state, setState] = useState(initialState);
 
+  const onSpaceKeyDown = (e: KeyboardEvent) => {
+    if (e.key === ' ') {
+      setState({ ...state, isPlaying: !state.isPlaying });
+    }
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', onSpaceKeyDown);
 
@@ -61,12 +67,7 @@ export default function PlayerScreen(): JSX.Element {
   };
 
   const onVideoClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.nativeEvent.stopImmediatePropagation();
-    setState({ ...state, isPlaying: !state.isPlaying });
-  };
-
-  const onSpaceKeyDown = (e: KeyboardEvent) => {
-    if (e.key === ' ') {
+    if ((e.target as HTMLElement).tagName === 'VIDEO') {
       setState({ ...state, isPlaying: !state.isPlaying });
     }
   };
@@ -122,7 +123,6 @@ export default function PlayerScreen(): JSX.Element {
         width={'100%'}
         playing={state.isPlaying}
         onProgress={onProgress}
-        onClick={onPlayPauseClick}
       />
       <button
         onClick={onExitButtonClick}
@@ -138,6 +138,7 @@ export default function PlayerScreen(): JSX.Element {
               size='small'
               defaultValue={0}
               aria-label='Small'
+              value={state.played * 100}
               valueLabelDisplay='auto'
               valueLabelFormat={(value) => (
                 <div>{formatPlayerTime(duration * (value / 100))}</div>
