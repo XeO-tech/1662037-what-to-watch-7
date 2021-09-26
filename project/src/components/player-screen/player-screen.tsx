@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import Spinner from '../spinner/spinner';
 import { useFetchMovieQuery } from '../../features/api/api-slice';
-import { defineRemainingTime } from '../../utils/utils';
+import { formatPlayerTime } from '../../utils/utils';
 import { BaseReactPlayerProps } from 'react-player/base';
 
 
@@ -42,6 +42,9 @@ export default function PlayerScreen2(): JSX.Element {
     return <p>Could not load data from server. Try again later</p>;
   }
 
+  const duration = playerRef.current ? playerRef.current.getDuration() : 0;
+  const timelapsed = playerRef.current ? playerRef.current.getCurrentTime() : 0;
+
   const onExitButtonClick = () => history.go(-1);
 
   const onPlayPauseClick = () => {
@@ -76,7 +79,7 @@ export default function PlayerScreen2(): JSX.Element {
             <progress className="player__progress" value={state.played * 100} max={100} />
             <div className="player__toggler" style={{left: `${state.played * 100}%`}}>Toggler</div>
           </div>
-          <div className="player__time-value">{defineRemainingTime(movieData.runTime, Math.floor(state.playedSeconds))}</div>
+          <div className="player__time-value">{`-${formatPlayerTime(duration - timelapsed)}`}</div>
         </div>
         <div className="player__controls-row">
           <button onClick={onPlayPauseClick} type="button" className="player__play">

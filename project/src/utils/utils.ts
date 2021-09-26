@@ -1,40 +1,32 @@
 import { INITIAL_GENRE } from '../const';
 import { IMovieDataAdapted } from '../common/types';
 
-export const convertRunTimeMinutesToHours = (runTime: number): string => {
-  const hours = Math.floor(runTime/60);
-  let minutes : number | string = runTime % 60;
+export const formatMovieRunTime = (minutes: number): string => {
+  const date = new Date(minutes * 60000);
+  const hh = date.getUTCHours();
+  const mm = date.getUTCMinutes();
 
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
+  if (hh) {
+    return `${hh}h ${mm}m`;
   }
-  return `${hours}h ${minutes}m`;
+  return `${mm}m`;
 };
 
-export const defineRemainingTime = (runTime: number, elapsedTime: number): string => {
-  const remainingSeconds = runTime * 60 - elapsedTime;
-  let hours: number | string = Math.floor(remainingSeconds/3600);
-  let minutes: number | string = Math.floor(remainingSeconds/60) % 60;
-  let seconds: number | string = remainingSeconds % 60;
-
-  switch (true) {
-    case (hours === 0):
-      hours = '';
-      break;
-    case (hours < 10):
-      hours = `0${hours}:`;
-      break;
+export const formatPlayerTime = (seconds: number): string => {
+  if (seconds === 0) {
+    return '00:00';
   }
 
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
+  const date = new Date(seconds * 1000);
+  const hh = date.getUTCHours();
+  const mm = date.getUTCMinutes();
+  const ss = date.getUTCSeconds().toString().padStart(2, '0');
+
+  if (hh) {
+    return `${hh}:${mm.toString().padStart(2, '0')}:${ss}`;
   }
 
-  if (seconds < 10) {
-    seconds = `0${seconds}`;
-  }
-
-  return `${hours}${minutes}:${seconds}`;
+  return `${mm}:${ss}`;
 };
 
 export const defineRatingDescription = (rating: number): string => {
