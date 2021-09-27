@@ -123,6 +123,9 @@ export default function PlayerScreen(): JSX.Element {
               onChange={onSeek}
               onMouseDown={onSeekMouseDown}
               onChangeCommitted={onSeekMouseUp}
+              sx={{
+                color: '#b3ae98',
+              }}
             />
           </div>
           <div className='player__time-value'>
