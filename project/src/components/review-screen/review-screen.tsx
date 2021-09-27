@@ -259,10 +259,14 @@ export default function ReviewScreen(): JSX.Element {
           </div>
         </form>
         {formErrors.rating && (
-          <p style={{ color: 'red' }}>{formErrors.rating.message}</p>
+          <p style={{ color: 'red', textAlign: 'center' }}>
+            {formErrors.rating.message}
+          </p>
         )}
         {formErrors.comment && (
-          <p style={{ color: 'red' }}>{formErrors.comment.message}</p>
+          <p style={{ fontSize: 'small', color: 'grey', textAlign: 'center' }}>
+            {formErrors.comment.message}
+          </p>
         )}
       </div>
     </section>
