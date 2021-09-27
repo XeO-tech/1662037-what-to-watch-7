@@ -3,7 +3,7 @@ import { useParams, Redirect, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tabs from '../tabs/tabs';
-import FilmCardsList from '../film-cards-list/film-cards-list';
+import MoviesCardsList from '../movies-cards-list/movies-cards-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import Spinner from '../spinner/spinner';
@@ -14,7 +14,7 @@ import {
 } from '../../features/api/api-slice';
 import { useAppSelector } from '../../app/hooks';
 import { getMovieFavoritesStatusForUrl } from '../../utils/utils';
-import { SIMILAR_FILMS_NUMBER, AuthStatus, AppRoute } from '../../const';
+import { SIMILAR_MOVIES_NUMBER, AuthStatus, AppRoute } from '../../const';
 
 export default function MovieScreen(): JSX.Element {
   const { id }: { id: string } = useParams();
@@ -142,8 +142,8 @@ export default function MovieScreen(): JSX.Element {
           filteredSimilarMoviesData.length === 0 ? (
             'No similar movies found'
           ) : (
-            <FilmCardsList
-              cardNumbers={SIMILAR_FILMS_NUMBER}
+            <MoviesCardsList
+              cardNumbers={SIMILAR_MOVIES_NUMBER}
               moviesData={filteredSimilarMoviesData}
               onCardHover={() => void 0}
             />

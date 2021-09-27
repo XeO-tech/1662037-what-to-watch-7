@@ -8,7 +8,7 @@ type Props = {
   onCardHover: (arg0: number) => void;
 };
 
-export default function FilmCardsList(props: Props): JSX.Element {
+export default function MoviesCardsList(props: Props): JSX.Element {
   const { cardNumbers, moviesData, onCardHover } = props;
 
   if (moviesData.length === 0) {
@@ -22,11 +22,11 @@ export default function FilmCardsList(props: Props): JSX.Element {
 
   return (
     <div className='catalog__films-list'>
-      {moviesData.slice(0, cardNumbers).map((film) => (
+      {moviesData.slice(0, cardNumbers).map((movie) => (
         <Card
-          key={film.id}
-          movieData={film}
-          onCardHover={() => onCardHover(film.id)}
+          key={movie.id}
+          movieData={movie}
+          onCardHover={() => onCardHover(movie.id)}
         />
       ))}
     </div>

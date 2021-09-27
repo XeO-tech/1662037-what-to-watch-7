@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FilmCardsList from '../film-cards-list/film-cards-list';
+import MoviesCardsList from '../movies-cards-list/movies-cards-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
 import { prepareGenresList } from '../../utils/utils';
 import { IMovieDataAdapted } from '../../common/types';
@@ -69,7 +69,7 @@ export default function GenresList(props: Props): JSX.Element {
           </li>
         ))}
       </ul>
-      <FilmCardsList
+      <MoviesCardsList
         cardNumbers={showedMoviesNumber}
         moviesData={filteredMoviesData}
         onCardHover={onCardHover}

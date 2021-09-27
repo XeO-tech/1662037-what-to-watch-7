@@ -54,8 +54,8 @@ export default function MainScreen(): JSX.Element {
     return <p>Could not load data from server. Try again later</p>;
   }
 
-  const onCardHover = (filmId: number): void => {
-    setActiveCard(filmId);
+  const onCardHover = (movieId: number): void => {
+    setActiveCard(movieId);
   };
 
   const onMyListButtonClick = () => {
@@ -88,7 +88,7 @@ export default function MainScreen(): JSX.Element {
           <div className='film-card__info'>
             <div className='film-card__poster'>
               <Link
-                to={AppRoute.FILM.replace(/:id/, String(promoMovieData.id))}
+                to={AppRoute.MOVIE.replace(/:id/, String(promoMovieData.id))}
               >
                 <img
                   src={promoMovieData.backgroundImage}

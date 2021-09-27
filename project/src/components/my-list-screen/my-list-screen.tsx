@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import FilmCardsList from '../film-cards-list/film-cards-list';
+import MoviesCardsList from '../movies-cards-list/movies-cards-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import { useFetchFavoritesMoviesQuery } from '../../features/api/api-slice';
@@ -11,8 +11,8 @@ export default function MyListScreen(): JSX.Element {
 
   const { data: favoriteMovies = [] } = useFetchFavoritesMoviesQuery();
 
-  const onCardHover = (filmId: number): void => {
-    setActiveCard(filmId);
+  const onCardHover = (movieId: number): void => {
+    setActiveCard(movieId);
   };
 
   return (
@@ -20,7 +20,7 @@ export default function MyListScreen(): JSX.Element {
       <Header />
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
-        <FilmCardsList
+        <MoviesCardsList
           moviesData={favoriteMovies}
           cardNumbers={CARDS_NUMBER}
           onCardHover={onCardHover}

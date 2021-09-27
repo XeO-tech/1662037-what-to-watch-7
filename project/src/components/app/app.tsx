@@ -37,7 +37,7 @@ export default function App(): JSX.Element {
         path={AppRoute.REVIEW}
         render={() => <ReviewScreen />}
       />
-      <Route path={AppRoute.FILM}>
+      <Route path={AppRoute.MOVIE}>
         <MovieScreen />
       </Route>
       <Route exact path={AppRoute.PLAYER}>

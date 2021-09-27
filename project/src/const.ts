@@ -1,6 +1,6 @@
 export const CARDS_NUMBER = 8;
 
-export const SIMILAR_FILMS_NUMBER = 4;
+export const SIMILAR_MOVIES_NUMBER = 4;
 
 export const INITIAL_GENRE = 'All genres';
 
@@ -8,7 +8,7 @@ export const AppRoute = {
   ROOT: '/',
   LOGIN: '/login',
   MY_LIST: '/mylist',
-  FILM: '/films/:id',
+  MOVIE: '/films/:id',
   REVIEW: '/films/:id/review',
   PLAYER: '/player/:id',
   TEST: '/test',

@@ -6,30 +6,30 @@ import {
 } from '../common/types';
 
 export const adaptMovieDataToClient = (
-  film: IMovieDataRaw,
+  movieData: IMovieDataRaw,
 ): IMovieDataAdapted => {
-  const adaptedFilm = Object.assign({}, film, {
-    posterImage: film['poster_image'] as string,
-    previewImage: film['preview_image'] as string,
-    backgroundImage: film['background_image'] as string,
-    backgroundColor: film['background_color'] as string,
-    scoresCount: film['scores_count'] as number,
-    runTime: film['run_time'] as number,
-    isFavorite: film['is_favorite'] as boolean,
-    videoLink: film['video_link'] as string,
-    previewVideoLink: film['preview_video_link'] as string,
+  const adaptedMovieData = Object.assign({}, movieData, {
+    posterImage: movieData['poster_image'] as string,
+    previewImage: movieData['preview_image'] as string,
+    backgroundImage: movieData['background_image'] as string,
+    backgroundColor: movieData['background_color'] as string,
+    scoresCount: movieData['scores_count'] as number,
+    runTime: movieData['run_time'] as number,
+    isFavorite: movieData['is_favorite'] as boolean,
+    videoLink: movieData['video_link'] as string,
+    previewVideoLink: movieData['preview_video_link'] as string,
   });
-  delete adaptedFilm['poster_image'];
-  delete adaptedFilm['preview_image'];
-  delete adaptedFilm['background_image'];
-  delete adaptedFilm['background_color'];
-  delete adaptedFilm['scores_count'];
-  delete adaptedFilm['run_time'];
-  delete adaptedFilm['is_favorite'];
-  delete adaptedFilm['video_link'];
-  delete adaptedFilm['preview_video_link'];
+  delete adaptedMovieData['poster_image'];
+  delete adaptedMovieData['preview_image'];
+  delete adaptedMovieData['background_image'];
+  delete adaptedMovieData['background_color'];
+  delete adaptedMovieData['scores_count'];
+  delete adaptedMovieData['run_time'];
+  delete adaptedMovieData['is_favorite'];
+  delete adaptedMovieData['video_link'];
+  delete adaptedMovieData['preview_video_link'];
 
-  return adaptedFilm;
+  return adaptedMovieData;
 };
 
 export const adaptAuthDataToClient = (
