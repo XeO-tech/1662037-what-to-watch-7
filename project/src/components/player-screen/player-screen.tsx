@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
@@ -9,6 +9,7 @@ import { useFetchMovieQuery } from '../../features/api/api-slice';
 import { formatPlayerTime } from '../../utils/utils';
 import { BaseReactPlayerProps } from 'react-player/base';
 
+const HIDE_CONTROLS_DELAY = 4000;
 
 export default function PlayerScreen(): JSX.Element {
   const { id }: { id: string } = useParams();
@@ -27,39 +28,38 @@ export default function PlayerScreen(): JSX.Element {
     isPlaying: false,
     played: 0,
     playedSeconds: 0,
-    seeking: false,controlsHidden: false,
+    seeking: false,
+    controlsHidden: false,
   };
 
   const [state, setState] = useState(initialState);
   const [controlsHidden, setControlsHidden] = useState(false);
 
-  const hideControlsOnDelay = debounce(() => {
-    setControlsHidden(true);
-  }, 4000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hideControlsOnDelay = useCallback(
+    debounce(() => {
+      setControlsHidden(true);
+    }, HIDE_CONTROLS_DELAY),
+    [],
+  );
 
-  const onSpaceKeyDown = (e: KeyboardEvent) => {
-    if (e.key === ' ') {
-      setState({ ...state, isPlaying: !state.isPlaying });
-    }
-  };
-
-  const onMouseMoveOrKeyDown = () => {
+  const showControls = () => {
     if (controlsHidden) {
       setControlsHidden(false);
     }
     hideControlsOnDelay();
   };
 
-  useEffect(() => {
-    document.addEventListener('keydown', onSpaceKeyDown);
-    document.addEventListener('keydown', onMouseMoveOrKeyDown);
+  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === ' ') {
+      setState({ ...state, isPlaying: !state.isPlaying });
+    }
+    showControls();
+  };
 
-    return () => {
-      document.removeEventListener('keydown', onSpaceKeyDown);
-      document.removeEventListener('keydown', onMouseMoveOrKeyDown);
-      hideControlsOnDelay.cancel();
-    };
-  });
+  const onMouseMove = () => showControls();
+
+  useEffect(() => () => hideControlsOnDelay.cancel(), [hideControlsOnDelay]);
 
   if (isMovieDataFetching) {
     return <Spinner />;
@@ -132,9 +132,15 @@ export default function PlayerScreen(): JSX.Element {
     <div
       ref={playerContainerRef}
       className='player'
-      style={{ background: 'black', cursor: controlsHidden ? 'none' : 'auto' }}
+      style={{
+        background: 'black',
+        cursor: controlsHidden ? 'none' : 'auto',
+        outline: 'none',
+      }}
       onClick={onVideoClick}
-      onMouseMove={onMouseMoveOrKeyDown}
+      onKeyDown={onKeyDown}
+      onMouseMove={onMouseMove}
+      tabIndex={-1}
     >
       <ReactPlayer
         ref={playerRef}

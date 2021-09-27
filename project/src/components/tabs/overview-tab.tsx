@@ -15,7 +15,9 @@ export default function OverviewTab({
           <span className='film-rating__level'>
             {defineRatingDescription(movieData.rating)}
           </span>
-          <span className='film-rating__count'>{movieData.scoresCount}</span>
+          <span className='film-rating__count'>
+            {movieData.scoresCount} ratings
+          </span>
         </p>
       </div>
       <div className='film-card__text'>
