@@ -12,11 +12,8 @@ import Spinner from '../spinner/spinner';
 import PrivateRoute from '../private-route/private-route';
 import { useFetchAuthDataQuery } from '../../features/api/api-slice';
 
-
 export default function App(): JSX.Element {
-  const {
-    isFetching: isAuthDataFetching,
-  } = useFetchAuthDataQuery();
+  const { isFetching: isAuthDataFetching } = useFetchAuthDataQuery();
 
   if (isAuthDataFetching) {
     return <Spinner />;

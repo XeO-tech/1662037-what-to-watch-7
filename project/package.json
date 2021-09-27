@@ -45,7 +45,9 @@
     ],
     "rules": {
       "no-use-before-define": "off",
-      "comma-dangle": "off"
+      "comma-dangle": "off",
+      "indent": "off",
+      "react/jsx-curly-newline": "off"
     }
   },
   "browserslist": {

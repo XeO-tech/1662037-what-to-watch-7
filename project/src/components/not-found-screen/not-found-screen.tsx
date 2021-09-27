@@ -10,5 +10,3 @@ export default function NotFoundScreen(): JSX.Element {
     </div>
   );
 }
-
-

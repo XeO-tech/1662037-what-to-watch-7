@@ -6,12 +6,12 @@ import { IMovieDataAdapted } from '../../common/types';
 import { CARDS_NUMBER, INITIAL_GENRE } from '../../const';
 
 type Props = {
-  onCardHover:(arg0: number) => void,
-  moviesData: IMovieDataAdapted[],
-}
+  onCardHover: (arg0: number) => void;
+  moviesData: IMovieDataAdapted[];
+};
 
 export default function GenresList(props: Props): JSX.Element {
-  const {onCardHover, moviesData} = props;
+  const { onCardHover, moviesData } = props;
   const [currentGenre, setCurrentGenre] = useState(INITIAL_GENRE);
   const genresList = prepareGenresList(moviesData);
 
@@ -24,11 +24,17 @@ export default function GenresList(props: Props): JSX.Element {
 
   const filteredMoviesData = selectMoviesDataByGenre(moviesData);
 
-  const initialShowedMoviesNumber = (filteredMoviesData.length < CARDS_NUMBER) ? filteredMoviesData.length : CARDS_NUMBER;
+  const initialShowedMoviesNumber =
+    filteredMoviesData.length < CARDS_NUMBER
+      ? filteredMoviesData.length
+      : CARDS_NUMBER;
 
-  const [showedMoviesNumber, setShowedMoviesNumber] = useState(initialShowedMoviesNumber);
+  const [showedMoviesNumber, setShowedMoviesNumber] = useState(
+    initialShowedMoviesNumber,
+  );
 
-  const isShowMoreButtonVisible = showedMoviesNumber < filteredMoviesData.length;
+  const isShowMoreButtonVisible =
+    showedMoviesNumber < filteredMoviesData.length;
 
   const onGenreClick = (e: React.MouseEvent<HTMLElement>): void => {
     const targetElement = e.target as HTMLElement;
@@ -37,18 +43,25 @@ export default function GenresList(props: Props): JSX.Element {
   };
 
   const onShowMoreClick = (): void => {
-    (filteredMoviesData.length - showedMoviesNumber > CARDS_NUMBER) ? setShowedMoviesNumber(showedMoviesNumber + CARDS_NUMBER) : setShowedMoviesNumber(filteredMoviesData.length);
+    filteredMoviesData.length - showedMoviesNumber > CARDS_NUMBER
+      ? setShowedMoviesNumber(showedMoviesNumber + CARDS_NUMBER)
+      : setShowedMoviesNumber(filteredMoviesData.length);
   };
 
   return (
-    <section className="catalog">
-      <h2 className="catalog__title visually-hidden">Catalog</h2>
-      <ul className="catalog__genres-list">
+    <section className='catalog'>
+      <h2 className='catalog__title visually-hidden'>Catalog</h2>
+      <ul className='catalog__genres-list'>
         {genresList.map((genre) => (
-          <li key={genre} className={`catalog__genres-item ${currentGenre === genre ? 'catalog__genres-item--active': ''}`}>
+          <li
+            key={genre}
+            className={`catalog__genres-item ${
+              currentGenre === genre ? 'catalog__genres-item--active' : ''
+            }`}
+          >
             <div
-              style={{cursor: 'pointer'}}
-              className="catalog__genres-link"
+              style={{ cursor: 'pointer' }}
+              className='catalog__genres-link'
               onClick={onGenreClick}
             >
               {genre}
@@ -56,8 +69,14 @@ export default function GenresList(props: Props): JSX.Element {
           </li>
         ))}
       </ul>
-      <FilmCardsList cardNumbers={showedMoviesNumber} moviesData={filteredMoviesData} onCardHover={onCardHover}/>
-      {isShowMoreButtonVisible && <ShowMoreButton onShowMoreClick={onShowMoreClick} />}
+      <FilmCardsList
+        cardNumbers={showedMoviesNumber}
+        moviesData={filteredMoviesData}
+        onCardHover={onCardHover}
+      />
+      {isShowMoreButtonVisible && (
+        <ShowMoreButton onShowMoreClick={onShowMoreClick} />
+      )}
     </section>
   );
 }

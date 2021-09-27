@@ -1,21 +1,24 @@
-import { IMovieDataAdapted, IMovieDataRaw, IAuthDataAdapted, IAuthdataRaw} from '../common/types';
+import {
+  IMovieDataAdapted,
+  IMovieDataRaw,
+  IAuthDataAdapted,
+  IAuthdataRaw,
+} from '../common/types';
 
-export const adaptMovieDataToClient = (film: IMovieDataRaw): IMovieDataAdapted => {
-  const adaptedFilm = Object.assign(
-    {},
-    film,
-    {
-      posterImage: film['poster_image'] as string,
-      previewImage: film['preview_image'] as string,
-      backgroundImage: film['background_image'] as string,
-      backgroundColor: film['background_color'] as string,
-      scoresCount: film['scores_count'] as number,
-      runTime: film['run_time'] as number,
-      isFavorite: film['is_favorite'] as boolean,
-      videoLink: film['video_link'] as string,
-      previewVideoLink: film['preview_video_link'] as string,
-    },
-  );
+export const adaptMovieDataToClient = (
+  film: IMovieDataRaw,
+): IMovieDataAdapted => {
+  const adaptedFilm = Object.assign({}, film, {
+    posterImage: film['poster_image'] as string,
+    previewImage: film['preview_image'] as string,
+    backgroundImage: film['background_image'] as string,
+    backgroundColor: film['background_color'] as string,
+    scoresCount: film['scores_count'] as number,
+    runTime: film['run_time'] as number,
+    isFavorite: film['is_favorite'] as boolean,
+    videoLink: film['video_link'] as string,
+    previewVideoLink: film['preview_video_link'] as string,
+  });
   delete adaptedFilm['poster_image'];
   delete adaptedFilm['preview_image'];
   delete adaptedFilm['background_image'];
@@ -29,12 +32,13 @@ export const adaptMovieDataToClient = (film: IMovieDataRaw): IMovieDataAdapted =
   return adaptedFilm;
 };
 
-export const adaptAuthDataToClient = (authData: IAuthdataRaw): IAuthDataAdapted => {
-  const adaptedAuthData = Object.assign(
-    {},
-    authData,
-    {avatarUrl: authData['avatar_url'] as string},
-  );
+export const adaptAuthDataToClient = (
+  authData: IAuthdataRaw,
+): IAuthDataAdapted => {
+  const adaptedAuthData = Object.assign({}, authData, {
+    avatarUrl: authData['avatar_url'] as string,
+  });
   delete adaptedAuthData['avatar_url'];
+
   return adaptedAuthData;
 };

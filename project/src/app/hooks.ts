@@ -5,4 +5,3 @@ import { RootState, AppDispatch } from './store';
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 // middleware may return anything from dispatch, so no way to define return types
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-

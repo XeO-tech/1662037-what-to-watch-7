@@ -3,16 +3,16 @@ import { AuthStatus } from '../../const';
 import { apiSlice } from '../api/api-slice';
 
 interface IUserData {
-  userName: string,
-  avatarUrl: string,
-  token: string,
+  userName: string;
+  avatarUrl: string;
+  token: string;
 }
 
 interface IAuthState extends IUserData {
-  status: string,
+  status: string;
 }
 
-type AuthValuesType = typeof AuthStatus[keyof typeof AuthStatus]
+type AuthValuesType = typeof AuthStatus[keyof typeof AuthStatus];
 
 const initialState: IAuthState = {
   status: AuthStatus.UNKNOWN,
@@ -43,8 +43,9 @@ const authSlice = createSlice({
     builder.addMatcher(
       isAnyOf(
         apiSlice.endpoints.fetchAuthData.matchFulfilled,
-        apiSlice.endpoints.fetchLogin.matchFulfilled),
-      (state, {payload}) => {
+        apiSlice.endpoints.fetchLogin.matchFulfilled,
+      ),
+      (state, { payload }) => {
         state.token = payload.token;
         state.userName = payload.name;
         state.avatarUrl = payload.avatarUrl;
@@ -55,7 +56,8 @@ const authSlice = createSlice({
     builder.addMatcher(
       isAnyOf(
         apiSlice.endpoints.fetchAuthData.matchRejected,
-        apiSlice.endpoints.fetchLogout.matchFulfilled),
+        apiSlice.endpoints.fetchLogout.matchFulfilled,
+      ),
       (state) => {
         state.token = '';
         state.userName = '';
