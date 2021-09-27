@@ -24,15 +24,15 @@ export default function PlayerScreen(): JSX.Element {
     error: movieDataFetchError = {},
   } = useFetchMovieQuery(id);
 
-  const initialState = {
+  const initialPlayerState = {
     isPlaying: false,
     played: 0,
     playedSeconds: 0,
-    seeking: false,
   };
 
-  const [state, setState] = useState(initialState);
+  const [playerState, setPlayerState] = useState(initialPlayerState);
   const [controlsHidden, setControlsHidden] = useState(false);
+  const [isSeeking, setIsSeeking] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const hideControlsOnDelay = useCallback(
@@ -51,7 +51,7 @@ export default function PlayerScreen(): JSX.Element {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === ' ') {
-      setState({ ...state, isPlaying: !state.isPlaying });
+      setPlayerState({ ...playerState, isPlaying: !playerState.isPlaying });
     }
     showControls();
   };
@@ -81,12 +81,12 @@ export default function PlayerScreen(): JSX.Element {
   const onExitButtonClick = () => history.go(-1);
 
   const onPlayPauseClick = () => {
-    setState({ ...state, isPlaying: !state.isPlaying });
+    setPlayerState({ ...playerState, isPlaying: !playerState.isPlaying });
   };
 
   const onVideoClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLElement).tagName === 'VIDEO') {
-      setState({ ...state, isPlaying: !state.isPlaying });
+      setPlayerState({ ...playerState, isPlaying: !playerState.isPlaying });
     }
   };
 
@@ -100,26 +100,26 @@ export default function PlayerScreen(): JSX.Element {
     played,
     playedSeconds,
   }) => {
-    if (!state.seeking) {
-      setState({ ...state, played, playedSeconds });
+    if (!isSeeking) {
+      setPlayerState({ ...playerState, played: played, playedSeconds: playedSeconds });
     }
   };
 
   const onSeek = (e: Event, value: number | number[]) => {
     if (typeof value === 'number') {
-      setState({ ...state, played: value / 100 });
+      setPlayerState({ ...playerState, played: value / 100 });
     }
   };
 
   const onSeekMouseDown = () => {
-    setState({ ...state, seeking: true });
+    setIsSeeking(true);
   };
 
   const onSeekMouseUp = (
     e: Event | React.SyntheticEvent<Element, Event>,
     value: number | number[],
   ) => {
-    setState({ ...state, seeking: false });
+    setIsSeeking(false);
     if (playerRef.current && typeof value === 'number') {
       playerRef.current.seekTo(value / 100);
     }
@@ -144,7 +144,7 @@ export default function PlayerScreen(): JSX.Element {
         url={movieData.videoLink}
         height={'100%'}
         width={'100%'}
-        playing={state.isPlaying}
+        playing={playerState.isPlaying}
         onProgress={onProgress}
       />
       <button
@@ -165,7 +165,7 @@ export default function PlayerScreen(): JSX.Element {
               size='small'
               defaultValue={0}
               aria-label='Small'
-              value={state.played * 100}
+              value={playerState.played * 100}
               valueLabelDisplay='auto'
               valueLabelFormat={(value) => (
                 <div>{formatPlayerTime(duration * (value / 100))}</div>
@@ -189,7 +189,7 @@ export default function PlayerScreen(): JSX.Element {
             className='player__play'
           >
             <svg viewBox='0 0 19 19' width={19} height={19}>
-              <use xlinkHref={state.isPlaying ? '#pause' : '#play-s'} />
+              <use xlinkHref={playerState.isPlaying ? '#pause' : '#play-s'} />
             </svg>
             <span>Play</span>
           </button>
