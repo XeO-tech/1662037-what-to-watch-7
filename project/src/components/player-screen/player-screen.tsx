@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
@@ -30,6 +30,12 @@ export default function PlayerScreen(): JSX.Element {
 
   const [state, setState] = useState(initialState);
 
+  useEffect(() => {
+    document.addEventListener('keydown', onSpaceKeyDown);
+
+    return () => document.removeEventListener('keydown', onSpaceKeyDown);
+  });
+
   if (isMovieDataFetching) {
     return <Spinner />;
   }
@@ -52,6 +58,17 @@ export default function PlayerScreen(): JSX.Element {
 
   const onPlayPauseClick = () => {
     setState({ ...state, isPlaying: !state.isPlaying });
+  };
+
+  const onVideoClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.nativeEvent.stopImmediatePropagation();
+    setState({ ...state, isPlaying: !state.isPlaying });
+  };
+
+  const onSpaceKeyDown = (e: KeyboardEvent) => {
+    if (e.key === ' ') {
+      setState({ ...state, isPlaying: !state.isPlaying });
+    }
   };
 
   const onFullScreenClick = () => {
@@ -96,6 +113,7 @@ export default function PlayerScreen(): JSX.Element {
       ref={playerContainerRef}
       className='player'
       style={{ background: 'black' }}
+      onClick={onVideoClick}
     >
       <ReactPlayer
         ref={playerRef}
@@ -104,6 +122,7 @@ export default function PlayerScreen(): JSX.Element {
         width={'100%'}
         playing={state.isPlaying}
         onProgress={onProgress}
+        onClick={onPlayPauseClick}
       />
       <button
         onClick={onExitButtonClick}
@@ -119,7 +138,10 @@ export default function PlayerScreen(): JSX.Element {
               size='small'
               defaultValue={0}
               aria-label='Small'
-              valueLabelDisplay='off'
+              valueLabelDisplay='auto'
+              valueLabelFormat={(value) => (
+                <div>{formatPlayerTime(duration * (value / 100))}</div>
+              )}
               onChange={onSeek}
               onMouseDown={onSeekMouseDown}
               onChangeCommitted={onSeekMouseUp}

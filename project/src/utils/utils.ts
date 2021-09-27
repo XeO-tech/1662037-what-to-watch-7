@@ -14,7 +14,7 @@ export const formatMovieRunTime = (minutes: number): string => {
 
 export const formatPlayerTime = (seconds: number): string => {
   if (seconds === 0) {
-    return '00:00';
+    return '0:00';
   }
 
   const date = new Date(seconds * 1000);
