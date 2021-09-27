@@ -2,13 +2,14 @@ import React, {useState, useRef} from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
+import Slider from '@material-ui/core/Slider';
 import Spinner from '../spinner/spinner';
 import { useFetchMovieQuery } from '../../features/api/api-slice';
 import { formatPlayerTime } from '../../utils/utils';
 import { BaseReactPlayerProps } from 'react-player/base';
 
 
-export default function PlayerScreen2(): JSX.Element {
+export default function PlayerScreen(): JSX.Element {
   const {id} : {id: string} = useParams();
   const history = useHistory();
   const playerRef = useRef<ReactPlayer>(null);
@@ -25,6 +26,7 @@ export default function PlayerScreen2(): JSX.Element {
     isPlaying: false,
     played: 0,
     playedSeconds: 0,
+    seeking: false,
   };
 
   const [state, setState] = useState(initialState);
@@ -57,8 +59,27 @@ export default function PlayerScreen2(): JSX.Element {
     }
   };
 
-  const handleProgress: BaseReactPlayerProps['onProgress'] = ({played,playedSeconds}) => {
-    setState({...state, played, playedSeconds});
+  const onProgress: BaseReactPlayerProps['onProgress'] = ({played,playedSeconds}) => {
+    if (!state.seeking) {
+      setState({...state, played, playedSeconds});
+    }
+  };
+
+  const onSeek = (e: Event, value: number | number[]) => {
+    if (typeof value === 'number') {
+      setState({...state, played: (value / 100)});
+    }
+  };
+
+  const onSeekMouseDown = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    setState({...state, seeking: true});
+  };
+
+  const onSeekMouseUp = (e: Event | React.SyntheticEvent<Element, Event>, value: number | number[]) => {
+    setState({...state, seeking: false});
+    if (playerRef.current && typeof value === 'number') {
+      playerRef.current.seekTo(value / 100);
+    }
   };
 
   return (
@@ -70,14 +91,24 @@ export default function PlayerScreen2(): JSX.Element {
         height={'100%'}
         width={'100%'}
         playing={state.isPlaying}
-        onProgress={handleProgress}
+        onProgress={onProgress}
       />
       <button onClick={onExitButtonClick} type="button" className="player__exit">Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value={state.played * 100} max={100} />
-            <div className="player__toggler" style={{left: `${state.played * 100}%`}}>Toggler</div>
+            {/* <progress className="player__progress" value={state.played * 100} max={100} />
+            <div className="player__toggler" style={{left: `${state.played * 100}%`}}>Toggler</div> */}
+            <Slider
+              size="small"
+              defaultValue={0}
+              value={state.played * 100}
+              aria-label="Small"
+              valueLabelDisplay="auto"
+              onChange={onSeek}
+              onMouseDown={onSeekMouseDown}
+              onChangeCommitted={onSeekMouseUp}
+            />
           </div>
           <div className="player__time-value">{`-${formatPlayerTime(duration - timelapsed)}`}</div>
         </div>
