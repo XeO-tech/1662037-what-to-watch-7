@@ -15,7 +15,7 @@ export default function ReviewsTab(): JSX.Element {
   } = useFetchMovieCommentsQuery(id);
 
   if (isCommentsFetching) {
-    return <Spinner />;
+    return <Spinner isTopLeftAligned />;
   }
 
   return (
