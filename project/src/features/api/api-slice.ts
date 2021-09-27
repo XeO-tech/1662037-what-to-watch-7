@@ -5,8 +5,8 @@ import {
   IAuthdataRaw,
   IAuthDataAdapted,
   ILoginFormData,
-  ICommentData,
-  ICommentFormData,
+  IReviewData,
+  IReviewFormData,
 } from '../../common/types';
 import {
   adaptMovieDataToClient,
@@ -14,9 +14,9 @@ import {
 } from '../../utils/adapters';
 import { RootState } from '../../app/store';
 
-interface ICommentPostQueryInput {
+interface IReviewPostQueryInput {
   id: string;
-  body: ICommentFormData;
+  body: IReviewFormData;
 }
 
 interface IFavoritesPostqueryInput {
@@ -27,7 +27,7 @@ interface IFavoritesPostqueryInput {
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://7.react.pages.academy/wtw',
+    baseUrl: 'https://7.react.pages.academy/wtw',
     prepareHeaders: (headers, { getState }) => {
       const token =
         localStorage.getItem('token') ?? (getState() as RootState).auth.token;
@@ -37,7 +37,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Comments', 'Favorites'],
+  tagTypes: ['Reviews', 'Favorites'],
   endpoints: (builder) => ({
     fetchMovies: builder.query<IMovieDataAdapted[], void>({
       query: () => '/films',
@@ -72,9 +72,9 @@ export const apiSlice = createApi({
         response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
-    fetchMovieComments: builder.query<ICommentData[], string>({
+    fetchMovieReviews: builder.query<IReviewData[], string>({
       query: (id) => ({ url: `comments/${id}` }),
-      providesTags: ['Comments'],
+      providesTags: ['Reviews'],
     }),
 
     fetchAuthData: builder.query<IAuthDataAdapted, void>({
@@ -100,13 +100,13 @@ export const apiSlice = createApi({
       }),
     }),
 
-    postComment: builder.mutation<ICommentData, ICommentPostQueryInput>({
+    postReview: builder.mutation<IReviewData, IReviewPostQueryInput>({
       query: ({ id, body }) => ({
         url: `/comments/${id}`,
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Comments'],
+      invalidatesTags: ['Reviews'],
     }),
 
     postToFavorites: builder.mutation<
@@ -131,11 +131,11 @@ export const {
   useFetchMovieQuery,
   useFetchSimilarMoviesQuery,
   useFetchFavoritesMoviesQuery,
-  useFetchMovieCommentsQuery,
+  useFetchMovieReviewsQuery,
   useFetchPromoMovieQuery,
   useFetchAuthDataQuery,
   useFetchLoginMutation,
   useFetchLogoutMutation,
-  usePostCommentMutation,
+  usePostReviewMutation,
   usePostToFavoritesMutation,
 } = apiSlice;

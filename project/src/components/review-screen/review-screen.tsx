@@ -3,13 +3,13 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import {
   useFetchMovieQuery,
-  usePostCommentMutation,
+  usePostReviewMutation,
 } from '../../features/api/api-slice';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../header/header';
 import Spinner from '../spinner/spinner';
-import { ICommentFormData } from '../../common/types';
+import { IReviewFormData } from '../../common/types';
 import { AppRoute } from '../../const';
 
 export default function ReviewScreen(): JSX.Element {
@@ -20,7 +20,7 @@ export default function ReviewScreen(): JSX.Element {
 
   const { data: movieDate, isFetching, isError } = useFetchMovieQuery(id);
 
-  const [postComment] = usePostCommentMutation();
+  const [postReview] = usePostReviewMutation();
 
   const {
     register,
@@ -53,9 +53,9 @@ export default function ReviewScreen(): JSX.Element {
   const enableFormElements = () =>
     getFormElements().forEach((element) => (element.disabled = false));
 
-  const onSubmit = (data: ICommentFormData) => {
+  const onSubmit = (data: IReviewFormData) => {
     disableFormElements();
-    postComment({ id, body: data })
+    postReview({ id, body: data })
       .unwrap()
       .then(() => {
         enableFormElements();
@@ -63,7 +63,7 @@ export default function ReviewScreen(): JSX.Element {
       })
       .catch(() => {
         enableFormElements();
-        toast.error('Posting comment failed. Try again later.', {
+        toast.error('Posting review failed. Try again later.', {
           position: toast.POSITION.TOP_LEFT,
         });
       });
@@ -230,14 +230,14 @@ export default function ReviewScreen(): JSX.Element {
           <div className='add-review__text'>
             <textarea
               {...register('comment', {
-                required: 'Comment is required',
+                required: 'Review is required',
                 minLength: {
                   value: 50,
-                  message: 'Comment should be not less than 50 symbols',
+                  message: 'Review should be not less than 50 symbols',
                 },
                 maxLength: {
                   value: 400,
-                  message: 'Comment should be not more than 400 symbols',
+                  message: 'Review should be not more than 400 symbols',
                 },
               })}
               className='add-review__textarea'

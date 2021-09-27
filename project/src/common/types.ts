@@ -59,7 +59,7 @@ export interface ILoginFormData {
   password: string;
 }
 
-export interface ICommentData {
+export interface IReviewData {
   id: number;
   user: {
     id: number;
@@ -70,7 +70,7 @@ export interface ICommentData {
   date: string;
 }
 
-export interface ICommentFormData {
+export interface IReviewFormData {
   rating: string;
   comment: string;
 }
