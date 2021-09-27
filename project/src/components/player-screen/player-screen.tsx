@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
+import debounce from 'lodash.debounce';
 import Slider from '@material-ui/core/Slider';
 import Spinner from '../spinner/spinner';
 import { useFetchMovieQuery } from '../../features/api/api-slice';
 import { formatPlayerTime } from '../../utils/utils';
 import { BaseReactPlayerProps } from 'react-player/base';
+
 
 export default function PlayerScreen(): JSX.Element {
   const { id }: { id: string } = useParams();
@@ -25,10 +27,15 @@ export default function PlayerScreen(): JSX.Element {
     isPlaying: false,
     played: 0,
     playedSeconds: 0,
-    seeking: false,
+    seeking: false,controlsHidden: false,
   };
 
   const [state, setState] = useState(initialState);
+  const [controlsHidden, setControlsHidden] = useState(false);
+
+  const hideControlsOnDelay = debounce(() => {
+    setControlsHidden(true);
+  }, 4000);
 
   const onSpaceKeyDown = (e: KeyboardEvent) => {
     if (e.key === ' ') {
@@ -36,10 +43,22 @@ export default function PlayerScreen(): JSX.Element {
     }
   };
 
+  const onMouseMoveOrKeyDown = () => {
+    if (controlsHidden) {
+      setControlsHidden(false);
+    }
+    hideControlsOnDelay();
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', onSpaceKeyDown);
+    document.addEventListener('keydown', onMouseMoveOrKeyDown);
 
-    return () => document.removeEventListener('keydown', onSpaceKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onSpaceKeyDown);
+      document.removeEventListener('keydown', onMouseMoveOrKeyDown);
+      hideControlsOnDelay.cancel();
+    };
   });
 
   if (isMovieDataFetching) {
@@ -113,8 +132,9 @@ export default function PlayerScreen(): JSX.Element {
     <div
       ref={playerContainerRef}
       className='player'
-      style={{ background: 'black' }}
+      style={{ background: 'black', cursor: controlsHidden ? 'none' : 'auto' }}
       onClick={onVideoClick}
+      onMouseMove={onMouseMoveOrKeyDown}
     >
       <ReactPlayer
         ref={playerRef}
@@ -128,10 +148,14 @@ export default function PlayerScreen(): JSX.Element {
         onClick={onExitButtonClick}
         type='button'
         className='player__exit'
+        style={controlsHidden ? { display: 'none' } : { display: 'block' }}
       >
         Exit
       </button>
-      <div className='player__controls'>
+      <div
+        className='player__controls'
+        style={controlsHidden ? { display: 'none' } : { display: 'block' }}
+      >
         <div className='player__controls-row'>
           <div className='player__time'>
             <Slider
