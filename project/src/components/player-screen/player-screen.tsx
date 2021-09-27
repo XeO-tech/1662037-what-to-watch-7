@@ -29,7 +29,6 @@ export default function PlayerScreen(): JSX.Element {
     played: 0,
     playedSeconds: 0,
     seeking: false,
-    controlsHidden: false,
   };
 
   const [state, setState] = useState(initialState);
@@ -112,9 +111,7 @@ export default function PlayerScreen(): JSX.Element {
     }
   };
 
-  const onSeekMouseDown = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-  ) => {
+  const onSeekMouseDown = () => {
     setState({ ...state, seeking: true });
   };
 
