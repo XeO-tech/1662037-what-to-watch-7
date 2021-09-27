@@ -1,24 +1,36 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IMovieDataRaw, IMovieDataAdapted, IAuthdataRaw, IAuthDataAdapted, ILoginFormData, ICommentData, ICommentFormData } from '../../common/types';
-import { adaptMovieDataToClient, adaptAuthDataToClient } from '../../utils/adapters';
+import {
+  IMovieDataRaw,
+  IMovieDataAdapted,
+  IAuthdataRaw,
+  IAuthDataAdapted,
+  ILoginFormData,
+  ICommentData,
+  ICommentFormData,
+} from '../../common/types';
+import {
+  adaptMovieDataToClient,
+  adaptAuthDataToClient,
+} from '../../utils/adapters';
 import { RootState } from '../../app/store';
 
 interface ICommentPostQueryInput {
-  id: string,
-  body: ICommentFormData,
+  id: string;
+  body: ICommentFormData;
 }
 
 interface IFavoritesPostqueryInput {
-  id: string,
-  status: number,
+  id: string;
+  status: number;
 }
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://7.react.pages.academy/wtw',
-    prepareHeaders: (headers, { getState} ) => {
-      const token = localStorage.getItem('token') ??(getState() as RootState).auth.token;
+    prepareHeaders: (headers, { getState }) => {
+      const token =
+        localStorage.getItem('token') ?? (getState() as RootState).auth.token;
       if (token) {
         headers.set('x-token', token);
       }
@@ -27,33 +39,37 @@ export const apiSlice = createApi({
   }),
   tagTypes: ['Comments', 'Favorites'],
   endpoints: (builder) => ({
-
     fetchMovies: builder.query<IMovieDataAdapted[], void>({
       query: () => '/films',
-      transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
+      transformResponse: (response: IMovieDataRaw[]) =>
+        response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
     fetchPromoMovie: builder.query<IMovieDataAdapted, void>({
       query: () => '/promo',
       keepUnusedDataFor: 0,
-      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+      transformResponse: (response: IMovieDataRaw) =>
+        adaptMovieDataToClient(response),
     }),
 
     fetchMovie: builder.query<IMovieDataAdapted, string>({
       query: (id) => ({ url: `films/${id}` }),
       keepUnusedDataFor: 0,
-      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+      transformResponse: (response: IMovieDataRaw) =>
+        adaptMovieDataToClient(response),
     }),
 
     fetchSimilarMovies: builder.query<IMovieDataAdapted[], string>({
       query: (id) => ({ url: `films/${id}/similar` }),
-      transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
+      transformResponse: (response: IMovieDataRaw[]) =>
+        response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
     fetchFavoritesMovies: builder.query<IMovieDataAdapted[], void>({
       query: () => '/favorite',
       providesTags: ['Favorites'],
-      transformResponse: (response: IMovieDataRaw[]) => response.map((movieData) => adaptMovieDataToClient(movieData)),
+      transformResponse: (response: IMovieDataRaw[]) =>
+        response.map((movieData) => adaptMovieDataToClient(movieData)),
     }),
 
     fetchMovieComments: builder.query<ICommentData[], string>({
@@ -63,7 +79,8 @@ export const apiSlice = createApi({
 
     fetchAuthData: builder.query<IAuthDataAdapted, void>({
       query: () => '/login',
-      transformResponse: (response: IAuthdataRaw) => adaptAuthDataToClient(response),
+      transformResponse: (response: IAuthdataRaw) =>
+        adaptAuthDataToClient(response),
     }),
 
     fetchLogin: builder.mutation<IAuthDataAdapted, ILoginFormData>({
@@ -72,7 +89,8 @@ export const apiSlice = createApi({
         method: 'POST',
         body,
       }),
-      transformResponse: (response: IAuthdataRaw) => adaptAuthDataToClient(response),
+      transformResponse: (response: IAuthdataRaw) =>
+        adaptAuthDataToClient(response),
     }),
 
     fetchLogout: builder.mutation<void, void>({
@@ -83,7 +101,7 @@ export const apiSlice = createApi({
     }),
 
     postComment: builder.mutation<ICommentData, ICommentPostQueryInput>({
-      query: ({id, body}) => ({
+      query: ({ id, body }) => ({
         url: `/comments/${id}`,
         method: 'POST',
         body,
@@ -91,18 +109,23 @@ export const apiSlice = createApi({
       invalidatesTags: ['Comments'],
     }),
 
-    postToFavorites: builder.mutation<IMovieDataAdapted, IFavoritesPostqueryInput>({
-      query: ({id, status}) => ({
+    postToFavorites: builder.mutation<
+      IMovieDataAdapted,
+      IFavoritesPostqueryInput
+    >({
+      query: ({ id, status }) => ({
         url: `/favorite/${id}/${status}`,
         method: 'POST',
       }),
       invalidatesTags: ['Favorites'],
-      transformResponse: (response: IMovieDataRaw) => adaptMovieDataToClient(response),
+      transformResponse: (response: IMovieDataRaw) =>
+        adaptMovieDataToClient(response),
     }),
   }),
 });
 
-export const useFetchMoviesQueryState = apiSlice.endpoints.fetchMovies.useQueryState;
+export const useFetchMoviesQueryState =
+  apiSlice.endpoints.fetchMovies.useQueryState;
 export const {
   useFetchMoviesQuery,
   useFetchMovieQuery,
@@ -116,4 +139,3 @@ export const {
   usePostCommentMutation,
   usePostToFavoritesMutation,
 } = apiSlice;
-
