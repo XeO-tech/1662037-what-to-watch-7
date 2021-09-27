@@ -25,29 +25,32 @@ export const formatPlayerTime = (seconds: number): string => {
   if (hh) {
     return `${hh}:${mm.toString().padStart(2, '0')}:${ss}`;
   }
-
   return `${mm}:${ss}`;
 };
 
 export const defineRatingDescription = (rating: number): string => {
   switch (true) {
-    case (rating <= 3):
+    case rating <= 3:
       return 'Bad';
-    case (rating < 5):
+    case rating < 5:
       return 'Normal';
-    case (rating < 8):
+    case rating < 8:
       return 'Good';
-    case (rating < 10):
+    case rating < 10:
       return 'Very good';
     default:
       return 'Awesome';
   }
 };
 
-export const prepareGenresList = (moviesData: IMovieDataAdapted[]): string[] => {
-  const uniqueGenres = Array.from(new Set(moviesData.map((movie) => movie.genre)));
-  return [INITIAL_GENRE, ...uniqueGenres].slice(0,11);
+export const prepareGenresList = (
+  moviesData: IMovieDataAdapted[],
+): string[] => {
+  const uniqueGenres = Array.from(
+    new Set(moviesData.map((movie) => movie.genre)),
+  );
+  return [INITIAL_GENRE, ...uniqueGenres].slice(0, 11);
 };
 
-export const getMovieFavoritesStatusForUrl = (isFavorite: boolean): number => isFavorite ? 0 : 1;
-
+export const getMovieFavoritesStatusForUrl = (isFavorite: boolean): number =>
+  isFavorite ? 0 : 1;

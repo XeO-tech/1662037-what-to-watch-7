@@ -45,7 +45,7 @@ export default function PlayerScreen(): JSX.Element {
   }
 
   const duration = playerRef.current ? playerRef.current.getDuration() : 0;
-  const timelapsed = playerRef.current ? playerRef.current.getCurrentTime() : 0;
+  const currentTime = playerRef.current ? playerRef.current.getCurrentTime() : 0;
 
   const onExitButtonClick = () => history.go(-1);
 
@@ -59,7 +59,7 @@ export default function PlayerScreen(): JSX.Element {
     }
   };
 
-  const onProgress: BaseReactPlayerProps['onProgress'] = ({played,playedSeconds}) => {
+  const onProgress: BaseReactPlayerProps['onProgress'] = ({played, playedSeconds}) => {
     if (!state.seeking) {
       setState({...state, played, playedSeconds});
     }
@@ -87,7 +87,6 @@ export default function PlayerScreen(): JSX.Element {
       <ReactPlayer
         ref={playerRef}
         url={movieData.videoLink}
-        muted
         height={'100%'}
         width={'100%'}
         playing={state.isPlaying}
@@ -97,20 +96,17 @@ export default function PlayerScreen(): JSX.Element {
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            {/* <progress className="player__progress" value={state.played * 100} max={100} />
-            <div className="player__toggler" style={{left: `${state.played * 100}%`}}>Toggler</div> */}
             <Slider
               size="small"
               defaultValue={0}
-              value={state.played * 100}
               aria-label="Small"
-              valueLabelDisplay="auto"
+              valueLabelDisplay="off"
               onChange={onSeek}
               onMouseDown={onSeekMouseDown}
               onChangeCommitted={onSeekMouseUp}
             />
           </div>
-          <div className="player__time-value">{`-${formatPlayerTime(duration - timelapsed)}`}</div>
+          <div className="player__time-value">{`-${formatPlayerTime(duration - currentTime)}`}</div>
         </div>
         <div className="player__controls-row">
           <button onClick={onPlayPauseClick} type="button" className="player__play">
