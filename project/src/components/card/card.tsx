@@ -17,17 +17,20 @@ export default function Card(props: Props): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
   const history = useHistory();
 
-  useEffect(() => () => {
-    clearTimeout(timeout);
-  });
+  useEffect(
+    () => () => {
+      clearTimeout(timeout);
+    },
+    [],
+  );
 
-  const onMouseEnter = (evt: React.MouseEvent<HTMLElement>): void => {
+  const onMouseEnter = (e: React.MouseEvent<HTMLElement>): void => {
     timeout = setTimeout(() => {
       setIsPlaying(true);
     }, VIDEO_PREVIEW_DELAY);
   };
 
-  const onMouseLeave = (evt: React.MouseEvent<HTMLElement>): void => {
+  const onMouseLeave = (e: React.MouseEvent<HTMLElement>): void => {
     clearTimeout(timeout);
     setIsPlaying(false);
   };
@@ -35,12 +38,12 @@ export default function Card(props: Props): JSX.Element {
   return (
     <article
       style={{ cursor: 'pointer' }}
-      onMouseEnter={(evt) => {
-        onCardHover(evt);
-        onMouseEnter(evt);
+      onMouseEnter={(e) => {
+        onCardHover(e);
+        onMouseEnter(e);
       }}
-      onMouseLeave={(evt) => {
-        onMouseLeave(evt);
+      onMouseLeave={(e) => {
+        onMouseLeave(e);
       }}
       onClick={() => {
         history.push(AppRoute.FILM.replace(/:id/, String(movieData.id)));
