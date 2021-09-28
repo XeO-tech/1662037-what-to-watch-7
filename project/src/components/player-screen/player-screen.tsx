@@ -119,6 +119,7 @@ export default function PlayerScreen(): JSX.Element {
 
   const onSeekMouseDown = () => {
     setIsSeeking(true);
+    hideControlsOnDelay.cancel();
   };
 
   const onSeekMouseUp = (
@@ -126,6 +127,7 @@ export default function PlayerScreen(): JSX.Element {
     value: number | number[],
   ) => {
     setIsSeeking(false);
+    hideControlsOnDelay();
     if (playerRef.current && typeof value === 'number') {
       playerRef.current.seekTo(value / 100);
     }
