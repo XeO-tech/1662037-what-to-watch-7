@@ -46,7 +46,9 @@ export default function PlayerScreen(): JSX.Element {
     if (controlsHidden) {
       setControlsHidden(false);
     }
-    hideControlsOnDelay();
+    if (!isSeeking) {
+      hideControlsOnDelay();
+    }
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -101,7 +103,11 @@ export default function PlayerScreen(): JSX.Element {
     playedSeconds,
   }) => {
     if (!isSeeking) {
-      setPlayerState({ ...playerState, played: played, playedSeconds: playedSeconds });
+      setPlayerState({
+        ...playerState,
+        played,
+        playedSeconds,
+      });
     }
   };
 
